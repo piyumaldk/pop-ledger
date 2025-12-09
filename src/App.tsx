@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Grid from '@mui/material/Grid';
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import ButtonBase from '@mui/material/ButtonBase';
@@ -12,6 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Snackbar from "@mui/material/Snackbar";
 import { signInWithGoogle, auth, signOutUser } from "./firebase";
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import { GamesView, SeriesView } from './views/SharedViews';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { onAuthStateChanged, User } from "firebase/auth";
 
@@ -37,6 +39,7 @@ function LogoSVG({ width = 48, height }: { width?: number | string; height?: num
 }
 
 export default function App() {
+  const [page, setPage] = useState<'home' | 'games' | 'series'>('games');
   const [user, setUser] = useState<User | null>(null);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [errorOpen, setErrorOpen] = useState(false);
@@ -149,9 +152,29 @@ export default function App() {
           </AppBar>
 
           <Container maxWidth="md" sx={{ marginTop: 4 }}>
-            <Typography variant="h4" component="h1" align="center">
-              Welcome to POP LEDGER
-            </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+              <Button
+                variant={page === 'games' ? 'contained' : 'outlined'}
+                color="primary"
+                onClick={() => setPage('games')}
+                sx={{ borderRadius: 2, px: 4, py: 1.5 }}
+              >
+                Games
+              </Button>
+
+              <Button
+                variant={page === 'series' ? 'contained' : 'outlined'}
+                color="primary"
+                onClick={() => setPage('series')}
+                sx={{ borderRadius: 2, px: 4, py: 1.5 }}
+              >
+                Series
+              </Button>
+            </Box>
+
+            {/* Render selected view in-page (single page app) */}
+            {page === 'games' && <GamesView />}
+            {page === 'series' && <SeriesView />}
           </Container>
         </>
       ) : (
