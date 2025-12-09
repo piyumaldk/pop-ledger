@@ -40,28 +40,42 @@ export default function ListDetailView<T extends ListItem>({
   };
 
   return (
-    <Grid container spacing={2} sx={{ height: 'calc(100vh - 144px)', py: 3 }}>
-      <Grid item xs={12} md={3}>
-        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, height: 'calc(100vh - 144px)', py: 3, justifyContent: { xs: 'flex-start', md: 'center' }, gap: { xs: 0, md: 3 } }}>
+      <Box sx={{ flex: '0 0 auto', display: 'flex', justifyContent: 'center' }}>
+        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', width: { xs: '100%', md: 400 } }}>
           <CardContent>
             <Typography variant="h6">{title}</Typography>
           </CardContent>
           <Divider />
-          <Box sx={{ overflow: 'auto', transition: 'opacity 320ms ease', opacity: listAnimating ? 0.2 : 1 }}>
-            <List>
+          <Box sx={{ overflowY: 'auto', transition: 'opacity 320ms ease', opacity: listAnimating ? 0.2 : 1 }}>
+            <List sx={{ display: 'block', px: 1 }}>
               {items.map((it) => (
-                <ListItemButton key={it.id} selected={it.id === selected} onClick={() => handleItemClick(it.id)}>
-                  <ListItemText primary={it.title} />
+                <ListItemButton
+                  key={it.id}
+                  selected={it.id === selected}
+                  onClick={() => handleItemClick(it.id)}
+                  sx={{
+                    display: 'flex',
+                    width: '100%',
+                    justifyContent: 'flex-start',
+                    textAlign: 'left',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    px: 2,
+                  }}
+                >
+                  <ListItemText primary={it.title} primaryTypographyProps={{ noWrap: true, sx: { overflow: 'hidden', textOverflow: 'ellipsis' } }} />
                 </ListItemButton>
               ))}
             </List>
           </Box>
         </Card>
-      </Grid>
+      </Box>
 
-      <Grid item xs={12} md={9}>
-        <Card sx={{ height: '100%', position: 'relative' }}>
-          <CardContent sx={{ display: detailLoading ? 'none' : 'block' }}>
+      <Box sx={{ flex: '0 0 auto', minWidth: 0, width: { xs: '100%', md: 'min(900px, calc(100vw - 400px - 24px))' } }}>
+        <Card sx={{ height: '100%', position: 'relative', display: 'flex', flexDirection: 'column' }}>
+          <CardContent sx={{ display: detailLoading ? 'none' : 'block', flex: 1, overflow: 'auto' }}>
             {current ? (
               renderDetail ? (
                 renderDetail(current)
@@ -88,7 +102,7 @@ export default function ListDetailView<T extends ListItem>({
             </Box>
           ) : null}
         </Card>
-      </Grid>
-    </Grid>
+      </Box>
+    </Box>
   );
 }
