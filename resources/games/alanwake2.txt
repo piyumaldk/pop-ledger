@@ -1,7 +1,21 @@
 # Alan Wake 2
-Part 1
+
 - Return 0: The Cult
 - Return 1: Invitation (Saga)
-Part 2
 - Return 2: The Heart (Saga)
 - Initiation 1: Talk Show (Alan)
+- Initiation 2: Casey (Alan)
+- Initiation 3: Haunted (Alan)
+- Return 3: Local Girl (Saga)
+- Return 4: No Chance (Saga)
+- Initiation 4: We Sing (Alan)
+- Initiation 5: Room 665 (Alan)
+- Initiation 6: Return (Alan)
+- Return 5: Old Gods (Saga)
+- Return 6: Scratch (Saga)
+- Initiation 7: Masks (Alan)
+- Initiation 8: Zane's Film (Alan)
+- Return 7: Summoning (Saga)
+- Initiation 9: Gone (Alan)
+- Return 8: Deerfest (Alan)
+- Return 9: Come Home (Saga)
