@@ -19,7 +19,42 @@ function DetailView({ file }: { file: ParsedFile }) {
   const [checked, setChecked] = useState<Record<string, boolean>>({});
 
   const toggle = (key: string) => {
-    setChecked((c) => ({ ...c, [key]: !c[key] }));
+    const [siStr, iiStr] = key.split('-');
+    const si = Number(siStr);
+    const ii = Number(iiStr);
+    setChecked((c) => {
+      const next = { ...c };
+      const currently = !!c[key];
+      const sectionsCount = file.sections.length;
+
+      if (!currently) {
+        // checking: mark all items in all previous sections
+        for (let s = 0; s < si; s++) {
+          const len = (file.sections[s] && file.sections[s].items.length) || 0;
+          for (let j = 0; j < len; j++) {
+            next[`${s}-${j}`] = true;
+          }
+        }
+        // mark this section items up to ii
+        const thisLen = (file.sections[si] && file.sections[si].items.length) || (ii + 1);
+        for (let j = 0; j <= Math.min(ii, thisLen - 1); j++) {
+          next[`${si}-${j}`] = true;
+        }
+      } else {
+        // unchecking: uncheck this item and all items in later sections
+        const thisLen = (file.sections[si] && file.sections[si].items.length) || (ii + 1);
+        for (let j = ii; j < thisLen; j++) {
+          next[`${si}-${j}`] = false;
+        }
+        for (let s = si + 1; s < sectionsCount; s++) {
+          const len = (file.sections[s] && file.sections[s].items.length) || 0;
+          for (let j = 0; j < len; j++) {
+            next[`${s}-${j}`] = false;
+          }
+        }
+      }
+      return next;
+    });
   };
 
   return (
