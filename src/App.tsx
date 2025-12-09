@@ -11,6 +11,7 @@ import ButtonBase from '@mui/material/ButtonBase';
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Snackbar from "@mui/material/Snackbar";
+import FullScreenLoader from './components/FullScreenLoader';
 import { signInWithGoogle, auth, signOutUser } from "./firebase";
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import { GamesView, SeriesView } from './views/SharedViews';
@@ -41,6 +42,7 @@ function LogoSVG({ width = 48, height }: { width?: number | string; height?: num
 export default function App() {
   const [page, setPage] = useState<'home' | 'games' | 'series'>('games');
   const [user, setUser] = useState<User | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [errorOpen, setErrorOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -52,6 +54,7 @@ export default function App() {
       // @ts-ignore - auth can be null when Firebase not configured; onAuthStateChanged will throw then
       const unsub = onAuthStateChanged(auth as any, (u) => {
         setUser(u);
+        setAuthLoading(false);
       });
       return () => unsub();
     } catch (err) {
@@ -59,6 +62,7 @@ export default function App() {
       // eslint-disable-next-line no-console
       console.warn("Firebase not initialized; auth features disabled.", err);
       setFirebaseOk(false);
+      setAuthLoading(false);
       return () => {};
     }
   }, []);
@@ -92,6 +96,10 @@ export default function App() {
       handleMenuClose();
     }
   };
+
+  if (authLoading) {
+    return <FullScreenLoader />;
+  }
 
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>

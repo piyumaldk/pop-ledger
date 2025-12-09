@@ -8,7 +8,7 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
-import CircularProgress from '@mui/material/CircularProgress';
+import CardLoader from '../components/CardLoader';
 
 export type ListItem = { id: string; title: string; desc?: string };
 
@@ -20,6 +20,7 @@ interface Props<T extends ListItem> {
   renderDetail?: (item: T) => React.ReactNode;
   detailLoading?: boolean;
   listAnimating?: boolean;
+  menuLoading?: boolean;
 }
 
 export default function ListDetailView<T extends ListItem>({
@@ -30,9 +31,13 @@ export default function ListDetailView<T extends ListItem>({
   renderDetail,
   detailLoading,
   listAnimating,
+  menuLoading,
 }: Props<T>) {
   const [selected, setSelected] = useState<string>(initialSelectedId ?? (items[0]?.id ?? ''));
   const current = items.find((i) => i.id === selected) ?? items[0];
+
+  // Keep detail mounted while loading so it can finish any restore effects.
+  // Show a full-screen overlay loader when `detailLoading` is true.
 
   const handleItemClick = (id: string) => {
     setSelected(id);
@@ -41,8 +46,8 @@ export default function ListDetailView<T extends ListItem>({
 
   return (
     <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, height: 'calc(100vh - 144px)', py: 3, justifyContent: { xs: 'flex-start', md: 'center' }, gap: { xs: 0, md: 3 } }}>
-      <Box sx={{ flex: '0 0 auto', display: 'flex', justifyContent: 'center' }}>
-        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', width: { xs: '100%', md: 400 } }}>
+      <Box sx={{ flex: '0 0 auto', display: 'flex', justifyContent: 'center', position: 'relative' }}>
+        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', width: { xs: '100%', md: 400 }, position: 'relative' }}>
           <CardContent>
             <Typography variant="h6">{title}</Typography>
           </CardContent>
@@ -70,18 +75,19 @@ export default function ListDetailView<T extends ListItem>({
               ))}
             </List>
           </Box>
+          {menuLoading ? <CardLoader /> : null}
         </Card>
       </Box>
 
       <Box sx={{ flex: '0 0 auto', minWidth: 0, width: { xs: '100%', md: 'min(900px, calc(100vw - 400px - 24px))' } }}>
         <Card sx={{ height: '100%', position: 'relative', display: 'flex', flexDirection: 'column' }}>
-          <CardContent sx={{ display: detailLoading ? 'none' : 'block', flex: 1, overflow: 'auto' }}>
+          <CardContent sx={{ flex: 1, overflow: 'auto' }}>
             {current ? (
               renderDetail ? (
                 renderDetail(current)
               ) : (
                 <>
-                  <Typography variant="h5" gutterBottom>
+                  <Typography variant="h5" gutterBottom color="primary" sx={{ fontWeight: 700 }}>
                     {current.title}
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 2 }}>
@@ -96,11 +102,8 @@ export default function ListDetailView<T extends ListItem>({
               <Typography color="text.secondary">No items available.</Typography>
             )}
           </CardContent>
-          {detailLoading ? (
-            <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <CircularProgress />
-            </Box>
-          ) : null}
+          {/* detail content is shown above; overlay a card-scoped loader when detailLoading */}
+          {detailLoading ? <CardLoader /> : null}
         </Card>
       </Box>
     </Box>

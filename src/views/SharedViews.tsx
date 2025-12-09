@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import { auth } from '../firebase';
 import firestoreApi from '../services/firestoreService';
-import CircularProgress from '@mui/material/CircularProgress';
+// Card-scoped loaders handled by ListDetailView; keep FullScreenLoader for global use in App
 
 function toListItems(files: ParsedFile[]) {
   return files.map((f) => ({ id: f.id, title: f.title }));
@@ -138,13 +138,11 @@ function GameDetailView({ file, uid, gameId, onLoadingChange }: { file: ParsedFi
     }
   };
 
-  if (loading) {
-    return <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}><CircularProgress /></Box>;
-  }
+  // don't unmount detail while loading; parent will show a card-level loader
 
   return (
     <Box>
-      <Typography variant="h5" gutterBottom>{file.title}</Typography>
+      <Typography variant="h5" gutterBottom color="primary" sx={{ fontWeight: 700 }}>{file.title}</Typography>
       {file.sections.map((section, si) => (
         <Box key={si} sx={{ mb: 2 }}>
           {section.header && (
@@ -290,13 +288,11 @@ function SeriesDetailView({ file, uid, seriesId, onLoadingChange }: { file: Pars
     }
   };
 
-  if (loading) {
-    return <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}><CircularProgress /></Box>;
-  }
+  // don't unmount detail while loading; parent will show a card-level loader
 
   return (
     <Box>
-      <Typography variant="h5" gutterBottom>{file.title}</Typography>
+      <Typography variant="h5" gutterBottom color="primary" sx={{ fontWeight: 700 }}>{file.title}</Typography>
       {file.sections.map((section, si) => (
         <Box key={si} sx={{ mb: 2 }}>
           {section.header && (
@@ -374,9 +370,7 @@ export function GamesView() {
     }
   };
 
-  if (loading) {
-    return <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}><CircularProgress /></Box>;
-  }
+  // don't unmount detail while loading; parent will show a card-level loader
 
   return (
     <ListDetailView
@@ -384,7 +378,8 @@ export function GamesView() {
       items={items}
       initialSelectedId={currentGameId ?? undefined}
       onSelect={handleSelect}
-      detailLoading={detailLoading}
+      detailLoading={loading || detailLoading}
+      menuLoading={loading}
       listAnimating={listAnimating}
       renderDetail={(it) => {
         const file = files.find((f) => f.id === it.id);
@@ -444,9 +439,7 @@ export function SeriesView() {
     }
   };
 
-  if (loading) {
-    return <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}><CircularProgress /></Box>;
-  }
+  // don't unmount detail while loading; parent will show a card-level loader
 
   return (
     <ListDetailView
@@ -454,7 +447,8 @@ export function SeriesView() {
       items={items}
       initialSelectedId={currentSeriesId ?? undefined}
       onSelect={handleSelect}
-      detailLoading={detailLoading}
+      detailLoading={loading || detailLoading}
+      menuLoading={loading}
       listAnimating={listAnimating}
       renderDetail={(it) => {
         const file = files.find((f) => f.id === it.id);
