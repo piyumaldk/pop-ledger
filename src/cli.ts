@@ -13,7 +13,7 @@ program
 program
   .command('add <amount>')
   .description('Add a transaction')
-  .action((amount) => {
+  .action((amount: string) => {
     const transaction = popService.addTransaction(amount);
     console.log(`Transaction added: ${transaction}`);
   });

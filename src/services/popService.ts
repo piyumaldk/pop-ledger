@@ -19,4 +19,17 @@ export class PopService {
         // Basic validation example
         return !!transaction && typeof transaction.amount === 'number' && transaction.amount !== 0;
     }
+
+    // Convenience API used by CLI
+    addTransaction(amount: number | string): Transaction {
+        const num = typeof amount === 'string' ? Number(amount) : amount;
+        const tx = new Transaction(String(Date.now()), num, new Date());
+        this.processTransaction(tx);
+        return tx;
+    }
+
+    listTransactions(): Transaction[] {
+        if (!this.ledger) return [];
+        return this.ledger.getTransactions();
+    }
 }
