@@ -1,31 +1,31 @@
 # Attack on Titan
 
 Season 1
-- 1. To You, in 2000 Years: The Fall of Shiganshina, Part 1
-- 2. That Day: The Fall of Shiganshina, Part 2
-- 3. A Dim Light Amid Despair: Humanity’s Comeback, Part 1
-- 4. The Night of the Closing Ceremony: Humanity’s Comeback, Part 2
-- 5. First Battle: The Struggle for Trost, Part 1
-- 6. The World the Girl Saw: The Struggle for Trost, Part 2
-- 7. Small Blade: The Struggle for Trost, Part 3
-- 8. I Can Hear His Heartbeat: The Struggle for Trost, Part 4
-- 9. Whereabouts of His Left Arm: The Struggle for Trost, Part 5
-- 10. Response: The Struggle for Trost, Part 6
-- 11. Idol: The Struggle for Trost, Part 7
-- 12. und: The Struggle for Trost, Part 8
-- 13. Prial Desire: The Struggle for Trost, Part 9
-- 14. Still Can’t See: Night Before the Counteroffensive, Part 1
-- 15. Special Operations Squad: Night Before the Counteroffensive, Part 2
-- 16. What Needs to be Done Now: Eve of the Counteroffensive, Part 3
-- 17. Female Titan: The 57th Exterior Scouting Mission, Part 1
-- 18. Forest of Giant Trees: The 57th Exterior Scouting Mission, Part 2
-- 19. Bite: The 57th Exterior Scouting Mission, Part 3
-- 20. Erwin Smith: The 57th Exterior Scouting Mission, Part 4
-- 21. Crushing Blow: The 57th Exterior Scouting Mission, Part 5
-- 22. The Defeated: The 57th Exterior Scouting Mission, Part 6
-- 23. Smile: Assault on Stohess, Part 1
-- 24. Mercy: Assault on Stohess, Part 2
-- 25. Wall: Assault on Stohess, Part 3
+- 1. To You, in 2000 Years
+- 2. That Day
+- 3. A Dim Light Amid Despair
+- 4. The Night of the Closing Ceremony
+- 5. First Battle
+- 6. The World the Girl Saw
+- 7. Small Blade
+- 8. I Can Hear His Heartbeat
+- 9. Whereabouts of His Left Arm
+- 10. Response
+- 11. Idol
+- 12. Und
+- 13. Prial Desire
+- 14. Still Can’t See
+- 15. Special Operations Squad
+- 16. What Needs to be Done Now
+- 17. Female Titan
+- 18. Forest of Giant Trees
+- 19. Bite
+- 20. Erwin Smith
+- 21. Crushing Blow
+- 22. The Defeated
+- 23. Smile
+- 24. Mercy
+- 25. Wall
 
 Season 2
 - 26. Beast Titan
