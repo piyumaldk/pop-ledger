@@ -6,11 +6,13 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
+import ButtonBase from '@mui/material/ButtonBase';
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Snackbar from "@mui/material/Snackbar";
 import { signInWithGoogle, auth, signOutUser } from "./firebase";
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { onAuthStateChanged, User } from "firebase/auth";
 
 function LogoSVG({ width = 48, height }: { width?: number | string; height?: number | string }) {
@@ -95,36 +97,43 @@ export default function App() {
           <AppBar position="static">
             <Toolbar>
               <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
-                <Box sx={{ mr: 1 }}>
-                  <LogoSVG />
-                </Box>
                 <Typography variant="h6" component="div">
                   POP LEDGER
                 </Typography>
               </Box>
 
-              <Button
-                variant="outlined"
+              <ButtonBase
                 onClick={handleMenuOpen}
-                startIcon={
-                  <Avatar
-                    src={user.photoURL ?? undefined}
-                    alt={user.displayName ?? "User"}
-                    sx={{ width: 32, height: 32 }}
-                  />
-                }
                 sx={{
-                  backgroundColor: 'white',
-                  color: 'primary.main',
-                  borderColor: 'primary.main',
-                  '&:hover': {
-                    backgroundColor: 'rgba(255,255,255,0.9)',
-                    borderColor: 'primary.dark',
-                  },
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 1,
+                  px: 1,
+                  py: 0.5,
+                  borderRadius: 2,
+                  color: 'common.white',
+                  textTransform: 'none',
                 }}
+                aria-label="Open account menu"
               >
-                {user.displayName ?? user.email}
-              </Button>
+                <Avatar
+                  src={user.photoURL ?? undefined}
+                  alt={user.displayName ?? "User"}
+                  sx={{ width: 36, height: 36, bgcolor: user.photoURL ? undefined : 'grey.700', border: '2px solid', borderColor: 'common.white' }}
+                  imgProps={{ crossOrigin: 'anonymous', referrerPolicy: 'no-referrer' }}
+                >
+                  {!user.photoURL && <AccountCircleIcon sx={{ color: 'common.white', fontSize: 28 }} />}
+                </Avatar>
+                <Typography sx={{
+                  color: 'common.white',
+                  fontFamily: "'Pacifico', 'Brush Script MT', cursive",
+                  fontSize: 16,
+                  lineHeight: '20px',
+                  whiteSpace: 'nowrap',
+                }}>
+                  {user.displayName ?? user.email}
+                </Typography>
+              </ButtonBase>
 
               <Menu
                 anchorEl={anchorEl}

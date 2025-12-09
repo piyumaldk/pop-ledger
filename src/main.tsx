@@ -10,6 +10,9 @@ const theme = createTheme({
       main: '#0f766e',
     },
   },
+  typography: {
+    fontFamily: "'Pacifico', 'Brush Script MT', cursive, Roboto, Helvetica, Arial, sans-serif",
+  },
 });
 
 createRoot(document.getElementById("root")!).render(
