@@ -143,11 +143,13 @@ function GameDetailView({ file, uid, gameId, onLoadingChange }: { file: ParsedFi
   return (
     <Box>
       <Typography variant="h5" gutterBottom color="primary" sx={{ fontWeight: 700 }}>{file.title}</Typography>
+      <Box sx={{mt:5}}></Box>
       {file.sections.map((section, si) => (
         <Box key={si} sx={{ mb: 2 }}>
           {section.header && (
-            <Typography variant="subtitle1" sx={{ mb: 1 }}>{section.header}</Typography>
+            <Typography variant="subtitle1"  sx={{ fontWeight: 700, color: 'primary.main', mb: 1 }} >{section.header}</Typography>
           )}
+          <Divider />
           <List>
             {section.items.map((it, ii) => {
               const key = `${si}-${ii}`;
@@ -156,12 +158,11 @@ function GameDetailView({ file, uid, gameId, onLoadingChange }: { file: ParsedFi
                   <ListItemIcon>
                     <Checkbox edge="start" checked={!!checked[key]} onChange={() => toggle(key)} />
                   </ListItemIcon>
-                  <ListItemText primary={it} />
+                  <ListItemText primary={it} primaryTypographyProps={{ sx: { color: 'primary.main' } }} />
                 </ListItem>
               );
             })}
           </List>
-          <Divider />
         </Box>
       ))}
     </Box>
@@ -306,7 +307,7 @@ function SeriesDetailView({ file, uid, seriesId, onLoadingChange }: { file: Pars
                   <ListItemIcon>
                     <Checkbox edge="start" checked={!!checked[key]} onChange={() => toggle(key)} />
                   </ListItemIcon>
-                  <ListItemText primary={it} />
+                  <ListItemText primary={it} primaryTypographyProps={{ sx: { fontWeight: 700, color: 'primary.main' } }} />
                 </ListItem>
               );
             })}
