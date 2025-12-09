@@ -11,8 +11,10 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import CardLoader from '../components/CardLoader';
 
@@ -73,25 +75,33 @@ export default function ListDetailView<T extends ListItem>({
           <Divider />
           {(!isMobile || mobileMenuOpen) && (
             <Box sx={{ overflowY: 'auto', transition: 'opacity 320ms ease', opacity: listAnimating ? 0.2 : 1 }}>
-              <List sx={{ display: 'block', px: 1 }}>
+              <List sx={{ display: 'flex', flexDirection: 'column', gap: 1, px: 1 }}>
                 {items.map((it) => (
-                  <ListItemButton
-                    key={it.id}
-                    selected={it.id === selected}
-                    onClick={() => handleItemClick(it.id)}
-                    sx={{
-                      display: 'flex',
-                      width: '100%',
-                      justifyContent: 'flex-start',
-                      textAlign: 'left',
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      px: 2,
-                    }}
-                  >
-                    <ListItemText primary={it.title} primaryTypographyProps={{ noWrap: true, sx: { overflow: 'hidden', textOverflow: 'ellipsis', fontWeight: 700, color: 'primary.main' } }} />
-                  </ListItemButton>
+                  <ListItem key={it.id} disablePadding>
+                    <Button
+                      variant={it.id === selected ? 'contained' : 'outlined'}
+                      color="primary"
+                      fullWidth
+                      onClick={() => handleItemClick(it.id)}
+                      sx={{
+                        justifyContent: 'flex-start',
+                        textTransform: 'none',
+                        borderRadius: 2,
+                        px: 2,
+                        py: 1.25,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 2,
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
+                      <Box sx={{ minWidth: 0, flex: 1, textAlign: 'left' }}>
+                        <Typography variant="body1" noWrap sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{it.title}</Typography>
+                      </Box>
+                    </Button>
+                  </ListItem>
                 ))}
               </List>
             </Box>
