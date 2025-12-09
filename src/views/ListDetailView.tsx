@@ -15,6 +15,7 @@ interface Props<T extends ListItem> {
   title: string;
   items: T[];
   initialSelectedId?: string;
+  onSelect?: (id: string) => void;
   renderDetail?: (item: T) => React.ReactNode;
 }
 
@@ -22,10 +23,16 @@ export default function ListDetailView<T extends ListItem>({
   title,
   items,
   initialSelectedId,
+  onSelect,
   renderDetail,
 }: Props<T>) {
   const [selected, setSelected] = useState<string>(initialSelectedId ?? (items[0]?.id ?? ''));
   const current = items.find((i) => i.id === selected) ?? items[0];
+
+  const handleItemClick = (id: string) => {
+    setSelected(id);
+    onSelect?.(id);
+  };
 
   return (
     <Grid container spacing={2} sx={{ height: 'calc(100vh - 144px)', py: 3 }}>
@@ -38,7 +45,7 @@ export default function ListDetailView<T extends ListItem>({
           <Box sx={{ overflow: 'auto' }}>
             <List>
               {items.map((it) => (
-                <ListItemButton key={it.id} selected={it.id === selected} onClick={() => setSelected(it.id)}>
+                <ListItemButton key={it.id} selected={it.id === selected} onClick={() => handleItemClick(it.id)}>
                   <ListItemText primary={it.title} />
                 </ListItemButton>
               ))}
