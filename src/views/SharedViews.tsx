@@ -12,6 +12,7 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import { auth } from '../firebase';
 import firestoreApi from '../services/firestoreService';
+import DetailChecklist from './DetailChecklist';
 // Card-scoped loaders handled by ListDetailView; keep FullScreenLoader for global use in App
 
 function toListItems(files: ParsedFile[]) {
@@ -140,33 +141,7 @@ function GameDetailView({ file, uid, gameId, onLoadingChange }: { file: ParsedFi
 
   // don't unmount detail while loading; parent will show a card-level loader
 
-  return (
-    <Box>
-      <Typography variant="h5" gutterBottom color="primary" sx={{ fontWeight: 700 }}>{file.title}</Typography>
-      <Box sx={{mt:5}}></Box>
-      {file.sections.map((section, si) => (
-        <Box key={si} sx={{ mb: 2 }}>
-          {section.header && (
-            <Typography variant="subtitle1"  sx={{ fontWeight: 700, color: 'primary.main', mb: 1 }} >{section.header}</Typography>
-          )}
-          <Divider />
-          <List>
-            {section.items.map((it, ii) => {
-              const key = `${si}-${ii}`;
-              return (
-                <ListItem key={key} disablePadding>
-                  <ListItemIcon>
-                    <Checkbox edge="start" checked={!!checked[key]} onChange={() => toggle(key)} />
-                  </ListItemIcon>
-                  <ListItemText primary={it} primaryTypographyProps={{ sx: { color: 'primary.main' } }} />
-                </ListItem>
-              );
-            })}
-          </List>
-        </Box>
-      ))}
-    </Box>
-  );
+  return <DetailChecklist file={file} checked={checked} onToggle={toggle} />;
 }
 
 function SeriesDetailView({ file, uid, seriesId, onLoadingChange }: { file: ParsedFile; uid: string; seriesId: string; onLoadingChange?: (l: boolean) => void }) {
@@ -291,33 +266,7 @@ function SeriesDetailView({ file, uid, seriesId, onLoadingChange }: { file: Pars
 
   // don't unmount detail while loading; parent will show a card-level loader
 
-  return (
-    <Box>
-      <Typography variant="h5" gutterBottom color="primary" sx={{ fontWeight: 700 }}>{file.title}</Typography>
-      <Box sx={{mt:5}}></Box>
-      {file.sections.map((section, si) => (
-        <Box key={si} sx={{ mb: 2 }}>
-          {section.header && (
-            <Typography variant="subtitle1"  sx={{ fontWeight: 700, color: 'primary.main', mb: 1 }} >{section.header}</Typography>
-          )}
-          <Divider />
-          <List>
-            {section.items.map((it, ii) => {
-              const key = `${si}-${ii}`;
-              return (
-                <ListItem key={key} disablePadding>
-                  <ListItemIcon>
-                    <Checkbox edge="start" checked={!!checked[key]} onChange={() => toggle(key)} />
-                  </ListItemIcon>
-                  <ListItemText primary={it} primaryTypographyProps={{ sx: { color: 'primary.main' } }} />
-                </ListItem>
-              );
-            })}
-          </List>
-        </Box>
-      ))}
-    </Box>
-  );
+  return <DetailChecklist file={file} checked={checked} onToggle={toggle} />;
 }
 
 export function GamesView() {
