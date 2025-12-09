@@ -8,6 +8,7 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export type ListItem = { id: string; title: string; desc?: string };
 
@@ -17,6 +18,8 @@ interface Props<T extends ListItem> {
   initialSelectedId?: string;
   onSelect?: (id: string) => void;
   renderDetail?: (item: T) => React.ReactNode;
+  detailLoading?: boolean;
+  listAnimating?: boolean;
 }
 
 export default function ListDetailView<T extends ListItem>({
@@ -25,6 +28,8 @@ export default function ListDetailView<T extends ListItem>({
   initialSelectedId,
   onSelect,
   renderDetail,
+  detailLoading,
+  listAnimating,
 }: Props<T>) {
   const [selected, setSelected] = useState<string>(initialSelectedId ?? (items[0]?.id ?? ''));
   const current = items.find((i) => i.id === selected) ?? items[0];
@@ -42,7 +47,7 @@ export default function ListDetailView<T extends ListItem>({
             <Typography variant="h6">{title}</Typography>
           </CardContent>
           <Divider />
-          <Box sx={{ overflow: 'auto' }}>
+          <Box sx={{ overflow: 'auto', transition: 'opacity 320ms ease', opacity: listAnimating ? 0.2 : 1 }}>
             <List>
               {items.map((it) => (
                 <ListItemButton key={it.id} selected={it.id === selected} onClick={() => handleItemClick(it.id)}>
@@ -55,8 +60,8 @@ export default function ListDetailView<T extends ListItem>({
       </Grid>
 
       <Grid item xs={12} md={9}>
-        <Card sx={{ height: '100%' }}>
-          <CardContent>
+        <Card sx={{ height: '100%', position: 'relative' }}>
+          <CardContent sx={{ display: detailLoading ? 'none' : 'block' }}>
             {current ? (
               renderDetail ? (
                 renderDetail(current)
@@ -77,6 +82,11 @@ export default function ListDetailView<T extends ListItem>({
               <Typography color="text.secondary">No items available.</Typography>
             )}
           </CardContent>
+          {detailLoading ? (
+            <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <CircularProgress />
+            </Box>
+          ) : null}
         </Card>
       </Grid>
     </Grid>

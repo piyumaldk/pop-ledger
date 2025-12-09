@@ -18,7 +18,7 @@ function toListItems(files: ParsedFile[]) {
   return files.map((f) => ({ id: f.id, title: f.title }));
 }
 
-function GameDetailView({ file, uid, gameId }: { file: ParsedFile; uid: string; gameId: string }) {
+function GameDetailView({ file, uid, gameId, onLoadingChange }: { file: ParsedFile; uid: string; gameId: string; onLoadingChange?: (l: boolean) => void }) {
   const [checked, setChecked] = useState<Record<string, boolean>>({});
   const [loading, setLoading] = useState(true);
 
@@ -28,9 +28,13 @@ function GameDetailView({ file, uid, gameId }: { file: ParsedFile; uid: string; 
     (async () => {
       try {
         if (!uid || !gameId) {
-          if (mounted) setLoading(false);
+          if (mounted) {
+            setLoading(false);
+            onLoadingChange?.(false);
+          }
           return;
         }
+        onLoadingChange?.(true);
         const data = await firestoreApi.getGame(uid, gameId);
         if (!mounted) return;
         
@@ -38,6 +42,7 @@ function GameDetailView({ file, uid, gameId }: { file: ParsedFile; uid: string; 
           // No data found - show unchecked list
           setChecked({});
           setLoading(false);
+          onLoadingChange?.(false);
           return;
         }
 
@@ -57,11 +62,14 @@ function GameDetailView({ file, uid, gameId }: { file: ParsedFile; uid: string; 
         console.error('Failed to load game state', err);
         if (mounted) setChecked({});
       } finally {
-        if (mounted) setLoading(false);
+        if (mounted) {
+          setLoading(false);
+          onLoadingChange?.(false);
+        }
       }
     })();
     return () => { mounted = false };
-  }, [uid, gameId, file.sections]);
+  }, [uid, gameId, file.sections, onLoadingChange]);
 
   const toggle = async (key: string) => {
     const [siStr, iiStr] = key.split('-');
@@ -162,7 +170,7 @@ function GameDetailView({ file, uid, gameId }: { file: ParsedFile; uid: string; 
   );
 }
 
-function SeriesDetailView({ file, uid, seriesId }: { file: ParsedFile; uid: string; seriesId: string }) {
+function SeriesDetailView({ file, uid, seriesId, onLoadingChange }: { file: ParsedFile; uid: string; seriesId: string; onLoadingChange?: (l: boolean) => void }) {
   const [checked, setChecked] = useState<Record<string, boolean>>({});
   const [loading, setLoading] = useState(true);
 
@@ -172,9 +180,13 @@ function SeriesDetailView({ file, uid, seriesId }: { file: ParsedFile; uid: stri
     (async () => {
       try {
         if (!uid || !seriesId) {
-          if (mounted) setLoading(false);
+          if (mounted) {
+            setLoading(false);
+            onLoadingChange?.(false);
+          }
           return;
         }
+        onLoadingChange?.(true);
         const data = await firestoreApi.getSeries(uid, seriesId);
         if (!mounted) return;
         
@@ -182,6 +194,7 @@ function SeriesDetailView({ file, uid, seriesId }: { file: ParsedFile; uid: stri
           // No data found - show unchecked list
           setChecked({});
           setLoading(false);
+          onLoadingChange?.(false);
           return;
         }
 
@@ -201,11 +214,14 @@ function SeriesDetailView({ file, uid, seriesId }: { file: ParsedFile; uid: stri
         console.error('Failed to load series state', err);
         if (mounted) setChecked({});
       } finally {
-        if (mounted) setLoading(false);
+        if (mounted) {
+          setLoading(false);
+          onLoadingChange?.(false);
+        }
       }
     })();
     return () => { mounted = false };
-  }, [uid, seriesId, file.sections]);
+  }, [uid, seriesId, file.sections, onLoadingChange]);
 
   const toggle = async (key: string) => {
     const [siStr, iiStr] = key.split('-');
@@ -310,6 +326,8 @@ export function GamesView() {
   const [files, setFiles] = useState<ParsedFile[]>([]);
   const [currentGameId, setCurrentGameId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [detailLoading, setDetailLoading] = useState<boolean>(false);
+  const [listAnimating, setListAnimating] = useState<boolean>(false);
   const uid = auth?.currentUser?.uid ?? '';
 
   useEffect(() => {
@@ -344,10 +362,15 @@ export function GamesView() {
   const handleSelect = async (gameId: string) => {
     if (!uid) return;
     try {
+      // animate list while reordering
+      setListAnimating(true);
       await firestoreApi.setCurrentGame(uid, gameId);
       setCurrentGameId(gameId);
+      // keep animation briefly for the transition
+      setTimeout(() => setListAnimating(false), 360);
     } catch (err) {
       console.error('Failed to set current game', err);
+      setListAnimating(false);
     }
   };
 
@@ -361,9 +384,11 @@ export function GamesView() {
       items={items}
       initialSelectedId={currentGameId ?? undefined}
       onSelect={handleSelect}
+      detailLoading={detailLoading}
+      listAnimating={listAnimating}
       renderDetail={(it) => {
         const file = files.find((f) => f.id === it.id);
-        return file && uid ? <GameDetailView file={file} uid={uid} gameId={it.id} /> : <Typography color="text.secondary">No details available.</Typography>;
+        return file && uid ? <GameDetailView file={file} uid={uid} gameId={it.id} onLoadingChange={setDetailLoading} /> : <Typography color="text.secondary">No details available.</Typography>;
       }}
     />
   );
@@ -373,6 +398,8 @@ export function SeriesView() {
   const [files, setFiles] = useState<ParsedFile[]>([]);
   const [currentSeriesId, setCurrentSeriesId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [detailLoading, setDetailLoading] = useState<boolean>(false);
+  const [listAnimating, setListAnimating] = useState<boolean>(false);
   const uid = auth?.currentUser?.uid ?? '';
 
   useEffect(() => {
@@ -407,10 +434,13 @@ export function SeriesView() {
   const handleSelect = async (seriesId: string) => {
     if (!uid) return;
     try {
+      setListAnimating(true);
       await firestoreApi.setCurrentSeries(uid, seriesId);
       setCurrentSeriesId(seriesId);
+      setTimeout(() => setListAnimating(false), 360);
     } catch (err) {
       console.error('Failed to set current series', err);
+      setListAnimating(false);
     }
   };
 
@@ -424,9 +454,11 @@ export function SeriesView() {
       items={items}
       initialSelectedId={currentSeriesId ?? undefined}
       onSelect={handleSelect}
+      detailLoading={detailLoading}
+      listAnimating={listAnimating}
       renderDetail={(it) => {
         const file = files.find((f) => f.id === it.id);
-        return file && uid ? <SeriesDetailView file={file} uid={uid} seriesId={it.id} /> : <Typography color="text.secondary">No details available.</Typography>;
+        return file && uid ? <SeriesDetailView file={file} uid={uid} seriesId={it.id} onLoadingChange={setDetailLoading} /> : <Typography color="text.secondary">No details available.</Typography>;
       }}
     />
   );
