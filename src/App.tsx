@@ -192,7 +192,7 @@ export default function App() {
             {/* Constrain logo + button to the same width so they align visually */}
             <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Box sx={{ width: '520px', maxWidth: '95vw' }}>
-                <Box component="img" src="/resources/images/logo.svg" alt="POP LEDGER logo" sx={{ width: '100%', height: 260, objectFit: 'contain' }} />
+                <Box component="img" src="public/resources/images/logo.svg" alt="POP LEDGER logo" sx={{ width: '100%', height: 260, objectFit: 'contain' }} />
               </Box>
             </Box>
             <Button
