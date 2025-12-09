@@ -1,26 +1,101 @@
-import React from 'react';
-import ListDetailView, { ListItem } from './ListDetailView';
+import React, { useEffect, useState } from 'react';
+import ListDetailView from './ListDetailView';
+import type { ParsedFile } from '../utils/contentLoader';
+import { loadResources } from '../utils/contentLoader';
+import Typography from '@mui/material/Typography';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Checkbox from '@mui/material/Checkbox';
+import ListItemText from '@mui/material/ListItemText';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
 
-const SAMPLE_GAMES: ListItem[] = [
-  { id: 'g1', title: 'Tetris', desc: 'A falling blocks classic.' },
-  { id: 'g2', title: 'Pac-Man', desc: 'Gobble pellets and avoid ghosts.' },
-  { id: 'g3', title: 'Chess', desc: 'Strategic board game for two players.' },
-  { id: 'g4', title: 'Sudoku', desc: 'Number puzzle to train the brain.' },
-  { id: 'g5', title: 'Mario', desc: 'Platformer adventure.' },
-];
+function toListItems(files: ParsedFile[]) {
+  return files.map((f) => ({ id: f.id, title: f.title }));
+}
 
-const SAMPLE_SERIES: ListItem[] = [
-  { id: 's1', title: 'Stranger Things', desc: 'A science fiction-horror series.' },
-  { id: 's2', title: 'Breaking Bad', desc: 'A chemistry teacher becomes meth kingpin.' },
-  { id: 's3', title: 'The Crown', desc: 'Historical drama about the British monarchy.' },
-  { id: 's4', title: 'Friends', desc: 'Sitcom about six friends in NYC.' },
-  { id: 's5', title: 'Dark', desc: 'German sci-fi thriller.' },
-];
+function DetailView({ file }: { file: ParsedFile }) {
+  const [checked, setChecked] = useState<Record<string, boolean>>({});
+
+  const toggle = (key: string) => {
+    setChecked((c) => ({ ...c, [key]: !c[key] }));
+  };
+
+  return (
+    <Box>
+      <Typography variant="h5" gutterBottom>{file.title}</Typography>
+      {file.sections.map((section, si) => (
+        <Box key={si} sx={{ mb: 2 }}>
+          {section.header && (
+            <Typography variant="subtitle1" sx={{ mb: 1 }}>{section.header}</Typography>
+          )}
+          <List>
+            {section.items.map((it, ii) => {
+              const key = `${si}-${ii}`;
+              return (
+                <ListItem key={key} disablePadding>
+                  <ListItemIcon>
+                    <Checkbox edge="start" checked={!!checked[key]} onChange={() => toggle(key)} />
+                  </ListItemIcon>
+                  <ListItemText primary={it} />
+                </ListItem>
+              );
+            })}
+          </List>
+          <Divider />
+        </Box>
+      ))}
+    </Box>
+  );
+}
 
 export function GamesView() {
-  return <ListDetailView title="Games" items={SAMPLE_GAMES} />;
+  const [files, setFiles] = useState<ParsedFile[]>([]);
+
+  useEffect(() => {
+    let mounted = true;
+    loadResources('games')
+      .then((f) => { if (!mounted) return; setFiles(f); })
+      .catch(() => { if (!mounted) return; setFiles([]); });
+    return () => { mounted = false };
+  }, []);
+
+  const items = toListItems(files);
+
+  return (
+    <ListDetailView
+      title={"Games"}
+      items={items}
+      renderDetail={(it) => {
+        const file = files.find((f) => f.id === it.id);
+        return file ? <DetailView file={file} /> : <Typography color="text.secondary">No details available.</Typography>;
+      }}
+    />
+  );
 }
 
 export function SeriesView() {
-  return <ListDetailView title="Series" items={SAMPLE_SERIES} />;
+  const [files, setFiles] = useState<ParsedFile[]>([]);
+
+  useEffect(() => {
+    let mounted = true;
+    loadResources('series')
+      .then((f) => { if (!mounted) return; setFiles(f); })
+      .catch(() => { if (!mounted) return; setFiles([]); });
+    return () => { mounted = false };
+  }, []);
+
+  const items = toListItems(files);
+
+  return (
+    <ListDetailView
+      title={"Series"}
+      items={items}
+      renderDetail={(it) => {
+        const file = files.find((f) => f.id === it.id);
+        return file ? <DetailView file={file} /> : <Typography color="text.secondary">No details available.</Typography>;
+      }}
+    />
+  );
 }

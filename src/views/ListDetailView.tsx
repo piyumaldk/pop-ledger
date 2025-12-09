@@ -39,7 +39,7 @@ export default function ListDetailView<T extends ListItem>({
             <List>
               {items.map((it) => (
                 <ListItemButton key={it.id} selected={it.id === selected} onClick={() => setSelected(it.id)}>
-                  <ListItemText primary={it.title} secondary={it.desc} />
+                  <ListItemText primary={it.title} />
                 </ListItemButton>
               ))}
             </List>

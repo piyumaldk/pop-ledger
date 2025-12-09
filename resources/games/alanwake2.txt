@@ -1,0 +1,7 @@
+# Alan Wake 2
+Part 1
+- Return 0: The Cult
+- Return 1: Invitation (Saga)
+Part 2
+- Return 2: The Heart (Saga)
+- Initiation 1: Talk Show (Alan)
