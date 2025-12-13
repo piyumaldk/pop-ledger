@@ -170,9 +170,14 @@ export default function App() {
                 transformOrigin={{ vertical: "top", horizontal: "right" }}
               >
                 {isMobile && (
-                  <MenuItem disabled sx={{ pointerEvents: 'none', display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Avatar src={user.photoURL ?? undefined} sx={{ width: 32, height: 32 }} />
-                    <Typography sx={{ fontWeight: 600 }}>{user.displayName ?? user.email}</Typography>
+                  <MenuItem sx={{ pointerEvents: 'none', display: 'flex', alignItems: 'center', gap: 1, color: 'text.primary', opacity: 1, bgcolor: 'transparent', py: 1 }}>
+                    <Avatar
+                      src={user.photoURL ?? undefined}
+                      alt={user.displayName ?? 'User'}
+                      sx={{ width: 36, height: 36, bgcolor: user.photoURL ? undefined : 'grey.700', border: '2px solid', borderColor: 'divider' }}
+                      imgProps={{ crossOrigin: 'anonymous', referrerPolicy: 'no-referrer' }}
+                    />
+                    <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>{user.displayName ?? user.email}</Typography>
                   </MenuItem>
                 )}
                 <MenuItem disabled>Delete my data</MenuItem>
