@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -14,6 +16,12 @@ import Snackbar from "@mui/material/Snackbar";
 import FullScreenLoader from './components/FullScreenLoader';
 import { signInWithGoogle, auth, signOutUser } from "./firebase";
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import AppsIcon from '@mui/icons-material/Apps';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import MovieIcon from '@mui/icons-material/Movie';
+import SpeedDial from '@mui/material/SpeedDial';
+import SpeedDialAction from '@mui/material/SpeedDialAction';
+import Fab from '@mui/material/Fab';
 import { GamesView, SeriesView } from './views/SharedViews';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { onAuthStateChanged, User } from "firebase/auth";
@@ -41,12 +49,15 @@ function LogoSVG({ width = 48, height }: { width?: number | string; height?: num
 
 export default function App() {
   const [page, setPage] = useState<'home' | 'games' | 'series'>('games');
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [user, setUser] = useState<User | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [errorOpen, setErrorOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [firebaseOk, setFirebaseOk] = useState(true);
+  const [fabOpen, setFabOpen] = useState(false);
 
   useEffect(() => {
     // If Firebase isn't initialized, onAuthStateChanged may be undefined. Guard against that.
@@ -83,6 +94,10 @@ export default function App() {
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const handleFabOpen = () => setFabOpen(true);
+
+  const handleFabClose = () => setFabOpen(false);
 
   const handleMenuClose = () => setAnchorEl(null);
 
@@ -141,6 +156,7 @@ export default function App() {
                   fontSize: 16,
                   lineHeight: '20px',
                   whiteSpace: 'nowrap',
+                  display: { xs: 'none', md: 'inline-flex' }
                 }}>
                   {user.displayName ?? user.email}
                 </Typography>
@@ -153,14 +169,21 @@ export default function App() {
                 anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                 transformOrigin={{ vertical: "top", horizontal: "right" }}
               >
+                {isMobile && (
+                  <MenuItem disabled sx={{ pointerEvents: 'none', display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Avatar src={user.photoURL ?? undefined} sx={{ width: 32, height: 32 }} />
+                    <Typography sx={{ fontWeight: 600 }}>{user.displayName ?? user.email}</Typography>
+                  </MenuItem>
+                )}
                 <MenuItem disabled>Delete my data</MenuItem>
                 <MenuItem onClick={handleSignOut}>Log out</MenuItem>
               </Menu>
             </Toolbar>
           </AppBar>
 
-          <Container maxWidth="md" sx={{ marginTop: 4 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+          <Container maxWidth="md" sx={{ marginTop: { xs: 0, md: 4 } }}>
+            {/* Top buttons only on desktop/tablet */}
+            <Box sx={{ display: { xs: 'none', md: 'flex' }, justifyContent: 'center', gap: 2 }}>
               <Button
                 variant={page === 'games' ? 'contained' : 'outlined'}
                 color="primary"
@@ -184,6 +207,29 @@ export default function App() {
             {page === 'games' && <GamesView />}
             {page === 'series' && <SeriesView />}
           </Container>
+          {/* Mobile-only SpeedDial to switch between Games/Series */}
+          <SpeedDial
+            ariaLabel="Switch view"
+            sx={{ position: 'fixed', right: 16, bottom: 16, display: { xs: 'inline-flex', md: 'none' } }}
+            icon={<AppsIcon />}
+            onOpen={handleFabOpen}
+            onClose={handleFabClose}
+            open={fabOpen}
+            direction="up"
+          >
+            <SpeedDialAction
+              key="games"
+              icon={<SportsEsportsIcon />}
+              tooltipTitle="Games"
+              onClick={() => { setPage('games'); handleFabClose(); }}
+            />
+            <SpeedDialAction
+              key="series"
+              icon={<MovieIcon />}
+              tooltipTitle="Series"
+              onClick={() => { setPage('series'); handleFabClose(); }}
+            />
+          </SpeedDial>
         </>
       ) : (
         // Logged out view: only show centered sign-in
