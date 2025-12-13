@@ -21,7 +21,6 @@ import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import MovieIcon from '@mui/icons-material/Movie';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
-import Fab from '@mui/material/Fab';
 import { GamesView, SeriesView } from './views/SharedViews';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { onAuthStateChanged, User } from "firebase/auth";
@@ -187,26 +186,7 @@ export default function App() {
           </AppBar>
 
           <Container maxWidth="md" sx={{ marginTop: { xs: 0, md: 4 } }}>
-            {/* Top buttons only on desktop/tablet */}
-            <Box sx={{ display: { xs: 'none', md: 'flex' }, justifyContent: 'center', gap: 2 }}>
-              <Button
-                variant={page === 'games' ? 'contained' : 'outlined'}
-                color="primary"
-                onClick={() => setPage('games')}
-                sx={{ borderRadius: 2, px: 4, py: 1.5 }}
-              >
-                Games
-              </Button>
-
-              <Button
-                variant={page === 'series' ? 'contained' : 'outlined'}
-                color="primary"
-                onClick={() => setPage('series')}
-                sx={{ borderRadius: 2, px: 4, py: 1.5 }}
-              >
-                Series
-              </Button>
-            </Box>
+            {/* Removed desktop top buttons; navigation via SpeedDial now */}
 
             {/* Render selected view in-page (single page app) */}
             {page === 'games' && <GamesView />}
@@ -215,7 +195,7 @@ export default function App() {
           {/* Mobile-only SpeedDial to switch between Games/Series */}
           <SpeedDial
             ariaLabel="Switch view"
-            sx={{ position: 'fixed', right: 16, bottom: 16, display: { xs: 'inline-flex', md: 'none' } }}
+            sx={{ position: 'fixed', right: 16, bottom: 16, zIndex: 1400 }}
             icon={<AppsIcon />}
             onOpen={handleFabOpen}
             onClose={handleFabClose}
