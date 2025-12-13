@@ -106,7 +106,11 @@ export default function ListDetailView<T extends ListItem>({
               </List>
             </Box>
           )}
-          {menuLoading && !isMobile ? <CardLoader /> : null}
+          {menuLoading && !isMobile ? (
+            <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
+              <Typography variant="subtitle1" color="text.secondary">{`Loading ${title}...`}</Typography>
+            </Box>
+          ) : null}
         </Card>
       </Box>
 
@@ -130,11 +134,9 @@ export default function ListDetailView<T extends ListItem>({
                 </>
               )
             ) : (
-              <Typography color="text.secondary">No items available.</Typography>
+              <Typography color="text.secondary">Loading...</Typography>
             )}
           </CardContent>
-          {/* detail content is shown above; overlay a card-scoped loader when detailLoading */}
-          {detailLoading ? <CardLoader /> : null}
         </Card>
       </Box>
     </Box>
