@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "bash -lc \"git push && npm run build && firebase deploy\""
   },
   "author": "Your Name",
   "license": "MIT",
