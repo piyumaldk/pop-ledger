@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { useTheme } from '@mui/material/styles';
+import { useTheme, alpha } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import IconButton from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ButtonBase from '@mui/material/ButtonBase';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import SearchIcon from '@mui/icons-material/Search';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -12,7 +15,6 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
@@ -46,6 +48,7 @@ export default function ListDetailView<T extends ListItem>({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [query, setQuery] = useState('');
 
   // Keep detail mounted while loading so it can finish any restore effects.
   // Show a full-screen overlay loader when `detailLoading` is true.
@@ -82,8 +85,41 @@ export default function ListDetailView<T extends ListItem>({
               '&::-webkit-scrollbar-track': { background: theme.palette.background.paper },
               '&::-webkit-scrollbar-thumb': { backgroundColor: theme.palette.primary.main, borderRadius: 8 },
             }}>
+              <Box sx={{ p: 1 }}>
+                <TextField
+                  size="small"
+                  fullWidth
+                  placeholder={`Search ${title}`}
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  variant="outlined"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start" sx={{ mr: 0 }}>
+                        <SearchIcon sx={{ color: theme.palette.primary.main }} />
+                      </InputAdornment>
+                    ),
+                  }}
+                  sx={{
+                    backgroundColor: alpha(theme.palette.primary.main, 0.06),
+                    borderRadius: 1,
+                    // make outline and text use theme primary color and match card header height
+                    '& .MuiOutlinedInput-root': {
+                      height: 45,
+                      color: theme.palette.primary.main,
+                      '& fieldset': { borderColor: theme.palette.primary.main },
+                      '&:hover fieldset': { borderColor: theme.palette.primary.dark },
+                      '&.Mui-focused fieldset': { borderColor: theme.palette.primary.main },
+                      '& .MuiInputBase-input': { color: theme.palette.primary.main, padding: '12px 14px' },
+                    },
+                    '& .MuiInputAdornment-root .MuiSvgIcon-root': { color: theme.palette.primary.main },
+                    '& .MuiOutlinedInput-notchedOutline': { borderColor: theme.palette.primary.main },
+                  }}
+                />
+              </Box>
+              <Divider />
               <List sx={{ display: 'flex', flexDirection: 'column', gap: 1, px: 1 }}>
-                {items.map((it) => (
+                {items.filter((it) => it.title.toLowerCase().includes(query.trim().toLowerCase())).map((it) => (
                   <ListItem key={it.id} disablePadding>
                     <Button
                       variant={it.id === selected ? 'contained' : 'outlined'}
