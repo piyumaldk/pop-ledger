@@ -14,9 +14,10 @@ interface Props {
   file: ParsedFile;
   checked: Record<string, boolean>;
   onToggle: (key: string) => void;
+  loading?: boolean;
 }
 
-export default function DetailChecklist({ file, checked, onToggle }: Props) {
+export default function DetailChecklist({ file, checked, onToggle, loading }: Props) {
   // compute total and checked counts
   let total = 0;
   for (const s of file.sections) total += s.items.length;
@@ -29,10 +30,21 @@ export default function DetailChecklist({ file, checked, onToggle }: Props) {
       <Typography variant="h5" gutterBottom color="primary" sx={{ fontWeight: 700 }}>{file.title}</Typography>
       <Box sx={{ mt: 1, display: 'flex', alignItems: 'center', gap: 2 }}>
         <Box sx={{ position: 'relative', width: 48, height: 48 }} aria-hidden>
-          <CircularProgress variant="determinate" value={percent} size={48} color="primary" />
-          <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Typography variant="subtitle1" sx={{ fontWeight: 700, lineHeight: 1 }}>{percent}%</Typography>
-          </Box>
+          {loading ? (
+            <>
+              <CircularProgress size={48} color="primary" />
+              <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', px: 1 }}>
+                <Typography variant="caption" sx={{ fontWeight: 700, color: 'primary.main' }}>L...</Typography>
+              </Box>
+            </>
+          ) : (
+            <>
+              <CircularProgress variant="determinate" value={percent} size={48} color="primary" />
+              <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 700, lineHeight: 1 }}>{percent}%</Typography>
+              </Box>
+            </>
+          )}
         </Box>
       </Box>
       <Box sx={{ mt: 2 }} />

@@ -19,7 +19,7 @@ function toListItems(files: ParsedFile[]) {
   return files.map((f) => ({ id: f.id, title: f.title }));
 }
 
-function GameDetailView({ file, uid, gameId, onLoadingChange }: { file: ParsedFile; uid: string; gameId: string; onLoadingChange?: (l: boolean) => void }) {
+function GameDetailView({ file, uid, gameId, onLoadingChange, parentLoading }: { file: ParsedFile; uid: string; gameId: string; onLoadingChange?: (l: boolean) => void; parentLoading?: boolean }) {
   const [checked, setChecked] = useState<Record<string, boolean>>({});
   const [loading, setLoading] = useState(true);
 
@@ -141,10 +141,10 @@ function GameDetailView({ file, uid, gameId, onLoadingChange }: { file: ParsedFi
 
   // don't unmount detail while loading; parent will show a card-level loader
 
-  return <DetailChecklist file={file} checked={checked} onToggle={toggle} />;
+  return <DetailChecklist file={file} checked={checked} onToggle={toggle} loading={loading || !!parentLoading} />;
 }
 
-function SeriesDetailView({ file, uid, seriesId, onLoadingChange }: { file: ParsedFile; uid: string; seriesId: string; onLoadingChange?: (l: boolean) => void }) {
+function SeriesDetailView({ file, uid, seriesId, onLoadingChange, parentLoading }: { file: ParsedFile; uid: string; seriesId: string; onLoadingChange?: (l: boolean) => void; parentLoading?: boolean }) {
   const [checked, setChecked] = useState<Record<string, boolean>>({});
   const [loading, setLoading] = useState(true);
 
@@ -266,7 +266,7 @@ function SeriesDetailView({ file, uid, seriesId, onLoadingChange }: { file: Pars
 
   // don't unmount detail while loading; parent will show a card-level loader
 
-  return <DetailChecklist file={file} checked={checked} onToggle={toggle} />;
+  return <DetailChecklist file={file} checked={checked} onToggle={toggle} loading={loading || !!parentLoading} />;
 }
 
 export function GamesView() {
@@ -334,7 +334,7 @@ export function GamesView() {
       listAnimating={listAnimating}
       renderDetail={(it) => {
         const file = files.find((f) => f.id === it.id);
-        return file && uid ? <GameDetailView file={file} uid={uid} gameId={it.id} onLoadingChange={setDetailLoading} /> : <Typography color="text.secondary">No details available.</Typography>;
+        return file && uid ? <GameDetailView file={file} uid={uid} gameId={it.id} onLoadingChange={setDetailLoading} parentLoading={loading || detailLoading} /> : <Typography color="text.secondary">No details available.</Typography>;
       }}
     />
   );
@@ -403,7 +403,7 @@ export function SeriesView() {
       listAnimating={listAnimating}
       renderDetail={(it) => {
         const file = files.find((f) => f.id === it.id);
-        return file && uid ? <SeriesDetailView file={file} uid={uid} seriesId={it.id} onLoadingChange={setDetailLoading} /> : <Typography color="text.secondary">No details available.</Typography>;
+        return file && uid ? <SeriesDetailView file={file} uid={uid} seriesId={it.id} onLoadingChange={setDetailLoading} parentLoading={loading || detailLoading} /> : <Typography color="text.secondary">No details available.</Typography>;
       }}
     />
   );
