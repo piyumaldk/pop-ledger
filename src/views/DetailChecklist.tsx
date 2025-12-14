@@ -2,6 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
+import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -33,8 +34,8 @@ export default function DetailChecklist({ file, checked, onToggle, loading }: Pr
           {loading ? (
             <>
               <CircularProgress size={48} color="primary" />
-              <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', px: 1 }}>
-                <Typography variant="caption" sx={{ fontWeight: 700, color: 'primary.main' }}>L...</Typography>
+              <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <HourglassTopIcon color="primary" sx={{ fontSize: 20 }} />
               </Box>
             </>
           ) : (
