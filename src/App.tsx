@@ -222,13 +222,13 @@ export default function App() {
               key="games"
               icon={<SportsEsportsIcon />}
               tooltipTitle="Games"
-              onClick={() => { setPage('games'); handleFabClose(); }}
+              onClick={() => { changePage('games'); handleFabClose(); }}
             />
             <SpeedDialAction
               key="series"
               icon={<MovieIcon />}
               tooltipTitle="Series"
-              onClick={() => { setPage('series'); handleFabClose(); }}
+              onClick={() => { changePage('series'); handleFabClose(); }}
             />
           </SpeedDial>
         </>
