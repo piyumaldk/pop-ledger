@@ -47,7 +47,14 @@ function LogoSVG({ width = 48, height }: { width?: number | string; height?: num
 }
 
 export default function App() {
-  const [page, setPage] = useState<'home' | 'games' | 'series'>('games');
+  const [page, setPage] = useState<'home' | 'games' | 'series'>(() => {
+    try {
+      const v = localStorage.getItem('pop-ledger.view');
+      return (v as 'home' | 'games' | 'series') ?? 'games';
+    } catch (e) {
+      return 'games';
+    }
+  });
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [user, setUser] = useState<User | null>(null);
@@ -92,6 +99,15 @@ export default function App() {
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const changePage = (p: 'home' | 'games' | 'series') => {
+    try {
+      localStorage.setItem('pop-ledger.view', p);
+    } catch (e) {
+      // ignore
+    }
+    setPage(p);
   };
 
   const handleFabOpen = () => setFabOpen(true);
