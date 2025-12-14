@@ -74,7 +74,14 @@ export default function ListDetailView<T extends ListItem>({
           </CardContent>
           <Divider />
           {(!isMobile || mobileMenuOpen) && (
-            <Box sx={{ overflowY: 'auto', transition: 'opacity 320ms ease', opacity: listAnimating ? 0.2 : 1 }}>
+            <Box sx={{
+              overflowY: 'auto',
+              transition: 'opacity 320ms ease',
+              opacity: listAnimating ? 0.2 : 1,
+              '&::-webkit-scrollbar': { width: 10, height: 10 },
+              '&::-webkit-scrollbar-track': { background: theme.palette.background.paper },
+              '&::-webkit-scrollbar-thumb': { backgroundColor: theme.palette.primary.main, borderRadius: 8 },
+            }}>
               <List sx={{ display: 'flex', flexDirection: 'column', gap: 1, px: 1 }}>
                 {items.map((it) => (
                   <ListItem key={it.id} disablePadding>
@@ -115,8 +122,14 @@ export default function ListDetailView<T extends ListItem>({
       </Box>
 
       <Box sx={{ flex: '0 0 auto', minWidth: 0, width: { xs: '100%', md: 'min(900px, calc(100vw - 400px - 24px))' } }}>
-        <Card sx={{ height: '100%', position: 'relative', display: 'flex', flexDirection: 'column' }}>
-          <CardContent sx={{ flex: 1, overflow: 'auto' }}>
+          <Card sx={{ height: '100%', position: 'relative', display: 'flex', flexDirection: 'column' }}>
+          <CardContent sx={{
+            flex: 1,
+            overflow: 'auto',
+            '&::-webkit-scrollbar': { width: 12, height: 12 },
+            '&::-webkit-scrollbar-track': { background: theme.palette.background.paper },
+            '&::-webkit-scrollbar-thumb': { backgroundColor: theme.palette.primary.main, borderRadius: 10 },
+          }}>
             {current ? (
               renderDetail ? (
                 renderDetail(current)
