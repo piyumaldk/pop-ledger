@@ -27,6 +27,8 @@ PoPLedger is a TypeScript based application designed to track the progress of vi
 4. Start the development server
    ```
    npm run dev
+   --or--
+   npm run dev -- --host 0.0.0.0
    ```
 
 5. Build the project
