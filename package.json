@@ -4,8 +4,8 @@
   "description": "A ledger for the pop culture",
   "type": "module",
   "scripts": {
-    "dev": "vite --host",
-    "build": "vite build",
+    "dev": "node scripts/generate-resources-count.js && vite --host",
+    "build": "node scripts/generate-resources-count.js && vite build",
     "preview": "vite preview",
     "deploy": "bash -lc \"git push && npm run build && firebase deploy\""
   },

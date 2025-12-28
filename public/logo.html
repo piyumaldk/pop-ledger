@@ -3,15 +3,68 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>POP LEDGER — Logo</title>
+    <title>PoP Ledger — Welcome</title>
     <style>
-      html,body{height:100%;margin:0}
-      body{display:flex;align-items:center;justify-content:center;background:#0f766e}
-      .logo{max-width:90vw;max-height:90vh}
+      :root{--bg:#0f766e;--card:#ffffff;--muted:rgba(0,0,0,0.6);--accent:#06b6d4}
+      html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
+      body{display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,var(--bg),#064e4a);color:#fff}
+      .wrap{width:100%;max-width:680px;padding:28px;box-sizing:border-box}
+      .card{display:flex;flex-direction:column;align-items:center;gap:18px;background:rgba(255,255,255,0.03);backdrop-filter:blur(6px);padding:28px;border-radius:14px;text-align:center}
+      .logo{width:160px;max-width:60vw;height:auto;filter:drop-shadow(0 6px 18px rgba(0,0,0,0.35));transform-origin:center}
+      h1{margin:0;font-size:20px;letter-spacing:0.6px}
+      p.lead{margin:0;color:var(--muted);font-size:14px}
+      .counts{display:flex;gap:12px;margin-top:6px}
+      .count{background:rgba(255,255,255,0.04);padding:8px 12px;border-radius:10px;color:#fff;font-weight:600;font-size:13px}
+      .actions{margin-top:10px}
+      .btn{background:var(--accent);color:#042022;border:0;padding:10px 18px;border-radius:10px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(3,105,125,0.12);transition:transform .18s ease,box-shadow .18s ease}
+      .btn:active{transform:translateY(1px)}
+      @media (max-width:420px){.logo{width:120px}.card{padding:18px}}
+      /* subtle entrance animations */
+      .card{opacity:0;transform:translateY(6px) scale(.997);animation:enter .6s cubic-bezier(.2,.9,.2,1) forwards}
+      @keyframes enter{to{opacity:1;transform:none}}
+      .pulse{animation:pulse 2.6s infinite;mix-blend-mode:screen;opacity:.14}
+      @keyframes pulse{0%{transform:scale(.98);opacity:.12}50%{transform:scale(1.02);opacity:.18}100%{transform:scale(.98);opacity:.12}}
     </style>
   </head>
   <body>
-    <!-- Displays the logo at /logo.svg; background uses the project's primary color -->
-    <img class="logo" src="/logo.svg" alt="POP LEDGER logo" />
+    <div class="wrap">
+      <div class="card" role="main">
+        <img class="logo" src="/resources/images/logo.png" alt="PoP Ledger logo" />
+        <h1>Welcome to PoP Ledger</h1>
+        <p class="lead">PoPLedger now lets you track <span id="games-count">—</span> games and <span id="series-count">—</span> series.</p>
+        <div class="counts" aria-hidden>
+          <div class="count"><span id="games-count-badge">—</span> games</div>
+          <div class="count"><span id="series-count-badge">—</span> series</div>
+        </div>
+        <div class="actions">
+          <a href="/" id="login-link"><button class="btn" id="login-btn">Log in</button></a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Load counts from the static JSON generated at build-time
+      (function(){
+        function setCounts(g,s){
+          var ga = document.getElementById('games-count');
+          var sa = document.getElementById('series-count');
+          var gb = document.getElementById('games-count-badge');
+          var sb = document.getElementById('series-count-badge');
+          if(ga) ga.textContent = g;
+          if(sa) sa.textContent = s;
+          if(gb) gb.textContent = g;
+          if(sb) sb.textContent = s;
+        }
+        fetch('/resources-count.json', {cache:'no-cache'}).then(function(r){
+          if(!r.ok) throw new Error('no counts');
+          return r.json();
+        }).then(function(j){
+          setCounts(j.games||0,j.series||0);
+        }).catch(function(){
+          // Fallback: attempt to infer from DOM resources lists if available
+          setCounts('N/A','N/A');
+        });
+      })();
+    </script>
   </body>
 </html>
