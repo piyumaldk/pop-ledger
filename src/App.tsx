@@ -64,6 +64,7 @@ export default function App() {
   const [errorMessage, setErrorMessage] = useState("");
   const [firebaseOk, setFirebaseOk] = useState(true);
   const [fabOpen, setFabOpen] = useState(false);
+  const [resourceCounts, setResourceCounts] = useState<{games?: number | string, series?: number | string}>({});
 
   useEffect(() => {
     // If Firebase isn't initialized, onAuthStateChanged may be undefined. Guard against that.
@@ -126,6 +127,20 @@ export default function App() {
       handleMenuClose();
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch('/resources-count.json', { cache: 'no-cache' });
+        if (!res.ok) throw new Error('no counts');
+        const j = await res.json();
+        setResourceCounts({ games: j.games ?? 0, series: j.series ?? 0 });
+      } catch (err) {
+        setResourceCounts({ games: 'N/A', series: 'N/A' });
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (authLoading) {
     return <FullScreenLoader />;
@@ -237,10 +252,17 @@ export default function App() {
         <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Box sx={{ textAlign: 'center' }}>
             {/* Constrain logo + button to the same width so they align visually */}
-            <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              {/* <Box sx={{ width: '520px', maxWidth: '95vw' }}>
-                <Box component="img" src="/resources/images/logo.svg" alt="POP LEDGER logo" sx={{ width: '100%', height: 260, objectFit: 'contain' }} />
-              </Box> */}
+            <Box sx={{ mb: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <Box sx={{ width: 420, maxWidth: '85vw' }}>
+                <Box component="img" src="/resources/images/logo.png" alt="POP LEDGER logo" sx={{ width: '100%', height: 'auto', objectFit: 'contain' }} />
+              </Box>
+              <Typography sx={{ color: 'text.secondary', fontSize: 14 }}>
+                PoPLedger now lets you track <strong style={{color:'#000'}}>{resourceCounts.games ?? '—'}</strong> games and <strong style={{color:'#000'}}>{resourceCounts.series ?? '—'}</strong> series.
+              </Typography>
+              <Box sx={{ display: 'flex', gap: 1, mt: 1 }}>
+                <Box sx={{ backgroundColor: 'rgba(0,0,0,0.06)', px: 2, py: 0.6, borderRadius: 1, fontWeight: 700 }}>{resourceCounts.games ?? '—'} games</Box>
+                <Box sx={{ backgroundColor: 'rgba(0,0,0,0.06)', px: 2, py: 0.6, borderRadius: 1, fontWeight: 700 }}>{resourceCounts.series ?? '—'} series</Box>
+              </Box>
             </Box>
             <Button
               variant="outlined"
