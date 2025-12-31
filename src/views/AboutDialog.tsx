@@ -31,7 +31,7 @@ export default function AboutDialog({ open, onClose, onNavigate, onOpenSummary }
           </Typography>
 
           <Typography variant="body1" sx={{ maxWidth: 680, color: 'secondary.main' }}>
-            The project was initiated by <a href="https://github.com/piyumaldk" target="_blank" rel="noopener noreferrer" style={{ color: theme.palette.primary.main, fontWeight: 700 }}>Piyumal Kularathna</a> and the source code is available on <a href="https://github.com/piyumaldk/pop-ledger" target="_blank" rel="noopener noreferrer" style={{ color: theme.palette.primary.main, fontWeight: 700 }}>GitHub</a> <GitHubIcon sx={{ fontSize: 18, verticalAlign: 'middle', ml: 0.5, color: 'primary.main' }} />.
+            The project was initiated by <a href="https://github.com/piyumaldk" target="_blank" rel="noopener noreferrer" style={{ color: theme.palette.primary.main, fontWeight: 700, textDecoration: 'none' }}>Piyumal Kularathna</a> and the source code is available on <a href="https://github.com/piyumaldk/pop-ledger" target="_blank" rel="noopener noreferrer" style={{ color: theme.palette.primary.main, fontWeight: 700, textDecoration: 'none' }}>GitHub</a> <GitHubIcon sx={{ fontSize: 18, verticalAlign: 'middle', ml: 0.5, color: 'primary.main' }} />.
           </Typography>
 
           <Typography variant="body1" sx={{ maxWidth: 680, color: 'secondary.main' }}>

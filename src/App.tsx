@@ -263,20 +263,20 @@ export default function App() {
                 transformOrigin={{ vertical: "top", horizontal: "right" }}
               >
                 {isMobile && (
-                  <MenuItem sx={{ pointerEvents: 'none', display: 'flex', alignItems: 'center', gap: 1, color: 'text.primary', opacity: 1, bgcolor: 'transparent', py: 1 }}>
+                  <MenuItem sx={{ pointerEvents: 'none', display: 'flex', alignItems: 'center', gap: 1, color: 'secondary.main', opacity: 1, bgcolor: 'transparent', py: 1 }}>
                     <Avatar
                       src={user.photoURL ?? undefined}
                       alt={user.displayName ?? 'User'}
                       sx={{ width: 36, height: 36, bgcolor: user.photoURL ? undefined : 'grey.700', border: '2px solid', borderColor: 'divider' }}
                       imgProps={{ crossOrigin: 'anonymous', referrerPolicy: 'no-referrer' }}
                     />
-                    <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>{user.displayName ?? user.email}</Typography>
+                    <Typography sx={{ fontWeight: 600, color: 'secondary.main' }}>{user.displayName ?? user.email}</Typography>
                   </MenuItem>
                 )}
-                <MenuItem onClick={() => { setAboutOpen(true); handleMenuClose(); }}>About Us</MenuItem>
-                <MenuItem onClick={() => { window.open('https://github.com/piyumaldk/pop-ledger', '_blank', 'noopener,noreferrer'); handleMenuClose(); }}>Source Code</MenuItem>
-                <MenuItem disabled>Delete my data</MenuItem>
-                <MenuItem onClick={handleSignOut}>Log out</MenuItem>
+                <MenuItem sx={{ color: 'secondary.main' }} onClick={() => { setAboutOpen(true); handleMenuClose(); }}>About Us</MenuItem>
+                <MenuItem sx={{ color: 'secondary.main' }} onClick={() => { window.open('https://github.com/piyumaldk/pop-ledger', '_blank', 'noopener,noreferrer'); handleMenuClose(); }}>Source Code</MenuItem>
+                <MenuItem sx={{ color: 'secondary.main' }} disabled>Delete my data</MenuItem>
+                <MenuItem sx={{ color: 'secondary.main' }} onClick={handleSignOut}>Log out</MenuItem>
               </Menu>
             </Toolbar>
           </AppBar>
