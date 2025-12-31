@@ -25,7 +25,9 @@ import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import MovieIcon from '@mui/icons-material/Movie';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
+import SummarizeIcon from '@mui/icons-material/Summarize';
 import { GamesView, SeriesView } from './views/SharedViews';
+import SummaryDialog from './views/SummaryDialog';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { onAuthStateChanged, User } from "firebase/auth";
 
@@ -131,9 +133,12 @@ export default function App() {
     setPage(p);
   };
 
+  const [summaryOpen, setSummaryOpen] = useState(false);
   const handleFabOpen = () => setFabOpen(true);
 
   const handleFabClose = () => setFabOpen(false);
+  const openSummary = () => setSummaryOpen(true);
+  const closeSummary = () => setSummaryOpen(false);
 
   const handleMenuClose = () => setAnchorEl(null);
 
@@ -269,7 +274,14 @@ export default function App() {
               tooltipTitle="Series"
               onClick={() => { changePage('series'); handleFabClose(); }}
             />
+            <SpeedDialAction
+              key="summary"
+              icon={<SummarizeIcon />}
+              tooltipTitle="Summary"
+              onClick={() => { openSummary(); handleFabClose(); }}
+            />
           </SpeedDial>
+          <SummaryDialog open={summaryOpen} onClose={closeSummary} />
         </MobileMenuProvider>
         </>
       ) : (
