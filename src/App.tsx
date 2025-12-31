@@ -359,7 +359,7 @@ export default function App() {
           <Dialog open={deleteOpen} onClose={() => setDeleteOpen(false)} fullWidth maxWidth="xs">
             <DialogTitle>Delete my data</DialogTitle>
             <DialogContent>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 2, textAlign: 'center' }}>
                 This will permanently remove all your data (games, series and the user account) and cannot be recovered. To confirm, type your email address below.
               </Typography>
               <TextField
