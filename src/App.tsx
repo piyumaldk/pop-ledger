@@ -167,12 +167,40 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    // Set a CSS variable for dynamic viewport height to avoid mobile 100vh issues
+    const setVh = () => {
+      try {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+      } catch (e) {
+        // ignore in non-browser environments
+      }
+    };
+    setVh();
+
+    window.addEventListener('resize', setVh);
+    window.addEventListener('orientationchange', setVh);
+    // Prefer visualViewport if available for more accurate heights
+    if ((window as any).visualViewport) {
+      (window as any).visualViewport.addEventListener('resize', setVh);
+    }
+
+    return () => {
+      window.removeEventListener('resize', setVh);
+      window.removeEventListener('orientationchange', setVh);
+      if ((window as any).visualViewport) {
+        (window as any).visualViewport.removeEventListener('resize', setVh);
+      }
+    };
+  }, []);
+
   if (authLoading) {
     return <FullScreenLoader />;
   }
 
   return (
-    <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column', pt: { xs: '72px', md: '64px' }, overflow: 'hidden' }}>
+    <Box sx={{ height: 'calc(var(--vh, 1vh) * 100)', display: 'flex', flexDirection: 'column', pt: { xs: '72px', md: '64px' }, overflow: 'hidden' }}>
       {user ? (
         <>
           <MobileMenuProvider>
