@@ -27,10 +27,13 @@ export default function DetailChecklist({ file, checked, onToggle, loading }: Pr
   const percent = total === 0 ? 0 : Math.round((checkedCount / total) * 100);
 
   return (
-    <Box>
-      <Typography variant="h5" gutterBottom color="primary" sx={{ fontWeight: 700 }}>{file.title}</Typography>
-      <Box sx={{ mt: 1, display: 'flex', alignItems: 'center', gap: 2 }}>
-        <Box sx={{ position: 'relative', width: 48, height: 48 }} aria-hidden>
+    <Box sx={{ position: 'relative', height: '100%' }}>
+      {/* Fixed header: use a fixed height so scroll area below can be calculated */}
+      <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, height: { xs: '72px', md: '64px' }, display: 'flex', alignItems: 'center', gap: 2, zIndex: (theme) => theme.zIndex.appBar - 1, backgroundColor: 'background.paper', px: 2, boxShadow: '0 1px 0 rgba(0,0,0,0.06)' }}>
+        <Box sx={{ flex: 1 }}>
+          <Typography variant="h5" color="primary" sx={{ fontWeight: 700, mb: 0 }}>{file.title}</Typography>
+        </Box>
+        <Box sx={{ width: 48, height: 48, position: 'relative' }} aria-hidden>
           {loading ? (
             <>
               <CircularProgress size={48} color="primary" />
@@ -48,28 +51,31 @@ export default function DetailChecklist({ file, checked, onToggle, loading }: Pr
           )}
         </Box>
       </Box>
-      <Box sx={{ mt: 2 }} />
-      {file.sections.map((section, si) => (
-        <Box key={si} sx={{ mb: 2 }}>
-          {section.header && (
-            <Typography variant="subtitle1" sx={{ fontWeight: 700, color: 'primary.main', mb: 1 }}>{section.header}</Typography>
-          )}
-          <Divider />
-          <List>
-            {section.items.map((it, ii) => {
-              const key = `${si}-${ii}`;
-              return (
-                <ListItem key={key} disablePadding>
-                  <ListItemIcon>
-                    <Checkbox edge="start" checked={!!checked[key]} onChange={() => onToggle(key)} />
-                  </ListItemIcon>
-                  <ListItemText primary={it} primaryTypographyProps={{ sx: { color: 'primary.main' } }} />
-                </ListItem>
-              );
-            })}
-          </List>
-        </Box>
-      ))}
+
+      {/* Scrollable list area implemented as absolute box below the fixed header */}
+      <Box sx={{ position: 'absolute', top: { xs: '72px', md: '64px' }, left: 0, right: 0, bottom: 0, overflowY: 'auto', px: 2, pt: 2, backgroundColor: (theme) => (theme.palette.mode === 'light' ? 'transparent' : 'transparent') }}>
+        {file.sections.map((section, si) => (
+          <Box key={si} sx={{ mb: 2 }}>
+            {section.header && (
+              <Typography variant="subtitle1" sx={{ fontWeight: 700, color: 'primary.main', mb: 1 }}>{section.header}</Typography>
+            )}
+            <Divider />
+            <List>
+              {section.items.map((it, ii) => {
+                const key = `${si}-${ii}`;
+                return (
+                  <ListItem key={key} disablePadding>
+                    <ListItemIcon>
+                      <Checkbox edge="start" checked={!!checked[key]} onChange={() => onToggle(key)} />
+                    </ListItemIcon>
+                    <ListItemText primary={it} primaryTypographyProps={{ sx: { color: 'primary.main' } }} />
+                  </ListItem>
+                );
+              })}
+            </List>
+          </Box>
+        ))}
+      </Box>
     </Box>
   );
 }

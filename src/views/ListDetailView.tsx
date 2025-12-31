@@ -136,7 +136,7 @@ export default function ListDetailView<T extends ListItem>({
   );
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, height: 'calc(100vh - 144px)', py: 3, justifyContent: { xs: 'flex-start', md: 'center' }, gap: { xs: 0, md: 3 } }}>
+    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, width: { xs: '100%', md: '90vw' }, mx: 'auto', height: { xs: 'calc(100vh - 72px)', md: 'calc(100vh - 64px)' }, minHeight: 0, py: 3, justifyContent: { xs: 'flex-start', md: 'center' }, gap: { xs: 0, md: 3 } }}>
       {!isMobile && (
         <Box sx={{ flex: '0 0 auto', display: 'flex', justifyContent: 'center', position: 'relative' }}>
           <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', width: { xs: '100%', md: 400 }, position: 'relative' }}>
@@ -168,12 +168,13 @@ export default function ListDetailView<T extends ListItem>({
                 renderDetail(current)
               ) : (
                 <>
-                  <Typography variant="h5" gutterBottom color="primary" sx={{ fontWeight: 700 }}>
-                    {current.title}
-                  </Typography>
-                  <Typography variant="body1" sx={{ mb: 2 }}>
-                    {current.desc}
-                  </Typography>
+                  <Box sx={{ position: 'sticky', top: 0, zIndex: (theme) => theme.zIndex.appBar - 1, backgroundColor: 'background.paper', py: 1, boxShadow: '0 1px 0 rgba(0,0,0,0.06)' }}>
+                    <Typography variant="h5" gutterBottom color="primary" sx={{ fontWeight: 700, mb: 0 }}>
+                      {current.title}
+                    </Typography>
+                    <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>{current.desc}</Typography>
+                  </Box>
+                  <Box sx={{ mt: 2 }} />
                   <Typography variant="body2" color="text.secondary">
                     This pane will show more information about the selected item (details, images, meta, etc.).
                   </Typography>
@@ -188,7 +189,7 @@ export default function ListDetailView<T extends ListItem>({
 
       {isMobile && (
         <Drawer anchor="left" open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} ModalProps={{ keepMounted: true }} PaperProps={{ sx: { width: ['95vw', 420] } }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', px: 2, py: 1 }}>
+          <Box sx={{ position: 'sticky', top: 0, zIndex: (theme) => theme.zIndex.appBar - 1, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', px: 2, py: 1, backgroundColor: 'background.paper' }}>
             <IconButton onClick={() => setMobileMenuOpen(false)} aria-label="close menu"><CloseIcon /></IconButton>
           </Box>
           <Divider />
