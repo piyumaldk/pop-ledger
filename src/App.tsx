@@ -173,7 +173,6 @@ export default function App() {
           <MobileMenuProvider>
             <AppBar position="fixed" sx={{ top: 0, zIndex: (theme) => theme.zIndex.appBar }}>
             <Toolbar>
-              {/* Mobile hamburger moved here */}
               {isMobile && (
                 <HeaderMenuToggler />
               )}
@@ -243,9 +242,6 @@ export default function App() {
           </AppBar>
 
           <Container maxWidth={false} sx={{ marginTop: { xs: 0, md: 4 }, px: 2, display: 'flex', justifyContent: 'center' }}>
-            {/* Removed desktop top buttons; navigation via SpeedDial now */}
-
-            {/* Render selected view in-page (single page app) */}
             <Box sx={{ width: { xs: '100%', md: '90vw' } }}>
               {page === 'games' && <GamesView />}
               {page === 'series' && <SeriesView />}
