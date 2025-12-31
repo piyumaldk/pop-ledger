@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { useTheme, alpha } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import Drawer from '@mui/material/Drawer';
-import Fab from '@mui/material/Fab';
+import { useMobileMenu } from '../contexts/MobileMenuContext';
 import ButtonBase from '@mui/material/ButtonBase';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -49,7 +48,7 @@ export default function ListDetailView<T extends ListItem>({
   const current = items.find((i) => i.id === selected) ?? items[0];
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { open: mobileMenuOpen, setOpen: setMobileMenuOpen } = useMobileMenu();
   const [query, setQuery] = useState('');
 
   // Keep detail mounted while loading so it can finish any restore effects.
@@ -195,12 +194,6 @@ export default function ListDetailView<T extends ListItem>({
           <Divider />
           {menuContent}
         </Drawer>
-      )}
-
-      {isMobile && !mobileMenuOpen && (
-        <Fab color="primary" onClick={() => setMobileMenuOpen(true)} aria-label={`Open ${title} list`} sx={{ position: 'fixed', left: 16, bottom: 16, zIndex: 1400 }}>
-          <MenuIcon sx={{ fontSize: 24 }} />
-        </Fab>
       )}
 
     </Box>

@@ -14,6 +14,10 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Snackbar from "@mui/material/Snackbar";
 import FullScreenLoader from './components/FullScreenLoader';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
+import { MobileMenuProvider, useMobileMenu } from './contexts/MobileMenuContext';
 import { signInWithGoogle, auth, signOutUser } from "./firebase";
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import AppsIcon from '@mui/icons-material/Apps';
@@ -43,6 +47,22 @@ function LogoSVG({ width = 48, height }: { width?: number | string; height?: num
     <Box sx={boxStyles}>
       <ReceiptLongIcon sx={{ fontSize: typeof boxStyles.width === 'number' ? Math.min(Number(boxStyles.width) * 0.75, 72) : 36 }} />
     </Box>
+  );
+}
+
+function HeaderMenuToggler() {
+  const { open, setOpen } = useMobileMenu();
+  // we show the hamburger only when menu is closed; hide while open per your spec
+  return (
+    <IconButton
+      edge="start"
+      color="inherit"
+      aria-label="open menu"
+      sx={{ mr: 1, display: { xs: 'inline-flex', md: 'none' } }}
+      onClick={() => setOpen(true)}
+    >
+      <MenuIcon />
+    </IconButton>
   );
 }
 
@@ -150,8 +170,14 @@ export default function App() {
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {user ? (
         <>
-          <AppBar position="static">
+          <MobileMenuProvider>
+            <AppBar position="static">
             <Toolbar>
+              {/* Mobile hamburger moved here */}
+              {isMobile && (
+                <HeaderMenuToggler />
+              )}
+
               <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
                 <Typography variant="h6" component="div">
                   {isMobile ? `PoPLedger: ${page === 'games' ? 'Games' : page === 'series' ? 'Series' : ''}` : 'POP LEDGER'}
@@ -246,6 +272,7 @@ export default function App() {
               onClick={() => { changePage('series'); handleFabClose(); }}
             />
           </SpeedDial>
+        </MobileMenuProvider>
         </>
       ) : (
         // Logged out view: only show centered sign-in
