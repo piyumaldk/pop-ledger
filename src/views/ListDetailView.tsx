@@ -58,6 +58,7 @@ export default function ListDetailView<T extends ListItem>({
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { open: mobileMenuOpen, setOpen: setMobileMenuOpen } = useMobileMenu();
   const [query, setQuery] = useState('');
+  const searchInputRef = React.useRef<HTMLInputElement | null>(null);
 
   // Keep detail mounted while loading so it can finish any restore effects.
   // Show a full-screen overlay loader when `detailLoading` is true.
@@ -65,7 +66,10 @@ export default function ListDetailView<T extends ListItem>({
   const handleItemClick = (id: string) => {
     setSelected(id);
     onSelect?.(id);
-    if (isMobile) setMobileMenuOpen(false);
+    if (isMobile) {
+      searchInputRef.current?.blur();
+      setMobileMenuOpen(false);
+    }
   };
 
   const menuContent = (
@@ -84,6 +88,7 @@ export default function ListDetailView<T extends ListItem>({
     }}>
       <Box sx={{ p: 1 }}>
         <TextField
+          inputRef={searchInputRef}
           size="small"
           fullWidth
           placeholder={`Search ${title}`}
@@ -202,10 +207,10 @@ export default function ListDetailView<T extends ListItem>({
       </Box>
 
       {isMobile && (
-        <Drawer anchor="left" open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} ModalProps={{ keepMounted: true }} PaperProps={{ sx: { width: { xs: 'min(95vw, 420px)' }, boxSizing: 'border-box' } }}>
+        <Drawer anchor="left" open={mobileMenuOpen} onClose={() => { searchInputRef.current?.blur(); setMobileMenuOpen(false); }} ModalProps={{ keepMounted: true }} PaperProps={{ sx: { width: { xs: 'min(95vw, 420px)' }, boxSizing: 'border-box' } }}>
           <Box sx={{ position: 'sticky', top: 0, zIndex: (theme) => theme.zIndex.appBar - 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, py: 1, backgroundColor: 'background.paper' }}>
             <Typography variant="h6" sx={{ fontWeight: 400, color: 'common.black' }}>{title}</Typography>
-            <IconButton onClick={() => setMobileMenuOpen(false)} aria-label="close menu"><CloseIcon /></IconButton>
+            <IconButton onClick={() => { searchInputRef.current?.blur(); setMobileMenuOpen(false); }} aria-label="close menu"><CloseIcon /></IconButton>
           </Box>
           <Divider />
           {menuContent}
