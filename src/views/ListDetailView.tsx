@@ -136,7 +136,7 @@ export default function ListDetailView<T extends ListItem>({
   );
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, width: { xs: '100%', md: '90vw' }, mx: 'auto', height: { xs: 'calc(var(--vh, 1vh) * 100 - 72px)', md: 'calc(var(--vh, 1vh) * 100 - 115px)' }, minHeight: 0, boxSizing: 'border-box', py: { xs: 3, md: 2 }, justifyContent: { xs: 'flex-start', md: 'center' }, gap: { xs: 0, md: 3 } }}>
+    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, width: { xs: '100%', md: '90vw' }, mx: 'auto', height: { xs: 'calc(var(--vh, 1vh) * 100 - 80px)', md: 'calc(var(--vh, 1vh) * 100 - 115px)' }, minHeight: 0, boxSizing: 'border-box', py: { xs: 3, md: 2 }, justifyContent: { xs: 'flex-start', md: 'center' }, gap: { xs: 0, md: 3 } }}>
       {!isMobile && (
         <Box sx={{ flex: '0 0 auto', display: 'flex', justifyContent: 'center', position: 'relative' }}>
           <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', width: { xs: '100%', md: 400 }, position: 'relative' }}>
