@@ -74,7 +74,10 @@ export default function ListDetailView<T extends ListItem>({
       overflowY: 'auto',
       transition: 'opacity 320ms ease',
       opacity: listAnimating ? 0.2 : 1,
-      '&::-webkit-scrollbar': { width: 10, height: 10 },
+      boxSizing: 'border-box',
+      // hide native scrollbar layout so open/close doesn't change widths
+      '&::-webkit-scrollbar': { width: 0, height: 0 },
+      scrollbarWidth: 'none',
       '&::-webkit-scrollbar-track': { background: theme.palette.background.paper },
       '&::-webkit-scrollbar-thumb': { backgroundColor: theme.palette.primary.main, borderRadius: 8 },
       p: 0,
@@ -101,11 +104,13 @@ export default function ListDetailView<T extends ListItem>({
             '& .MuiOutlinedInput-root': {
               height: 45,
               color: theme.palette.primary.main,
+              boxSizing: 'border-box',
               '& fieldset': { borderColor: theme.palette.primary.main },
               '&:hover fieldset': { borderColor: theme.palette.primary.dark },
               '&.Mui-focused fieldset': { borderColor: theme.palette.primary.main },
               '& .MuiInputBase-input': { color: theme.palette.primary.main, padding: '12px 16px' },
             },
+
             '& .MuiInputAdornment-root .MuiSvgIcon-root': { color: theme.palette.primary.main },
             '& .MuiOutlinedInput-notchedOutline': { borderColor: theme.palette.primary.main },
           }}
