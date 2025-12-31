@@ -167,7 +167,7 @@ export default function App() {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', pt: { xs: '56px', md: '64px' } }}>
+    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', pt: { xs: '72px', md: '64px' } }}>
       {user ? (
         <>
           <MobileMenuProvider>
