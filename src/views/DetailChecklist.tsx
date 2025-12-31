@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { useTheme, alpha } from '@mui/material/styles';
 import CircularProgress from '@mui/material/CircularProgress';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 import Divider from '@mui/material/Divider';
@@ -26,10 +27,38 @@ export default function DetailChecklist({ file, checked, onToggle, loading }: Pr
   for (const k of Object.keys(checked)) if (checked[k]) checkedCount++;
   const percent = total === 0 ? 0 : Math.round((checkedCount / total) * 100);
 
+  const theme = useTheme();
+  const [scrolled, setScrolled] = useState(false);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const onScroll = () => setScrolled(el.scrollTop > 0);
+    el.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => el.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const headerSx = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: { xs: '72px', md: '64px' },
+    display: 'flex',
+    alignItems: 'center',
+    gap: 2,
+    zIndex: (theme: any) => theme.zIndex.appBar - 1,
+    backgroundColor: 'background.paper',
+    px: 2,
+    boxShadow: scrolled ? `0 6px 14px ${alpha(theme.palette.primary.main, 0.12)}` : '0 1px 0 rgba(0,0,0,0.06)',
+  } as const;
+
   return (
     <Box sx={{ position: 'relative', height: '100%' }}>
       {/* Fixed header: use a fixed height so scroll area below can be calculated */}
-      <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, height: { xs: '72px', md: '64px' }, display: 'flex', alignItems: 'center', gap: 2, zIndex: (theme) => theme.zIndex.appBar - 1, backgroundColor: 'background.paper', px: 2, boxShadow: '0 1px 0 rgba(0,0,0,0.06)' }}>
+      <Box sx={headerSx}>
         <Box sx={{ flex: 1 }}>
           <Typography variant="h5" color="primary" sx={{ fontWeight: 700, mb: 0 }}>{file.title}</Typography>
         </Box>
@@ -53,7 +82,7 @@ export default function DetailChecklist({ file, checked, onToggle, loading }: Pr
       </Box>
 
       {/* Scrollable list area implemented as absolute box below the fixed header */}
-      <Box sx={{ position: 'absolute', top: { xs: '72px', md: '64px' }, left: 0, right: 0, bottom: 0, overflowY: 'auto', px: 2, pt: 2, backgroundColor: (theme) => (theme.palette.mode === 'light' ? 'transparent' : 'transparent') }}>
+      <Box ref={scrollRef} sx={{ position: 'absolute', top: { xs: '72px', md: '64px' }, left: 0, right: 0, bottom: 0, overflowY: 'auto', px: 2, pt: 2, backgroundColor: (theme) => (theme.palette.mode === 'light' ? 'transparent' : 'transparent'), '&::-webkit-scrollbar': { width: 10 }, '&::-webkit-scrollbar-thumb': { backgroundColor: theme.palette.primary.main, borderRadius: 8 }, scrollbarColor: `${theme.palette.primary.main} transparent`, scrollbarWidth: 'thin' }}>
         {file.sections.map((section, si) => (
           <Box key={si} sx={{ mb: 2 }}>
             {section.header && (
