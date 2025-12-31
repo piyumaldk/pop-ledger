@@ -26,9 +26,15 @@ import MovieIcon from '@mui/icons-material/Movie';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import SummarizeIcon from '@mui/icons-material/Summarize';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import TextField from '@mui/material/TextField';
 import { GamesView, SeriesView } from './views/SharedViews';
 import SummaryDialog from './views/SummaryDialog';
 import AboutDialog from './views/AboutDialog';
+import firestoreApi from './services/firestoreService';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { onAuthStateChanged, User } from "firebase/auth";
 
@@ -136,6 +142,9 @@ export default function App() {
 
   const [summaryOpen, setSummaryOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [confirmEmail, setConfirmEmail] = useState('');
   const [navigateSelection, setNavigateSelection] = useState<{ page: 'games' | 'series'; id?: string } | null>(null);
   const handleFabOpen = () => setFabOpen(true);
 
@@ -275,7 +284,7 @@ export default function App() {
                 )}
                 <MenuItem sx={{ color: 'secondary.main' }} onClick={() => { setAboutOpen(true); handleMenuClose(); }}>About Us</MenuItem>
                 <MenuItem sx={{ color: 'secondary.main' }} onClick={() => { window.open('https://github.com/piyumaldk/pop-ledger', '_blank', 'noopener,noreferrer'); handleMenuClose(); }}>Source Code</MenuItem>
-                <MenuItem sx={{ color: 'secondary.main' }} disabled>Delete my data</MenuItem>
+                <MenuItem sx={{ color: 'secondary.main' }} onClick={() => { setDeleteOpen(true); handleMenuClose(); }}>Delete my data</MenuItem>
                 <MenuItem sx={{ color: 'secondary.main' }} onClick={handleSignOut}>Log out</MenuItem>
               </Menu>
             </Toolbar>
@@ -345,6 +354,63 @@ export default function App() {
             }}
             onOpenSummary={() => { if (aboutOpen) closeAbout(); openSummary(); }}
           />
+
+          {/* Delete my data confirmation dialog */}
+          <Dialog open={deleteOpen} onClose={() => setDeleteOpen(false)} fullWidth maxWidth="xs">
+            <DialogTitle>Delete my data</DialogTitle>
+            <DialogContent>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                This will permanently remove all your data (games, series and the user account) and cannot be recovered. To confirm, type your email address below.
+              </Typography>
+              <TextField
+                label="Type your email to confirm"
+                value={confirmEmail}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmEmail(e.target.value)}
+                fullWidth
+                size="small"
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => { setDeleteOpen(false); setConfirmEmail(''); }} disabled={deleteLoading}>Cancel</Button>
+              <Button
+                variant="contained"
+                color="error"
+                disabled={deleteLoading || confirmEmail.trim() !== (user?.email ?? '')}
+                onClick={async () => {
+                  if (!user) return;
+                  setDeleteLoading(true);
+                  try {
+                    await firestoreApi.deleteAllUserData(user.uid);
+                    try {
+                      if (auth?.currentUser) {
+                        // best-effort: attempt to delete the auth account (may fail if re-auth required)
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
+                        await auth.currentUser.delete();
+                      }
+                    } catch (err) {
+                      // ignore — we still sign out the user below
+                      console.error('Failed to delete auth account', err);
+                    }
+
+                    await signOutUser();
+                    setErrorMessage('All your data has been deleted. You have been signed out.');
+                    setErrorOpen(true);
+                  } catch (err) {
+                    console.error('Failed to delete user data', err);
+                    setErrorMessage('Failed to delete data. Please try again.');
+                    setErrorOpen(true);
+                  } finally {
+                    setDeleteLoading(false);
+                    setDeleteOpen(false);
+                    setConfirmEmail('');
+                  }
+                }}
+              >
+                Go ahead
+              </Button>
+            </DialogActions>
+          </Dialog>
 
         </MobileMenuProvider>
         </>
