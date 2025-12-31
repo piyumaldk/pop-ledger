@@ -1,5 +1,7 @@
 # PoPLedger
 
+![PoPLedger Logo](public/resources/images/logo.png)
+
 ## Overview
 PoPLedger: https://pop-ledger.web.app
 
