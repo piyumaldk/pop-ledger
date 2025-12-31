@@ -104,7 +104,7 @@ export default function ListDetailView<T extends ListItem>({
               '& fieldset': { borderColor: theme.palette.primary.main },
               '&:hover fieldset': { borderColor: theme.palette.primary.dark },
               '&.Mui-focused fieldset': { borderColor: theme.palette.primary.main },
-              '& .MuiInputBase-input': { color: theme.palette.primary.main, padding: '12px 14px' },
+              '& .MuiInputBase-input': { color: theme.palette.primary.main, padding: '12px 16px' },
             },
             '& .MuiInputAdornment-root .MuiSvgIcon-root': { color: theme.palette.primary.main },
             '& .MuiOutlinedInput-notchedOutline': { borderColor: theme.palette.primary.main },
