@@ -422,7 +422,7 @@ export default function App() {
             <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: { xs: 0.5, md: 4 }, alignItems: 'center', justifyContent: 'center', py: { xs: 2, md: 0 }, minHeight: { xs: 'auto', md: 'calc(var(--vh, 1vh) * 100 - 64px)' } }}>
 
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: '0 0 auto', mb: { xs: 0.5, md: 0 } }}>
-                <Box sx={{ width: { xs: 200, md: 340 }, height: { xs: 'auto', md: 220 }, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Box sx={{ width: { xs: 320, md: 340 }, height: { xs: 'auto', md: 220 }, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 
                   {/* shimmer placeholder while logo loads */}
                   {!logoLoaded && (
@@ -457,6 +457,7 @@ export default function App() {
                     variant="outlined"
                     onClick={handleSignIn}
                     sx={{
+                      mt:5,
                       width: { xs: 240, md: 360 },
                       maxWidth: '90vw',
                       py: 1.5,
