@@ -70,6 +70,7 @@ export default function ListDetailView<T extends ListItem>({
 
   const menuContent = (
     <Box sx={{
+      width: '100%',
       overflowY: 'auto',
       transition: 'opacity 320ms ease',
       opacity: listAnimating ? 0.2 : 1,
@@ -196,7 +197,7 @@ export default function ListDetailView<T extends ListItem>({
       </Box>
 
       {isMobile && (
-        <Drawer anchor="left" open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} ModalProps={{ keepMounted: true }} PaperProps={{ sx: { width: ['95vw', 420] } }}>
+        <Drawer anchor="left" open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} ModalProps={{ keepMounted: true }} PaperProps={{ sx: { width: { xs: 'min(95vw, 420px)' }, boxSizing: 'border-box' } }}>
           <Box sx={{ position: 'sticky', top: 0, zIndex: (theme) => theme.zIndex.appBar - 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, py: 1, backgroundColor: 'background.paper' }}>
             <Typography variant="h6" sx={{ fontWeight: 400, color: 'common.black' }}>{title}</Typography>
             <IconButton onClick={() => setMobileMenuOpen(false)} aria-label="close menu"><CloseIcon /></IconButton>
