@@ -269,7 +269,7 @@ function SeriesDetailView({ file, uid, seriesId, onLoadingChange, parentLoading 
   return <DetailChecklist file={file} checked={checked} onToggle={toggle} loading={loading || !!parentLoading} />;
 }
 
-export function GamesView() {
+export function GamesView({ initialSelectedIdOverride, clearInitialSelection }: { initialSelectedIdOverride?: string; clearInitialSelection?: () => void }) {
   const [files, setFiles] = useState<ParsedFile[]>([]);
   const [currentGameId, setCurrentGameId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -321,6 +321,13 @@ export function GamesView() {
     }
   };
 
+  // If a navigation requested a specific game to be selected, apply it once the files/current are loaded
+  React.useEffect(() => {
+    if (initialSelectedIdOverride && initialSelectedIdOverride !== currentGameId && files.length) {
+      handleSelect(initialSelectedIdOverride).then(() => clearInitialSelection?.());
+    }
+  }, [initialSelectedIdOverride, files, currentGameId]);
+
   // don't unmount detail while loading; parent will show a card-level loader
 
   return (
@@ -340,7 +347,7 @@ export function GamesView() {
   );
 }
 
-export function SeriesView() {
+export function SeriesView({ initialSelectedIdOverride, clearInitialSelection }: { initialSelectedIdOverride?: string; clearInitialSelection?: () => void }) {
   const [files, setFiles] = useState<ParsedFile[]>([]);
   const [currentSeriesId, setCurrentSeriesId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -389,6 +396,12 @@ export function SeriesView() {
       setListAnimating(false);
     }
   };
+
+  React.useEffect(() => {
+    if (initialSelectedIdOverride && initialSelectedIdOverride !== currentSeriesId && files.length) {
+      handleSelect(initialSelectedIdOverride).then(() => clearInitialSelection?.());
+    }
+  }, [initialSelectedIdOverride, files, currentSeriesId]);
 
   // don't unmount detail while loading; parent will show a card-level loader
 

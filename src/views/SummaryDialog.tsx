@@ -18,7 +18,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 type Item = { id: string; title: string; percent?: number };
 
-export default function SummaryDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
+export default function SummaryDialog({ open, onClose, onNavigate }: { open: boolean; onClose: () => void; onNavigate: (page: 'games' | 'series', id?: string) => void }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   const [loading, setLoading] = useState(false);
@@ -108,14 +108,22 @@ export default function SummaryDialog({ open, onClose }: { open: boolean; onClos
             <Typography sx={{ mt: 1, color: 'text.secondary' }} variant="body2">This may take a few moments depending on your library size.</Typography>
           </Box>
         ) : (
-          <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 3 }}>
-            <Box sx={{ flex: 1 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            <Box>
               <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>On Going Series</Typography>
               <Divider sx={{ mb: 1 }} />
               {ongoingSeries.length ? (
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   {ongoingSeries.map((it) => (
-                    <Chip key={it.id} label={`${it.title} | ${it.percent}%`} color="primary" variant="outlined" sx={{ borderColor: 'primary.main' }} />
+                    <Chip
+                      key={it.id}
+                      label={`${it.title} | ${it.percent}%`}
+                      color="primary"
+                      clickable
+                      variant="outlined"
+                      sx={{ borderColor: 'primary.main' }}
+                      onClick={() => { onClose(); onNavigate('series', it.id); }}
+                    />
                   ))}
                 </Box>
               ) : (
@@ -128,7 +136,16 @@ export default function SummaryDialog({ open, onClose }: { open: boolean; onClos
                 {completedSeries.length ? (
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                     {completedSeries.map((it) => (
-                      <Chip key={it.id} label={it.title} icon={<CheckIcon sx={{ color: 'primary.main' }} />} variant="outlined" sx={{ borderColor: 'primary.main', '& .MuiChip-label': { color: 'primary.main' } }} />
+                      <Chip
+                        key={it.id}
+                        label={it.title}
+                        clickable
+                        color="primary"
+                        icon={<CheckIcon color="primary" />}
+                        variant="outlined"
+                        sx={{ borderColor: 'primary.main', '& .MuiChip-label': { color: 'primary.main' } }}
+                        onClick={() => { onClose(); onNavigate('series', it.id); }}
+                      />
                     ))}
                   </Box>
                 ) : (
@@ -137,13 +154,21 @@ export default function SummaryDialog({ open, onClose }: { open: boolean; onClos
               </Box>
             </Box>
 
-            <Box sx={{ flex: 1 }}>
+            <Box>
               <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>On Going Games</Typography>
               <Divider sx={{ mb: 1 }} />
               {ongoingGames.length ? (
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   {ongoingGames.map((it) => (
-                    <Chip key={it.id} label={`${it.title} | ${it.percent}%`} color="primary" variant="outlined" sx={{ borderColor: 'primary.main' }} />
+                    <Chip
+                      key={it.id}
+                      label={`${it.title} | ${it.percent}%`}
+                      clickable
+                      color="primary"
+                      variant="outlined"
+                      sx={{ borderColor: 'primary.main' }}
+                      onClick={() => { onClose(); onNavigate('games', it.id); }}
+                    />
                   ))}
                 </Box>
               ) : (
@@ -156,7 +181,16 @@ export default function SummaryDialog({ open, onClose }: { open: boolean; onClos
                 {completedGames.length ? (
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                     {completedGames.map((it) => (
-                      <Chip key={it.id} label={it.title} icon={<CheckIcon sx={{ color: 'primary.main' }} />} variant="outlined" sx={{ borderColor: 'primary.main', '& .MuiChip-label': { color: 'primary.main' } }} />
+                      <Chip
+                        key={it.id}
+                        label={it.title}
+                        clickable
+                        color="primary"
+                        icon={<CheckIcon color="primary" />}
+                        variant="outlined"
+                        sx={{ borderColor: 'primary.main', '& .MuiChip-label': { color: 'primary.main' } }}
+                        onClick={() => { onClose(); onNavigate('games', it.id); }}
+                      />
                     ))}
                   </Box>
                 ) : (

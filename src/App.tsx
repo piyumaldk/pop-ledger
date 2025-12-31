@@ -134,6 +134,7 @@ export default function App() {
   };
 
   const [summaryOpen, setSummaryOpen] = useState(false);
+  const [navigateSelection, setNavigateSelection] = useState<{ page: 'games' | 'series'; id?: string } | null>(null);
   const handleFabOpen = () => setFabOpen(true);
 
   const handleFabClose = () => setFabOpen(false);
@@ -276,8 +277,18 @@ export default function App() {
 
           <Container maxWidth={false} sx={{ marginTop: { xs: 0, md: 4 }, px: 2, display: 'flex', justifyContent: 'center' }}>
             <Box sx={{ width: { xs: '100%', md: '90vw' } }}>
-              {page === 'games' && <GamesView />}
-              {page === 'series' && <SeriesView />}
+              {page === 'games' && (
+                <GamesView
+                  initialSelectedIdOverride={navigateSelection?.page === 'games' ? navigateSelection.id : undefined}
+                  clearInitialSelection={() => setNavigateSelection(null)}
+                />
+              )}
+              {page === 'series' && (
+                <SeriesView
+                  initialSelectedIdOverride={navigateSelection?.page === 'series' ? navigateSelection.id : undefined}
+                  clearInitialSelection={() => setNavigateSelection(null)}
+                />
+              )}
             </Box>
           </Container>
           {/* Mobile-only SpeedDial to switch between Games/Series */}
@@ -309,7 +320,16 @@ export default function App() {
               onClick={() => { if (!summaryOpen) openSummary(); else closeSummary(); handleFabClose(); }}
             />
           </SpeedDial>
-          <SummaryDialog open={summaryOpen} onClose={closeSummary} />
+          <SummaryDialog
+            open={summaryOpen}
+            onClose={closeSummary}
+            onNavigate={(p, id) => {
+              if (summaryOpen) closeSummary();
+              changePage(p);
+              if (id) setNavigateSelection({ page: p, id });
+            }}
+          />
+
         </MobileMenuProvider>
         </>
       ) : (

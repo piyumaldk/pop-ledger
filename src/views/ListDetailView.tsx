@@ -45,6 +45,14 @@ export default function ListDetailView<T extends ListItem>({
   menuLoading,
 }: Props<T>) {
   const [selected, setSelected] = useState<string>(initialSelectedId ?? (items[0]?.id ?? ''));
+  // If `initialSelectedId` changes (navigation or external request), update selection.
+  React.useEffect(() => {
+    if (initialSelectedId && initialSelectedId !== selected) {
+      setSelected(initialSelectedId);
+      onSelect?.(initialSelectedId);
+    }
+  }, [initialSelectedId]);
+
   const current = items.find((i) => i.id === selected) ?? items[0];
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
