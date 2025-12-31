@@ -28,6 +28,7 @@ import SpeedDialAction from '@mui/material/SpeedDialAction';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import { GamesView, SeriesView } from './views/SharedViews';
 import SummaryDialog from './views/SummaryDialog';
+import AboutDialog from './views/AboutDialog';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { onAuthStateChanged, User } from "firebase/auth";
 
@@ -134,12 +135,15 @@ export default function App() {
   };
 
   const [summaryOpen, setSummaryOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
   const [navigateSelection, setNavigateSelection] = useState<{ page: 'games' | 'series'; id?: string } | null>(null);
   const handleFabOpen = () => setFabOpen(true);
 
   const handleFabClose = () => setFabOpen(false);
   const openSummary = () => setSummaryOpen(true);
   const closeSummary = () => setSummaryOpen(false);
+  const openAbout = () => setAboutOpen(true);
+  const closeAbout = () => setAboutOpen(false);
 
   const handleMenuClose = () => setAnchorEl(null);
 
@@ -269,6 +273,8 @@ export default function App() {
                     <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>{user.displayName ?? user.email}</Typography>
                   </MenuItem>
                 )}
+                <MenuItem onClick={() => { setAboutOpen(true); handleMenuClose(); }}>About Us</MenuItem>
+                <MenuItem onClick={() => { window.open('https://github.com/piyumaldk/pop-ledger', '_blank', 'noopener,noreferrer'); handleMenuClose(); }}>Source Code</MenuItem>
                 <MenuItem disabled>Delete my data</MenuItem>
                 <MenuItem onClick={handleSignOut}>Log out</MenuItem>
               </Menu>
@@ -294,7 +300,7 @@ export default function App() {
           {/* Mobile-only SpeedDial to switch between Games/Series */}
           <SpeedDial
             ariaLabel="Switch view"
-            sx={{ position: 'fixed', right: 16, bottom: 16, zIndex: theme.zIndex.modal + 10 }}
+            sx={{ position: 'fixed', right: 16, bottom: 16, zIndex: theme.zIndex.modal + 50 }}
             icon={<AppsIcon />}
             onOpen={handleFabOpen}
             onClose={handleFabClose}
@@ -305,19 +311,19 @@ export default function App() {
               key="games"
               icon={<SportsEsportsIcon />}
               tooltipTitle="Games"
-              onClick={() => { if (summaryOpen) closeSummary(); changePage('games'); handleFabClose(); }}
+              onClick={() => { if (summaryOpen) closeSummary(); if (aboutOpen) closeAbout(); changePage('games'); handleFabClose(); }}
             />
             <SpeedDialAction
               key="series"
               icon={<MovieIcon />}
               tooltipTitle="Series"
-              onClick={() => { if (summaryOpen) closeSummary(); changePage('series'); handleFabClose(); }}
+              onClick={() => { if (summaryOpen) closeSummary(); if (aboutOpen) closeAbout(); changePage('series'); handleFabClose(); }}
             />
             <SpeedDialAction
               key="summary"
               icon={<SummarizeIcon />}
               tooltipTitle="Summary"
-              onClick={() => { if (!summaryOpen) openSummary(); else closeSummary(); handleFabClose(); }}
+              onClick={() => { if (aboutOpen) closeAbout(); if (!summaryOpen) openSummary(); else closeSummary(); handleFabClose(); }}
             />
           </SpeedDial>
           <SummaryDialog
@@ -328,6 +334,16 @@ export default function App() {
               changePage(p);
               if (id) setNavigateSelection({ page: p, id });
             }}
+          />
+
+          <AboutDialog
+            open={aboutOpen}
+            onClose={closeAbout}
+            onNavigate={(p) => {
+              if (aboutOpen) closeAbout();
+              changePage(p);
+            }}
+            onOpenSummary={() => { if (aboutOpen) closeAbout(); openSummary(); }}
           />
 
         </MobileMenuProvider>
