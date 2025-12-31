@@ -74,7 +74,7 @@ export default function DetailChecklist({ file, checked, onToggle, loading }: Pr
     zIndex: (theme: any) => theme.zIndex.appBar - 1,
     backgroundColor: 'background.paper',
     px: 2,
-    boxShadow: scrolled ? `0 6px 14px ${alpha(theme.palette.primary.main, 0.12)}` : '0 1px 0 rgba(0,0,0,0.06)',
+    boxShadow: scrolled ? `0 6px 14px ${alpha(theme.palette.primary.main, 0.12)}` : 'none',
   } as const;
 
   return (
