@@ -216,7 +216,7 @@ export default function App() {
   }
 
   return (
-    <Box sx={{ height: 'calc(var(--vh, 1vh) * 100)', display: 'flex', flexDirection: 'column', pt: { xs: '72px', md: '64px' }, overflow: 'hidden' }}>
+    <Box sx={{ height: 'calc(var(--vh, 1vh) * 100)', display: 'flex', flexDirection: 'column', pt: { xs: user ? '72px' : '24px', md: user ? '64px' : '24px' }, overflow: 'hidden' }}>
       {user ? (
         <>
           <MobileMenuProvider>
@@ -419,10 +419,10 @@ export default function App() {
       ) : (
         <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', px: 2 }}>
           <Box sx={{ width: '100%', maxWidth: 920 }}>
-            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: { xs: 0.5, md: 4 }, alignItems: 'center', justifyContent: 'center', minHeight: { xs: 'calc(var(--vh, 1vh) * 100 - 100px)', md: 'calc(var(--vh, 1vh) * 100 - 64px)' } }}>
+            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: { xs: 0.5, md: 4 }, alignItems: 'center', justifyContent: 'center', py: { xs: 2, md: 0 }, minHeight: { xs: 'auto', md: 'calc(var(--vh, 1vh) * 100 - 64px)' } }}>
 
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: '0 0 auto', mb: { xs: 0.5, md: 0 } }}>
-                <Box sx={{ width: { xs: 140, md: 340 }, height: { xs: 88, md: 220 }, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Box sx={{ width: { xs: 200, md: 340 }, height: { xs: 'auto', md: 220 }, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 
                   {/* shimmer placeholder while logo loads */}
                   {!logoLoaded && (
