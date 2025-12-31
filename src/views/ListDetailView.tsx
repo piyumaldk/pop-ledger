@@ -187,7 +187,7 @@ export default function ListDetailView<T extends ListItem>({
       </Box>
 
       {isMobile && (
-        <Drawer anchor="left" open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} ModalProps={{ keepMounted: true }} PaperProps={{ sx: { width: 300 } }}>
+        <Drawer anchor="left" open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} ModalProps={{ keepMounted: true }} PaperProps={{ sx: { width: ['95vw', 420] } }}>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', px: 2, py: 1 }}>
             <IconButton onClick={() => setMobileMenuOpen(false)} aria-label="close menu"><CloseIcon /></IconButton>
           </Box>

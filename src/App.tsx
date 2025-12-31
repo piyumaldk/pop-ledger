@@ -242,12 +242,14 @@ export default function App() {
             </Toolbar>
           </AppBar>
 
-          <Container maxWidth="md" sx={{ marginTop: { xs: 0, md: 4 } }}>
+          <Container maxWidth={false} sx={{ marginTop: { xs: 0, md: 4 }, px: 2, display: 'flex', justifyContent: 'center' }}>
             {/* Removed desktop top buttons; navigation via SpeedDial now */}
 
             {/* Render selected view in-page (single page app) */}
-            {page === 'games' && <GamesView />}
-            {page === 'series' && <SeriesView />}
+            <Box sx={{ width: { xs: '100%', md: '90vw' } }}>
+              {page === 'games' && <GamesView />}
+              {page === 'series' && <SeriesView />}
+            </Box>
           </Container>
           {/* Mobile-only SpeedDial to switch between Games/Series */}
           <SpeedDial
