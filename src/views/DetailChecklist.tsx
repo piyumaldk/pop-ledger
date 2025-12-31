@@ -31,6 +31,10 @@ export default function DetailChecklist({ file, checked, onToggle, loading }: Pr
   const [scrolled, setScrolled] = useState(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
+  // Track header size so the scrollable area can be positioned below it dynamically
+  const headerRef = useRef<HTMLDivElement | null>(null);
+  const [headerHeight, setHeaderHeight] = useState<number>(72);
+
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
@@ -40,12 +44,30 @@ export default function DetailChecklist({ file, checked, onToggle, loading }: Pr
     return () => el.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const measure = () => setHeaderHeight(el.offsetHeight || 72);
+    measure();
+
+    if ((window as any).ResizeObserver) {
+      const ro = new (window as any).ResizeObserver(measure);
+      ro.observe(el);
+      window.addEventListener('resize', measure);
+      return () => { ro.disconnect(); window.removeEventListener('resize', measure); };
+    }
+
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, [file.title]);
+
   const headerSx = {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
-    height: { xs: '72px', md: '64px' },
+    // Allow header to grow with content but provide a comfortable minimum height
+    minHeight: { xs: 72, md: 64 },
     display: 'flex',
     alignItems: 'center',
     gap: 2,
@@ -58,9 +80,9 @@ export default function DetailChecklist({ file, checked, onToggle, loading }: Pr
   return (
     <Box sx={{ position: 'relative', height: '100%' }}>
       {/* Fixed header: use a fixed height so scroll area below can be calculated */}
-      <Box sx={headerSx}>
+      <Box ref={headerRef} sx={headerSx}>
         <Box sx={{ flex: 1 }}>
-          <Typography variant="h5" color="primary" sx={{ fontWeight: 700, mb: 0 }}>{file.title}</Typography>
+          <Typography variant="h5" color="primary" sx={{ fontWeight: 700, mb: 0, wordBreak: 'break-word', whiteSpace: 'normal' }}>{file.title}</Typography>
         </Box>
         <Box sx={{ width: 48, height: 48, position: 'relative' }} aria-hidden>
           {loading ? (
@@ -82,7 +104,7 @@ export default function DetailChecklist({ file, checked, onToggle, loading }: Pr
       </Box>
 
       {/* Scrollable list area implemented as absolute box below the fixed header */}
-      <Box ref={scrollRef} sx={{ position: 'absolute', top: { xs: '72px', md: '64px' }, left: 0, right: 0, bottom: 0, overflowY: 'auto', px: 2, pt: 2, backgroundColor: (theme) => (theme.palette.mode === 'light' ? 'transparent' : 'transparent'), '&::-webkit-scrollbar': { width: 10 }, '&::-webkit-scrollbar-thumb': { backgroundColor: theme.palette.primary.main, borderRadius: 8 }, scrollbarColor: `${theme.palette.primary.main} transparent`, scrollbarWidth: 'thin' }}>
+      <Box ref={scrollRef} sx={{ position: 'absolute', top: headerHeight, left: 0, right: 0, bottom: 0, overflowY: 'auto', px: 2, pt: 2, backgroundColor: (theme) => (theme.palette.mode === 'light' ? 'transparent' : 'transparent'), '&::-webkit-scrollbar': { width: 10 }, '&::-webkit-scrollbar-thumb': { backgroundColor: theme.palette.primary.main, borderRadius: 8 }, scrollbarColor: `${theme.palette.primary.main} transparent`, scrollbarWidth: 'thin' }}>
         {file.sections.map((section, si) => (
           <Box key={si} sx={{ mb: 2 }}>
             {section.header && (
