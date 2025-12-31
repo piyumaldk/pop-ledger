@@ -283,7 +283,7 @@ export default function App() {
           {/* Mobile-only SpeedDial to switch between Games/Series */}
           <SpeedDial
             ariaLabel="Switch view"
-            sx={{ position: 'fixed', right: 16, bottom: 16, zIndex: 1400 }}
+            sx={{ position: 'fixed', right: 16, bottom: 16, zIndex: theme.zIndex.modal + 10 }}
             icon={<AppsIcon />}
             onOpen={handleFabOpen}
             onClose={handleFabClose}
@@ -294,19 +294,19 @@ export default function App() {
               key="games"
               icon={<SportsEsportsIcon />}
               tooltipTitle="Games"
-              onClick={() => { changePage('games'); handleFabClose(); }}
+              onClick={() => { if (summaryOpen) closeSummary(); changePage('games'); handleFabClose(); }}
             />
             <SpeedDialAction
               key="series"
               icon={<MovieIcon />}
               tooltipTitle="Series"
-              onClick={() => { changePage('series'); handleFabClose(); }}
+              onClick={() => { if (summaryOpen) closeSummary(); changePage('series'); handleFabClose(); }}
             />
             <SpeedDialAction
               key="summary"
               icon={<SummarizeIcon />}
               tooltipTitle="Summary"
-              onClick={() => { openSummary(); handleFabClose(); }}
+              onClick={() => { if (!summaryOpen) openSummary(); else closeSummary(); handleFabClose(); }}
             />
           </SpeedDial>
           <SummaryDialog open={summaryOpen} onClose={closeSummary} />
