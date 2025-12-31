@@ -189,7 +189,8 @@ export default function ListDetailView<T extends ListItem>({
 
       {isMobile && (
         <Drawer anchor="left" open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} ModalProps={{ keepMounted: true }} PaperProps={{ sx: { width: ['95vw', 420] } }}>
-          <Box sx={{ position: 'sticky', top: 0, zIndex: (theme) => theme.zIndex.appBar - 1, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', px: 2, py: 1, backgroundColor: 'background.paper' }}>
+          <Box sx={{ position: 'sticky', top: 0, zIndex: (theme) => theme.zIndex.appBar - 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, py: 1, backgroundColor: 'background.paper' }}>
+            <Typography variant="h6" color="primary" sx={{ fontWeight: 700 }}>{title}</Typography>
             <IconButton onClick={() => setMobileMenuOpen(false)} aria-label="close menu"><CloseIcon /></IconButton>
           </Box>
           <Divider />
