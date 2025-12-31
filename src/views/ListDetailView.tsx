@@ -138,22 +138,24 @@ export default function ListDetailView<T extends ListItem>({
 
   return (
     <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, height: 'calc(100vh - 144px)', py: 3, justifyContent: { xs: 'flex-start', md: 'center' }, gap: { xs: 0, md: 3 } }}>
-      <Box sx={{ flex: '0 0 auto', display: 'flex', justifyContent: 'center', position: 'relative' }}>
-        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', width: { xs: '100%', md: 400 }, position: 'relative' }}>
-          <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2 }}>
-            <Typography variant="h6">{title}</Typography>
-          </CardContent>
-          <Divider />
-          {!isMobile && menuContent}
-          {menuLoading && !isMobile ? (
-            <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
-              <Typography variant="subtitle1" color="text.secondary">{`Loading ${title}...`}</Typography>
-            </Box>
-          ) : null}
-        </Card>
-      </Box>
+      {!isMobile && (
+        <Box sx={{ flex: '0 0 auto', display: 'flex', justifyContent: 'center', position: 'relative' }}>
+          <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', width: { xs: '100%', md: 400 }, position: 'relative' }}>
+            <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2 }}>
+              {!isMobile && <Typography variant="h6">{title}</Typography>}
+            </CardContent>
+            <Divider />
+            {!isMobile && menuContent}
+            {menuLoading && !isMobile ? (
+              <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
+                <Typography variant="subtitle1" color="text.secondary">{`Loading ${title}...`}</Typography>
+              </Box>
+            ) : null}
+          </Card>
+        </Box>
+      )}
 
-      <Box sx={{ flex: '0 0 auto', minWidth: 0, width: { xs: '100%', md: 'min(900px, calc(100vw - 400px - 24px))' } }}>
+      <Box sx={{ flex: '1 1 auto', minWidth: 0, width: { xs: '100%', md: 'min(900px, calc(100vw - 400px - 24px))' } }}>
           <Card sx={{ height: '100%', position: 'relative', display: 'flex', flexDirection: 'column' }}>
           <CardContent sx={{
             flex: 1,
@@ -187,8 +189,7 @@ export default function ListDetailView<T extends ListItem>({
 
       {isMobile && (
         <Drawer anchor="left" open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} ModalProps={{ keepMounted: true }} PaperProps={{ sx: { width: 300 } }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, py: 1 }}>
-            <Typography variant="h6">{title}</Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', px: 2, py: 1 }}>
             <IconButton onClick={() => setMobileMenuOpen(false)} aria-label="close menu"><CloseIcon /></IconButton>
           </Box>
           <Divider />
@@ -197,8 +198,8 @@ export default function ListDetailView<T extends ListItem>({
       )}
 
       {isMobile && !mobileMenuOpen && (
-        <Fab color="primary" size="small" onClick={() => setMobileMenuOpen(true)} aria-label={`Open ${title} list`} sx={{ position: 'fixed', left: 16, bottom: 16, zIndex: 1400 }}>
-          <MenuIcon />
+        <Fab color="primary" onClick={() => setMobileMenuOpen(true)} aria-label={`Open ${title} list`} sx={{ position: 'fixed', left: 16, bottom: 16, zIndex: 1400 }}>
+          <MenuIcon sx={{ fontSize: 24 }} />
         </Fab>
       )}
 

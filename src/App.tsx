@@ -154,7 +154,7 @@ export default function App() {
             <Toolbar>
               <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
                 <Typography variant="h6" component="div">
-                  POP LEDGER
+                  {isMobile ? `PoPLedger: ${page === 'games' ? 'Games' : page === 'series' ? 'Series' : ''}` : 'POP LEDGER'}
                 </Typography>
               </Box>
 
