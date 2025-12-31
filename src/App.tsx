@@ -167,11 +167,11 @@ export default function App() {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', pt: { xs: '56px', md: '64px' } }}>
       {user ? (
         <>
           <MobileMenuProvider>
-            <AppBar position="static">
+            <AppBar position="fixed" sx={{ top: 0, zIndex: (theme) => theme.zIndex.appBar }}>
             <Toolbar>
               {/* Mobile hamburger moved here */}
               {isMobile && (
