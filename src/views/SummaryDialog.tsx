@@ -2,14 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
+import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -117,30 +113,26 @@ export default function SummaryDialog({ open, onClose }: { open: boolean; onClos
               <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>On Going Series</Typography>
               <Divider sx={{ mb: 1 }} />
               {ongoingSeries.length ? (
-                <List>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   {ongoingSeries.map((it) => (
-                    <ListItem key={it.id} secondaryAction={<Typography variant="body2" sx={{ fontWeight: 700 }}>{it.percent}%</Typography>}>
-                      <ListItemText primary={it.title} />
-                    </ListItem>
+                    <Chip key={it.id} label={`${it.title} | ${it.percent}%`} color="primary" variant="outlined" sx={{ borderColor: 'primary.main' }} />
                   ))}
-                </List>
+                </Box>
               ) : (
-                <Typography color="text.secondary">No ongoing series found.</Typography>
+                <Typography color="primary">No ongoing series found.</Typography>
               )}
 
               <Box sx={{ mt: 3 }}>
                 <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>Completed Series</Typography>
                 <Divider sx={{ mb: 1 }} />
                 {completedSeries.length ? (
-                  <List>
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                     {completedSeries.map((it) => (
-                      <ListItem key={it.id} secondaryAction={<CheckIcon color="primary" />}>
-                        <ListItemText primary={it.title} />
-                      </ListItem>
+                      <Chip key={it.id} label={it.title} icon={<CheckIcon sx={{ color: 'primary.main' }} />} variant="outlined" sx={{ borderColor: 'primary.main', '& .MuiChip-label': { color: 'primary.main' } }} />
                     ))}
-                  </List>
+                  </Box>
                 ) : (
-                  <Typography color="text.secondary">No completed series found.</Typography>
+                  <Typography color="primary">No completed series found.</Typography>
                 )}
               </Box>
             </Box>
@@ -149,39 +141,32 @@ export default function SummaryDialog({ open, onClose }: { open: boolean; onClos
               <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>On Going Games</Typography>
               <Divider sx={{ mb: 1 }} />
               {ongoingGames.length ? (
-                <List>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   {ongoingGames.map((it) => (
-                    <ListItem key={it.id} secondaryAction={<Typography variant="body2" sx={{ fontWeight: 700 }}>{it.percent}%</Typography>}>
-                      <ListItemText primary={it.title} />
-                    </ListItem>
+                    <Chip key={it.id} label={`${it.title} | ${it.percent}%`} color="primary" variant="outlined" sx={{ borderColor: 'primary.main' }} />
                   ))}
-                </List>
+                </Box>
               ) : (
-                <Typography color="text.secondary">No ongoing games found.</Typography>
+                <Typography color="primary">No ongoing games found.</Typography>
               )}
 
               <Box sx={{ mt: 3 }}>
                 <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>Completed Games</Typography>
                 <Divider sx={{ mb: 1 }} />
                 {completedGames.length ? (
-                  <List>
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                     {completedGames.map((it) => (
-                      <ListItem key={it.id} secondaryAction={<CheckIcon color="primary" />}>
-                        <ListItemText primary={it.title} />
-                      </ListItem>
+                      <Chip key={it.id} label={it.title} icon={<CheckIcon sx={{ color: 'primary.main' }} />} variant="outlined" sx={{ borderColor: 'primary.main', '& .MuiChip-label': { color: 'primary.main' } }} />
                     ))}
-                  </List>
+                  </Box>
                 ) : (
-                  <Typography color="text.secondary">No completed games found.</Typography>
+                  <Typography color="primary">No completed games found.</Typography>
                 )}
               </Box>
             </Box>
           </Box>
         )}
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Close</Button>
-      </DialogActions>
     </Dialog>
   );
 }
