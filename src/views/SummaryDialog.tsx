@@ -27,6 +27,8 @@ export default function SummaryDialog({ open, onClose, onNavigate }: { open: boo
   const [completedSeries, setCompletedSeries] = useState<Item[]>([]);
   const [completedGames, setCompletedGames] = useState<Item[]>([]);
 
+  // No determinate progress UI; fetching is parallelized for speed
+
   useEffect(() => {
     let mounted = true;
     if (!open) return;
@@ -48,16 +50,19 @@ export default function SummaryDialog({ open, onClose, onNavigate }: { open: boo
 
         const [gamesFiles, seriesFiles] = await Promise.all([loadResources('games'), loadResources('series')]);
 
+
         const processFiles = async (files: ParsedFile[], kind: 'games' | 'series') => {
           const ongoing: Item[] = [];
           const completed: Item[] = [];
 
-          for (const f of files) {
-            // calculate total items
-            let total = 0;
-            for (const s of f.sections) total += s.items.length;
-            if (total === 0) continue;
+          const filesToProcess = files.filter((f) => {
+            const total = f.sections.reduce((sacc, s) => sacc + s.items.length, 0);
+            return total > 0;
+          });
 
+          // Run all file progress fetches in parallel and update progress as each finishes
+          const promises = filesToProcess.map((f) => (async () => {
+            const total = f.sections.reduce((sacc, s) => sacc + s.items.length, 0);
             let data: any = null;
             try {
               data = kind === 'games' ? await firestoreApi.getGame(uid, f.id) : await firestoreApi.getSeries(uid, f.id);
@@ -72,7 +77,10 @@ export default function SummaryDialog({ open, onClose, onNavigate }: { open: boo
             } else if (percent > 0) {
               ongoing.push({ id: f.id, title: f.title, percent });
             }
-          }
+
+          })());
+
+          await Promise.all(promises);
 
           return { ongoing, completed };
         };
@@ -102,7 +110,7 @@ export default function SummaryDialog({ open, onClose, onNavigate }: { open: boo
       </DialogTitle>
       <DialogContent dividers>
         {loading ? (
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', py: 6 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', py: 6, width: '100%', textAlign: 'center' }}>
             <CircularProgress size={56} color="primary" />
             <Typography sx={{ mt: 2 }} variant="subtitle1">Personalizing the summary just for you</Typography>
             <Typography sx={{ mt: 1, color: 'text.secondary' }} variant="body2">This may take a few moments depending on your library size.</Typography>
