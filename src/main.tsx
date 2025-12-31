@@ -9,6 +9,10 @@ const theme = createTheme({
     primary: {
       main: '#0f766e',
     },
+    // Secondary brand color (soft grey) used for secondary text in About dialog
+    secondary: {
+      main: '#6b7280',
+    },
   },
   typography: {
     // Default body font — keep the app readable
