@@ -65,7 +65,7 @@ Season 3
 - 58. Attack Titan
 - 59. The Other Side of the Wall
 
-Season 4
+Final Season
 - 60. The Other Side of the Sea
 - 61. Midnight Train
 - 62. The Door of Hope
@@ -73,15 +73,17 @@ Season 4
 - 64. Declaration of War
 - 65. The War Hammer Titan
 - 66. Assault
-- 67. Brave Volunteers
-- 68. A Sound Argument
-- 69. Deceiver
+- 67. Assassin's Bullet
+- 68. Brave Volunteers
+- 69. A Sound Argument
 - 70. Counterfeit
 - 71. Guides
 - 72. Children of the Forest
 - 73. Savagery
 - 74. Sole Salvation
 - 75. Above and Below
+
+Final Season Part 2
 - 76. Judgment
 - 77. Sneak Attack
 - 78. Two Brothers
@@ -91,8 +93,10 @@ Season 4
 - 82. Sunset
 - 83. Pride
 - 84. Night of the End
-- 85. The Dawn of Humanity
-- 86. The Rumbling
-- 87. Sinners
-- 88. Final Chapters Part 1
-- 89. Final Chapters Part 2
+- 85. Traitor
+- 86. Retrospective
+- 87. The Dawn of Humanity
+
+The Final Chapters
+- Attack on Titan: The Final Chapters Special 1
+- Attack on Titan: The Final Chapters Special 2
