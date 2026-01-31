@@ -17,10 +17,10 @@ const theme = createTheme({
   typography: {
     // Default body font — keep the app readable
     fontFamily: "Roboto, Helvetica, Arial, sans-serif",
-    // Use the Pacifico script for the header and buttons only
     h6: {
       fontFamily: "'Pacifico', 'Brush Script MT', cursive",
     },
+    body1: { fontSize: '9pt' },
     button: {
       fontFamily: "'Pacifico', 'Brush Script MT', cursive",
       textTransform: 'none',
