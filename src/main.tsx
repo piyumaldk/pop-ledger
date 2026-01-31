@@ -12,7 +12,8 @@ function Root() {
     palette: {
       mode,
       primary: {
-        main: '#0f766e',
+        // use a slightly lighter teal in dark mode for better contrast
+        main: mode === 'dark' ? '#14b8a6' : '#0f766e',
       },
       // Secondary brand color (soft grey) used for secondary text in About dialog
       secondary: {
