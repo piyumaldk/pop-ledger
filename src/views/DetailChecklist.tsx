@@ -111,13 +111,13 @@ export default function DetailChecklist({ file, checked, onToggle, loading }: Pr
               <Typography variant="subtitle1" sx={{ fontWeight: 700, color: 'primary.main', mb: 1 }}>{section.header}</Typography>
             )}
             <Divider />
-            <List>
+            <List dense>
               {section.items.map((it, ii) => {
                 const key = `${si}-${ii}`;
                 return (
-                  <ListItem key={key} disablePadding>
+                  <ListItem key={key} disablePadding sx={{ py: 0 }}>
                     <ListItemIcon>
-                      <Checkbox edge="start" checked={!!checked[key]} onChange={() => onToggle(key)} />
+                      <Checkbox size="small" edge="start" checked={!!checked[key]} onChange={() => onToggle(key)} />
                     </ListItemIcon>
                     <ListItemText primary={it} primaryTypographyProps={{ sx: { color: 'primary.main' } }} />
                   </ListItem>

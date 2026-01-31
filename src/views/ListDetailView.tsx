@@ -122,7 +122,7 @@ export default function ListDetailView<T extends ListItem>({
         />
       </Box>
       <Divider />
-      <List sx={{ display: 'flex', flexDirection: 'column', gap: 0.7, px: 1 }}>
+      <List sx={{ display: 'flex', flexDirection: 'column', gap: 1.25, px: 1 }}>
         {items.filter((it) => it.title.toLowerCase().includes(query.trim().toLowerCase())).map((it) => (
           <ListItem key={it.id} disablePadding>
             <Button
@@ -135,7 +135,7 @@ export default function ListDetailView<T extends ListItem>({
                 textTransform: 'none',
                 borderRadius: 2,
                 px: 2,
-                py: 0.1,
+                py: 0.5,
                 display: 'flex',
                 alignItems: 'center',
                 gap: 2,
