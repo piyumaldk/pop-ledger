@@ -28,6 +28,10 @@ import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import Dialog from '@mui/material/Dialog';
+import Tooltip from '@mui/material/Tooltip';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { useThemeMode } from './contexts/ThemeModeContext';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
@@ -96,6 +100,7 @@ export default function App() {
   const [fabOpen, setFabOpen] = useState(false);
   const [resourceCounts, setResourceCounts] = useState<{games?: number | string, series?: number | string}>({});
   const [logoLoaded, setLogoLoaded] = useState(false);
+  const { mode, toggle } = useThemeMode();
 
   useEffect(() => {
     // If Firebase isn't initialized, onAuthStateChanged may be undefined. Guard against that.
@@ -231,6 +236,13 @@ export default function App() {
                   {isMobile ? `PoPLedger: ${page === 'games' ? 'Games' : page === 'series' ? 'Series' : ''}` : 'POP LEDGER'}
                 </Typography>
               </Box>
+
+              {/* Theme switcher */}
+              <Tooltip title={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}>
+                <IconButton color="inherit" onClick={() => toggle()} sx={{ mr: 1 }} aria-label="Toggle light/dark theme">
+                  {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                </IconButton>
+              </Tooltip>
 
               <ButtonBase
                 onClick={handleMenuOpen}
