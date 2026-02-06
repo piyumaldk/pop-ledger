@@ -1,6 +1,6 @@
 # Reacher
 
-Seasons 1
+Season 1
 - Welcome to Margrave
 - First Dance
 - Spoonful
@@ -10,7 +10,7 @@ Seasons 1
 - Reacher Said Nothing
 - Pie
 
-Seasons 2
+Season 2
 - ATM
 - What Happens in Atlantic City
 - Picture Says a Thousand Words
@@ -20,7 +20,7 @@ Seasons 2
 - The Man Goes Through
 - Fly Boy
 
-Seasons 3
+Season 3
 - Persuader
 - Truckin'
 - Number 2 with a Bullet

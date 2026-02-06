@@ -1,6 +1,6 @@
 # Tom Clancy's Jack Ryan
 
-Seasons 1
+Season 1
 - Pilot
 - French Connection
 - Black 22
@@ -10,7 +10,7 @@ Seasons 1
 - The Boy
 - Inshallah
 
-Seasons 2
+Season 2
 - Cargo
 - Tertia Optio
 - Orinoco
@@ -20,7 +20,7 @@ Seasons 2
 - Dios y Federación
 - Strongman
 
-Seasons 3
+Season 3
 - Falcon
 - Old Haunts
 - Running with Wolves
@@ -30,7 +30,7 @@ Seasons 3
 - Moscow Rules
 - Star on the Wall
 
-Seasons 4
+Season 4
 - Triage
 - Convergence
 - Sacrifices

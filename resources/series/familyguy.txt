@@ -1,6 +1,6 @@
 # Family Guy
 
-Seasons 1
+Season 1
 - Death Has a Shadow
 - I Never Met the Dead Man
 - Chitty Chitty Death Bang
@@ -9,7 +9,7 @@ Seasons 1
 - The Son Also Draws
 - Brian: Portrait of a Dog
 
-Seasons 2
+Season 2
 - Peter, Peter, Caviar Eater
 - Holy Crap
 - Da Boom
@@ -32,7 +32,7 @@ Seasons 2
 - Wasted Talent
 - Fore, Father
 
-Seasons 3
+Season 3
 - The Thin White Line
 - Brian Does Hollywood
 - Mr. Griffin Goes to Washington
@@ -56,7 +56,7 @@ Seasons 3
 - Family Guy Viewer Mail #1
 - When You Wish Upon a Weinstein
 
-Seasons 4
+Season 4
 - North by North Quahog
 - Fast Times at Buddy Cianci Jr. High
 - Blind Ambition
@@ -88,7 +88,7 @@ Seasons 4
 - Bango Was His Name Oh!
 - Stu & Stewie's Excellent Adventure
 
-Seasons 5
+Season 5
 - Stewie Loves Lois
 - Mother Tucker
 - Hell Comes to Quahog
@@ -108,7 +108,7 @@ Seasons 5
 - It Takes a Village Idiot, and I Married One
 - Meet the Quagmires
 
-Seasons 6
+Season 6
 - Blue Harvest
 - Movin' Out (Brian's Song)
 - Believe It or Not, Joe's Walking on Air
@@ -122,7 +122,7 @@ Seasons 6
 - The Former Life of Brian
 - Long John Peter
 
-Seasons 7
+Season 7
 - Love Blactually
 - I Dream of Jesus
 - Road to Germany
@@ -140,7 +140,7 @@ Seasons 7
 - Three Kings
 - Peter's Progress
 
-Seasons 8
+Season 8
 - Road to the Multiverse
 - Family Goy
 - Spies Reminiscent of Us
@@ -163,7 +163,7 @@ Seasons 8
 - Something, Something, Something, Dark Side
 - Partial Terms of Endearment
 
-Seasons 9
+Season 9
 - And Then There Were Fewer
 - Excellence in Broadcasting
 - Welcome Back Carter
@@ -183,7 +183,7 @@ Seasons 9
 - Foreign Affairs
 - It's a Trap!
 
-Seasons 10
+Season 10
 - Lottery Fever
 - Seahorse Seashell Party
 - Screams of Silence: The Story of Brenda Q
@@ -208,7 +208,7 @@ Seasons 10
 - Family Guy Viewer Mail #2
 - Internal Affairs
 
-Seasons 11
+Season 11
 - Into Fat Air
 - Ratings Guy
 - The Old Man and the Big 'C'
@@ -232,7 +232,7 @@ Seasons 11
 - Roads to Vegas
 - No Country Club for Old Men
 
-Seasons 12
+Season 12
 - Finders Keepers
 - Vestigial Peter
 - Quagmire's Quagmire
@@ -255,7 +255,7 @@ Seasons 12
 - He's Bla-ack!
 - Chap Stewie
 
-Seasons 13
+Season 13
 - The Simpsons Guy
 - The Book of Joe
 - Baking Bad
@@ -275,7 +275,7 @@ Seasons 13
 - Fighting Irish
 - Take My Wife
 
-Seasons 14
+Season 14
 - Pilling Them Softly
 - Papa Has a Rollin' Son
 - Guy, Robot
@@ -297,7 +297,7 @@ Seasons 14
 - Run, Chris, Run
 - Road to India
 
-Seasons 15
+Season 15
 - The Boys in the Band
 - Bookie of the Year
 - American Gigg-olo
@@ -319,7 +319,7 @@ Seasons 15
 - Dearly Deported
 - A House Full of Peters
 
-Seasons 16
+Season 16
 - Emmy-Winning Episode
 - Foxx in the Men House
 - Nanny Goats
@@ -341,7 +341,7 @@ Seasons 16
 - The Unkindest Cut
 - Are You There God? It's Me, Peter
 
-Seasons 17
+Season 17
 - Married with Cancer
 - Dead Dog Walking
 - Pal Stewie
@@ -363,7 +363,7 @@ Seasons 17
 - Girl, Internetted
 - Adam West High
 
-Seasons 18
+Season 18
 - Yacht Rocky
 - Bri-Da
 - Absolutely Babulous
@@ -385,7 +385,7 @@ Seasons 18
 - Holly Bibble
 - Movin' In (Principal Shepherd's Song)
 
-Seasons 19
+Season 19
 - Stewie's First Word
 - The Talented Mr. Stewie
 - Boys & Squirrels
@@ -407,7 +407,7 @@ Seasons 19
 - Family Cat
 - Tales of Former Sports Glory
 
-Seasons 20
+Season 20
 - LASIK Instinct
 - Rock Hard
 - Must Love Dogs
@@ -429,7 +429,7 @@ Seasons 20
 - First Blood
 - Jersey Bore
 
-Seasons 21
+Season 21
 - Oscars Guy
 - Bend or Blockbuster
 - A Wife-Changing Experience
@@ -451,7 +451,7 @@ Seasons 21
 - From Russia with Love
 - Adult Education
 
-Seasons 22
+Season 22
 - Fertilized Megg
 - Supermarket Pete
 - A Stache from the Past
@@ -470,7 +470,7 @@ Seasons 22
 - Peter, Peter, Pumpkin Cheater
 - Gift of the White Guy
 
-Seasons 23
+Season 23
 - Fat Gun
 - Live, Laugh, Love
 - Drunk with Power

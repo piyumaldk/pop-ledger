@@ -1,6 +1,6 @@
 # House of the Dragon
 
-Seasons 1
+Season 1
 - The Heirs of the Dragon
 - The Rogue Prince
 - Second of His Name
@@ -12,7 +12,7 @@ Seasons 1
 - The Green Council
 - The Black Queen
 
-Seasons 2
+Season 2
 - A Son for a Son
 - Rhaenyra the Cruel
 - The Burning Mill

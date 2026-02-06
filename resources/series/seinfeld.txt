@@ -1,13 +1,13 @@
 # Seinfeld
 
-Seasons 1
+Season 1
 - Good News, Bad News
 - The Stakeout
 - The Robbery
 - Male Unbonding
 - The Stock Tip
 
-Seasons 2
+Season 2
 - The Ex-Girlfriend
 - The Pony Remark
 - The Jacket
@@ -21,7 +21,7 @@ Seasons 2
 - The Chinese Restaurant
 - The Busboy
 
-Seasons 3
+Season 3
 - The Note
 - The Truth
 - The Pen
@@ -45,7 +45,7 @@ Seasons 3
 - The Parking Space
 - The Keys
 
-Seasons 4
+Season 4
 - The Trip: Part 1
 - The Trip: Part 2
 - The Pitch
@@ -70,7 +70,7 @@ Seasons 4
 - The Handicap Spot
 - The Pilot
 
-Seasons 5
+Season 5
 - The Mango
 - The Puffy Shirt
 - The Glasses
@@ -93,7 +93,7 @@ Seasons 5
 - The Hamptons
 - The Opposite
 
-Seasons 6
+Season 6
 - The Chaperone
 - The Big Salad
 - The Pledge Drive
@@ -118,7 +118,7 @@ Seasons 6
 - The Face Painter
 - The Understudy
 
-Seasons 7
+Season 7
 - The Engagement
 - The Postponement
 - The Maestro
@@ -142,7 +142,7 @@ Seasons 7
 - The Wait Out
 - The Invitations
 
-Seasons 8
+Season 8
 - The Foundation
 - The Soul Mate
 - The Bizarro Jerry
@@ -166,7 +166,7 @@ Seasons 8
 - The Muffin Tops
 - The Summer of George
 
-Seasons 9
+Season 9
 - The Butter Shave
 - The Voice
 - The Serenity Now

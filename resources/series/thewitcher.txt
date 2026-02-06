@@ -1,6 +1,6 @@
 # The Witcher
 
-Seasons 1
+Season 1
 - The End's Beginning
 - Four Marks
 - Betrayer Moon
@@ -10,7 +10,7 @@ Seasons 1
 - Before a Fall
 - Much More
 
-Seasons 2
+Season 2
 - A Grain of Truth
 - Kaer Morhen
 - What Is Lost
@@ -20,7 +20,7 @@ Seasons 2
 - Voleth Meir
 - Family
 
-Seasons 3
+Season 3
 - Shaerrawedd
 - Unbound
 - Reunion
@@ -30,7 +30,7 @@ Seasons 3
 - Out of the Fire, Into the Frying Pan
 - The Cost of Chaos
 
-Seasons 4
+Season 4
 - What Doesn't Kill You Makes You Stronger
 - Dream of a Wish Fulfilled
 - Trial by Ordeal
