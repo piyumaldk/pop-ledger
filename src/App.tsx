@@ -29,9 +29,6 @@ import SpeedDialAction from '@mui/material/SpeedDialAction';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import Dialog from '@mui/material/Dialog';
 import Tooltip from '@mui/material/Tooltip';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
-import { useThemeMode } from './contexts/ThemeModeContext';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
@@ -42,27 +39,7 @@ import AboutDialog from './views/AboutDialog';
 import firestoreApi from './services/firestoreService';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { onAuthStateChanged, User } from "firebase/auth";
-
-function LogoSVG({ width = 48, height }: { width?: number | string; height?: number | string }) {
-  const boxStyles: any = {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'primary.main',
-  };
-
-  if (typeof width === 'number') boxStyles.width = width;
-  else boxStyles.width = width;
-
-  if (height === undefined) boxStyles.height = boxStyles.width;
-  else boxStyles.height = height;
-
-  return (
-    <Box sx={boxStyles}>
-      <ReceiptLongIcon sx={{ fontSize: typeof boxStyles.width === 'number' ? Math.min(Number(boxStyles.width) * 0.75, 72) : 36 }} />
-    </Box>
-  );
-}
+import LogoSVG from './assets/LogoSVG';
 
 function HeaderMenuToggler() {
   const { open, setOpen } = useMobileMenu();
@@ -99,8 +76,6 @@ export default function App() {
   const [firebaseOk, setFirebaseOk] = useState(true);
   const [fabOpen, setFabOpen] = useState(false);
   const [resourceCounts, setResourceCounts] = useState<{games?: number | string, series?: number | string}>({});
-  const [logoLoaded, setLogoLoaded] = useState(false);
-  const { mode, toggle } = useThemeMode();
 
   useEffect(() => {
     // If Firebase isn't initialized, onAuthStateChanged may be undefined. Guard against that.
@@ -221,62 +196,123 @@ export default function App() {
   }
 
   return (
-    <Box sx={{ height: 'calc(var(--vh, 1vh) * 100)', display: 'flex', flexDirection: 'column', pt: { xs: user ? '72px' : '24px', md: user ? '64px' : '24px' }, overflow: 'hidden' }}>
+    <Box sx={{
+      height: 'calc(var(--vh, 1vh) * 100)',
+      display: 'flex',
+      flexDirection: 'column',
+      pt: { xs: user ? '64px' : '0px', md: user ? '64px' : '0px' },
+      overflow: 'hidden',
+      position: 'relative',
+      bgcolor: 'background.default',
+      backgroundImage: user
+        ? 'radial-gradient(circle, rgba(34,211,238,0.07) 1px, transparent 1px)'
+        : 'none',
+      backgroundSize: '28px 28px',
+    }}>
       {user ? (
         <>
           <MobileMenuProvider>
             <AppBar position="fixed" sx={{ top: 0, zIndex: (theme) => theme.zIndex.appBar }}>
-            <Toolbar>
+            <Toolbar sx={{ minHeight: 64, px: { xs: 1.5, md: 3 }, gap: 1 }}>
               {isMobile && (
                 <HeaderMenuToggler />
               )}
 
-              <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
-                <Typography variant="h6" component="div">
-                  {isMobile ? `PoPLedger: ${page === 'games' ? 'Games' : page === 'series' ? 'Series' : ''}` : 'POP LEDGER'}
+              {/* Brand */}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mr: { xs: 'auto', md: 2 } }}>
+                <ReceiptLongIcon sx={{ color: 'primary.main', fontSize: 22 }} />
+                <Typography sx={{
+                  fontFamily: "'Pacifico', 'Brush Script MT', cursive",
+                  fontSize: { xs: 17, md: 20 },
+                  fontWeight: 400,
+                  color: 'text.primary',
+                  lineHeight: 1,
+                  letterSpacing: '0.01em',
+                }}>
+                  PoPLedger
                 </Typography>
               </Box>
 
-              {/* Theme switcher */}
-              <Tooltip title={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}>
-                <IconButton color="inherit" onClick={() => toggle()} sx={{ mr: 1 }} aria-label="Toggle light/dark theme">
-                  {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-                </IconButton>
-              </Tooltip>
+              {/* Desktop nav tabs */}
+              {!isMobile && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mr: 'auto' }}>
+                  <Button
+                    onClick={() => { if (summaryOpen) closeSummary(); if (aboutOpen) closeAbout(); changePage('games'); }}
+                    startIcon={<SportsEsportsIcon sx={{ fontSize: 17 }} />}
+                    sx={{
+                      px: 2, py: 0.75, borderRadius: 3, fontSize: 14,
+                      color: page === 'games' ? 'primary.main' : 'text.secondary',
+                      bgcolor: page === 'games' ? 'rgba(34,211,238,0.12)' : 'transparent',
+                      border: '1px solid',
+                      borderColor: page === 'games' ? 'primary.main' : 'transparent',
+                      fontWeight: page === 'games' ? 600 : 500,
+                      '&:hover': {
+                        bgcolor: 'rgba(34,211,238,0.1)',
+                        borderColor: 'primary.main',
+                        color: 'primary.main',
+                      },
+                    }}
+                  >
+                    Games
+                  </Button>
+                  <Button
+                    onClick={() => { if (summaryOpen) closeSummary(); if (aboutOpen) closeAbout(); changePage('series'); }}
+                    startIcon={<MovieIcon sx={{ fontSize: 17 }} />}
+                    sx={{
+                      px: 2, py: 0.75, borderRadius: 3, fontSize: 14,
+                      color: page === 'series' ? 'primary.main' : 'text.secondary',
+                      bgcolor: page === 'series' ? 'rgba(34,211,238,0.12)' : 'transparent',
+                      border: '1px solid',
+                      borderColor: page === 'series' ? 'primary.main' : 'transparent',
+                      fontWeight: page === 'series' ? 600 : 500,
+                      '&:hover': {
+                        bgcolor: 'rgba(34,211,238,0.1)',
+                        borderColor: 'primary.main',
+                        color: 'primary.main',
+                      },
+                    }}
+                  >
+                    Series
+                  </Button>
+                </Box>
+              )}
 
-              <ButtonBase
-                onClick={handleMenuOpen}
-                sx={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 1,
-                  px: 1,
-                  py: 0.5,
-                  borderRadius: 2,
-                  color: 'common.white',
-                  textTransform: 'none',
-                }}
-                aria-label="Open account menu"
-              >
-                <Avatar
-                  src={user.photoURL ?? undefined}
-                  alt={user.displayName ?? "User"}
-                  sx={{ width: 36, height: 36, bgcolor: user.photoURL ? undefined : 'grey.700', border: '2px solid', borderColor: 'common.white' }}
-                  imgProps={{ crossOrigin: 'anonymous', referrerPolicy: 'no-referrer' }}
+              {/* Theme toggle + user */}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+
+                <ButtonBase
+                  onClick={handleMenuOpen}
+                  sx={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 1,
+                    px: 1.25,
+                    py: 0.75,
+                    borderRadius: 2.5,
+                    transition: 'background 0.2s ease',
+                    '&:hover': { bgcolor: 'rgba(34,211,238,0.1)' },
+                  }}
+                  aria-label="Open account menu"
                 >
-                  {!user.photoURL && <AccountCircleIcon sx={{ color: 'common.white', fontSize: 28 }} />}
-                </Avatar>
-                <Typography sx={{
-                  color: 'common.white',
-                  fontFamily: "'Pacifico', 'Brush Script MT', cursive",
-                  fontSize: 16,
-                  lineHeight: '20px',
-                  whiteSpace: 'nowrap',
-                  display: { xs: 'none', md: 'inline-flex' }
-                }}>
-                  {user.displayName ?? user.email}
-                </Typography>
-              </ButtonBase>
+                  <Avatar
+                    src={user.photoURL ?? undefined}
+                    alt={user.displayName ?? "User"}
+                    sx={{ width: 32, height: 32, bgcolor: 'primary.main', border: '2px solid', borderColor: 'primary.main' }}
+                    imgProps={{ crossOrigin: 'anonymous', referrerPolicy: 'no-referrer' }}
+                  >
+                    {!user.photoURL && <AccountCircleIcon sx={{ color: 'common.white', fontSize: 20 }} />}
+                  </Avatar>
+                  <Typography sx={{
+                    fontWeight: 600,
+                    fontSize: 13,
+                    color: 'text.primary',
+                    whiteSpace: 'nowrap',
+                    display: { xs: 'none', md: 'inline-flex' },
+                  }}>
+                    {user.displayName ?? user.email}
+                  </Typography>
+                </ButtonBase>
+              </Box>
 
               <Menu
                 anchorEl={anchorEl}
@@ -304,7 +340,7 @@ export default function App() {
             </Toolbar>
           </AppBar>
 
-          <Container maxWidth={false} sx={{ marginTop: { xs: 0, md: 4 }, px: 2, display: 'flex', justifyContent: 'center' }}>
+          <Container maxWidth={false} sx={{ marginTop: 0, px: 2, display: 'flex', justifyContent: 'center', flex: 1, minHeight: 0 }}>
             <Box sx={{ width: { xs: '100%', md: '90vw' } }}>
               {page === 'games' && (
                 <GamesView
@@ -323,7 +359,17 @@ export default function App() {
           {/* Mobile-only SpeedDial to switch between Games/Series */}
           <SpeedDial
             ariaLabel="Switch view"
-            sx={{ position: 'fixed', right: 16, bottom: 16, zIndex: theme.zIndex.modal + 50 }}
+            sx={{
+              position: 'fixed', right: 20, bottom: 20,
+              zIndex: theme.zIndex.modal + 50,
+              '& .MuiFab-primary': {
+                background: 'linear-gradient(135deg, #0891b2 0%, #06b6d4 100%)',
+                boxShadow: '0 4px 20px rgba(34,211,238,0.4)',
+                '&:hover': {
+                  boxShadow: '0 4px 28px rgba(34,211,238,0.6)',
+                },
+              },
+            }}
             icon={<AppsIcon />}
             onOpen={handleFabOpen}
             onClose={handleFabClose}
@@ -371,9 +417,11 @@ export default function App() {
 
           {/* Delete my data confirmation dialog */}
           <Dialog open={deleteOpen} onClose={() => setDeleteOpen(false)} fullWidth maxWidth="xs">
-            <DialogTitle>Delete my data</DialogTitle>
-            <DialogContent>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2, textAlign: 'center' }}>
+            <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid', borderColor: 'divider', pb: 2 }}>
+              <Typography sx={{ fontWeight: 700, fontSize: '1rem', color: 'error.main' }}>Delete my data</Typography>
+            </DialogTitle>
+            <DialogContent sx={{ pt: 2.5 }}>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 2.5, lineHeight: 1.7 }}>
                 This will permanently remove all your data (games, series and the user account) and cannot be recovered. To confirm, type your email address below.
               </Typography>
               <TextField
@@ -429,81 +477,158 @@ export default function App() {
         </MobileMenuProvider>
         </>
       ) : (
-        <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', px: 2 }}>
-          <Box sx={{ width: '100%', maxWidth: 920 }}>
-            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: { xs: 0.5, md: 4 }, alignItems: 'center', justifyContent: 'center', py: { xs: 2, md: 0 }, minHeight: { xs: 'auto', md: 'calc(var(--vh, 1vh) * 100 - 64px)' } }}>
+        <Box sx={{
+          flex: 1,
+          minHeight: 'calc(var(--vh, 1vh) * 100)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative',
+          overflow: 'hidden',
+          bgcolor: 'background.default',
+        }}>
+          {/* Animated gradient orbs */}
+          <Box sx={{
+            position: 'absolute',
+            width: { xs: 400, md: 720 },
+            height: { xs: 400, md: 720 },
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(34,211,238,0.18) 0%, rgba(8,145,178,0.07) 40%, transparent 70%)',
+            top: '-18%', right: '-12%',
+            animation: 'floatOrb1 12s ease-in-out infinite',
+            pointerEvents: 'none',
+          }} />
+          <Box sx={{
+            position: 'absolute',
+            width: { xs: 300, md: 560 },
+            height: { xs: 300, md: 560 },
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(139,92,246,0.16) 0%, rgba(109,40,217,0.05) 40%, transparent 70%)',
+            bottom: '-5%', left: '-12%',
+            animation: 'floatOrb2 9s ease-in-out infinite',
+            pointerEvents: 'none',
+          }} />
+          <Box sx={{
+            position: 'absolute',
+            width: { xs: 200, md: 380 },
+            height: { xs: 200, md: 380 },
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(14,165,233,0.12) 0%, transparent 70%)',
+            top: '40%', left: '8%',
+            animation: 'floatOrb3 7s ease-in-out infinite',
+            pointerEvents: 'none',
+          }} />
 
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: '0 0 auto', mb: { xs: 0.5, md: 0 } }}>
-                <Box sx={{ width: { xs: 320, md: 340 }, height: { xs: 'auto', md: 220 }, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {/* Dot grid pattern */}
+          <Box sx={{
+            position: 'absolute', inset: 0,
+            backgroundImage: 'radial-gradient(circle, rgba(34,211,238,0.2) 1px, transparent 1px)',
+            backgroundSize: '28px 28px',
+            pointerEvents: 'none', opacity: 0.8,
+          }} />
 
-                  {/* shimmer placeholder while logo loads */}
-                  {!logoLoaded && (
-                    <Box sx={{
-                      position: 'absolute', inset: 0, borderRadius: 2,
-                      background: 'linear-gradient(90deg, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.06) 50%, rgba(0,0,0,0.04) 100%)',
-                      backgroundSize: '200% 100%',
-                      '@keyframes shimmer': {
-                        '0%': { backgroundPosition: '200% 0' },
-                        '100%': { backgroundPosition: '-200% 0' }
-                      },
-                      animation: 'shimmer 1.6s linear infinite'
-                    }} />
-                  )}
-
-                  <Box component="img" src="/resources/images/logo.png" alt="POP LEDGER logo" sx={{
-                    width: '100%', height: 'auto', objectFit: 'contain', opacity: logoLoaded ? 1 : 0,
-                    transition: 'opacity 600ms ease, filter 800ms ease',
-                    filter: logoLoaded ? 'grayscale(0%) saturate(100%)' : 'grayscale(100%) saturate(0%)'
-                  }} onLoad={() => setLogoLoaded(true)} />
-                </Box>
-              </Box>
-
-              <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Box sx={{ textAlign: 'center', maxWidth: 560, px: { xs: 1, md: 0 }, py: { xs: 1, md: 0 } }}>
-                  <Typography variant="h4" sx={{ fontFamily: theme.typography.button.fontFamily, fontWeight: 200, color: 'primary.main', mb: 0.5 }}>Welcome to PoPLedger</Typography>
-                  <Typography sx={{ fontFamily: theme.typography.button.fontFamily, color: 'text.secondary', mb: 2, textAlign: 'center', fontWeight: 100 }}>
-                    Track your progress across TV series and games with a simple checklist. Now supporting <strong style={{color: theme.palette.primary.main}}>{resourceCounts.games ?? '—'} games</strong> and <strong style={{color: theme.palette.primary.main}}>{resourceCounts.series ?? '—'} series</strong> — explore our curated lists.
-                  </Typography>
-
-                  <Button
-                    variant="outlined"
-                    onClick={handleSignIn}
-                    sx={{
-                      mt:5,
-                      width: { xs: 240, md: 360 },
-                      maxWidth: '90vw',
-                      py: 1.5,
-                      backgroundColor: 'white',
-                      color: 'primary.main',
-                      borderColor: 'primary.main',
-                      '&:hover': {
-                        backgroundColor: 'rgba(15,118,110,0.08)',
-                        borderColor: 'primary.dark',
-                      },
-                    }}
-                  >
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 48 48"
-                      xmlns="http://www.w3.org/2000/svg"
-                      style={{ marginRight: 8 }}
-                    >
-                      <g fill="none">
-                        <path fill="#4285F4" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.6-6 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.1 8.1 2.9l6-6C34 6 29.4 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.8z" />
-                        <path fill="#34A853" d="M6.3 14.6l6.6 4.8C14 16.1 18.6 13 24 13c3.1 0 5.9 1.1 8.1 2.9l6-6C34 6 29.4 4 24 4 16.7 4 10.2 7.8 6.3 14.6z" />
-                        <path fill="#FBBC05" d="M24 44c5.4 0 9.9-2.1 13.3-5.6l-6.3-5.2C28.9 34.6 26.6 35.5 24 35.5c-5.3 0-9.8-3.4-11.3-8h-6.6C6.1 37.1 14 44 24 44z" />
-                        <path fill="#EA4335" d="M43.6 20.5H42V20H24v8h11.3c-.9 2.6-2.6 4.8-4.7 6.4l6.3 5.2C39.9 37.9 44 30.6 44 24c0-1.3-.1-2.6-.4-3.8z" />
-                      </g>
-                    </svg>
-                    Sign in with Google
-                  </Button>
-
-                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1 }}>~ No data is stored unless you sign in & your data is private to your account ~</Typography>
-                </Box>
-              </Box>
-
+          {/* Content */}
+          <Box sx={{
+            position: 'relative', zIndex: 1,
+            display: 'flex', flexDirection: 'column', alignItems: 'center',
+            gap: { xs: 3, md: 4 },
+            px: { xs: 3, md: 4 }, py: 6,
+            maxWidth: 600, width: '100%',
+            animation: 'fadeInUp 0.8s ease both',
+          }}>
+            {/* Logo */}
+            <Box sx={{
+              width: { xs: 110, md: 150 },
+              filter: 'drop-shadow(0 0 28px rgba(34,211,238,0.45))',
+              animation: 'subtlePulse 3s ease-in-out infinite',
+            }}>
+              <LogoSVG width="100%" />
             </Box>
+
+            {/* Headline */}
+            <Box sx={{ textAlign: 'center' }}>
+              <Typography sx={{
+                fontFamily: "'Pacifico', 'Brush Script MT', cursive",
+                fontWeight: 400,
+                fontSize: { xs: '2.6rem', md: '3.8rem' },
+                background: 'linear-gradient(135deg, #67e8f9 0%, #22d3ee 30%, #0ea5e9 65%, #a78bfa 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                mb: 1.5,
+                letterSpacing: '0.01em',
+                lineHeight: 1.2,
+              }}>
+                PoPLedger
+              </Typography>
+              <Typography sx={{
+                color: 'text.secondary',
+                fontSize: { xs: '1rem', md: '1.1rem' },
+                maxWidth: 480, lineHeight: 1.7, mx: 'auto',
+              }}>
+                Track your progress across TV series and video games with a beautiful checklist. Explore{' '}
+                <Box component="span" sx={{ color: 'primary.main', fontWeight: 600 }}>{resourceCounts.games ?? '—'} games</Box>
+                {' '}and{' '}
+                <Box component="span" sx={{ color: 'primary.main', fontWeight: 600 }}>{resourceCounts.series ?? '—'} series</Box>
+                {' '}— curated just for you.
+              </Typography>
+            </Box>
+
+            {/* Stats pills */}
+            <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
+              {[
+                { icon: <SportsEsportsIcon sx={{ fontSize: 18 }} />, label: 'Games', value: resourceCounts.games ?? '—' },
+                { icon: <MovieIcon sx={{ fontSize: 18 }} />, label: 'Series', value: resourceCounts.series ?? '—' },
+              ].map((stat) => (
+                <Box key={stat.label} sx={{
+                  display: 'flex', alignItems: 'center', gap: 1.5, px: 2.5, py: 1.25, borderRadius: 3,
+                  background: 'rgba(34,211,238,0.08)',
+                  border: '1px solid rgba(34,211,238,0.2)',
+                  backdropFilter: 'blur(8px)',
+                }}>
+                  <Box sx={{ color: 'primary.main' }}>{stat.icon}</Box>
+                  <Box>
+                    <Typography sx={{ fontSize: '1.2rem', fontWeight: 700, lineHeight: 1, color: 'primary.main' }}>{stat.value}</Typography>
+                    <Typography sx={{ fontSize: '0.72rem', color: 'text.secondary', fontWeight: 500 }}>{stat.label}</Typography>
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+
+            {/* Sign in button */}
+            <Button
+              variant="contained"
+              size="large"
+              onClick={handleSignIn}
+              sx={{
+                mt: 1, px: 4, py: 1.75, borderRadius: 3, fontSize: '1rem', fontWeight: 700,
+                minWidth: 260, maxWidth: '90vw',
+                background: 'linear-gradient(135deg, #22d3ee 0%, #67e8f9 60%, #a5f3fc 100%)',
+                color: '#020617',
+                letterSpacing: '0.01em',
+                boxShadow: '0 0 0 1px rgba(34,211,238,0.4), 0 8px 40px rgba(34,211,238,0.45)',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #67e8f9 0%, #a5f3fc 60%, #cffafe 100%)',
+                  boxShadow: '0 0 0 1px rgba(34,211,238,0.6), 0 8px 56px rgba(34,211,238,0.65)',
+                  transform: 'translateY(-2px)',
+                },
+              }}
+            >
+              <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: 10, flexShrink: 0 }}>
+                <g fill="none">
+                  <path fill="#4285F4" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.6-6 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.1 8.1 2.9l6-6C34 6 29.4 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.8z" />
+                  <path fill="#34A853" d="M6.3 14.6l6.6 4.8C14 16.1 18.6 13 24 13c3.1 0 5.9 1.1 8.1 2.9l6-6C34 6 29.4 4 24 4 16.7 4 10.2 7.8 6.3 14.6z" />
+                  <path fill="#FBBC05" d="M24 44c5.4 0 9.9-2.1 13.3-5.6l-6.3-5.2C28.9 34.6 26.6 35.5 24 35.5c-5.3 0-9.8-3.4-11.3-8h-6.6C6.1 37.1 14 44 24 44z" />
+                  <path fill="#EA4335" d="M43.6 20.5H42V20H24v8h11.3c-.9 2.6-2.6 4.8-4.7 6.4l6.3 5.2C39.9 37.9 44 30.6 44 24c0-1.3-.1-2.6-.4-3.8z" />
+                </g>
+              </svg>
+              Continue with Google
+            </Button>
+
+            {/* Caption */}
+            <Typography sx={{ color: 'text.secondary', textAlign: 'center', fontSize: '0.8rem', opacity: 0.75 }}>
+              Your data is private to your account — nothing stored without signing in
+            </Typography>
           </Box>
         </Box>
       )}

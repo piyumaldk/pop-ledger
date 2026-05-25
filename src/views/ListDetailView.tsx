@@ -86,66 +86,79 @@ export default function ListDetailView<T extends ListItem>({
       '&::-webkit-scrollbar-thumb': { backgroundColor: theme.palette.primary.main, borderRadius: 8 },
       p: 0,
     }}>
-      <Box sx={{ p: 1 }}>
+      <Box sx={{ p: 1.5 }}>
         <TextField
           inputRef={searchInputRef}
           size="small"
           fullWidth
-          placeholder={`Search ${title}`}
+          placeholder={`Search ${title}...`}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           variant="outlined"
           InputProps={{
             startAdornment: (
               <InputAdornment position="start" sx={{ mr: 0 }}>
-                <SearchIcon sx={{ color: theme.palette.primary.main }} />
+                <SearchIcon sx={{ color: 'primary.main', fontSize: 18 }} />
               </InputAdornment>
             ),
           }}
           sx={{
-            backgroundColor: alpha(theme.palette.primary.main, 0.06),
-            borderRadius: 1,
-            // make outline and text use theme primary color and match card header height
             '& .MuiOutlinedInput-root': {
-              height: 45,
-              color: theme.palette.primary.main,
-              boxSizing: 'border-box',
-              '& fieldset': { borderColor: theme.palette.primary.main },
-              '&:hover fieldset': { borderColor: theme.palette.primary.dark },
+              height: 42,
+              background: alpha(theme.palette.primary.main, 0.05),
+              color: 'text.primary',
+              borderRadius: 2.5,
+              '& fieldset': { borderColor: alpha(theme.palette.primary.main, 0.25) },
+              '&:hover fieldset': { borderColor: theme.palette.primary.main },
               '&.Mui-focused fieldset': { borderColor: theme.palette.primary.main },
-              '& .MuiInputBase-input': { color: theme.palette.primary.main, padding: '12px 16px' },
+              '& .MuiInputBase-input': { color: 'inherit', padding: '10px 14px' },
+              '& .MuiInputBase-input::placeholder': { color: theme.palette.text.secondary, opacity: 1 },
             },
-
             '& .MuiInputAdornment-root .MuiSvgIcon-root': { color: theme.palette.primary.main },
-            '& .MuiOutlinedInput-notchedOutline': { borderColor: theme.palette.primary.main },
           }}
         />
       </Box>
-      <Divider />
-      <List sx={{ display: 'flex', flexDirection: 'column', gap: 1.25, px: 1 }}>
+      <Divider sx={{ opacity: 0.5 }} />
+      <List sx={{ display: 'flex', flexDirection: 'column', gap: 0.75, px: 1.5, py: 1 }}>
         {items.filter((it) => it.title.toLowerCase().includes(query.trim().toLowerCase())).map((it) => (
           <ListItem key={it.id} disablePadding>
             <Button
-              variant={it.id === selected ? 'contained' : 'outlined'}
-              color="primary"
               fullWidth
               onClick={() => handleItemClick(it.id)}
               sx={{
                 justifyContent: 'flex-start',
                 textTransform: 'none',
-                borderRadius: 2,
+                borderRadius: 2.5,
                 px: 2,
-                py: 0.5,
+                py: 0.875,
                 display: 'flex',
                 alignItems: 'center',
-                gap: 2,
+                gap: 1.5,
                 overflow: 'hidden',
-                whiteSpace: 'nowrap',
-                textOverflow: 'ellipsis',
+                fontWeight: it.id === selected ? 600 : 400,
+                fontSize: '0.875rem',
+                color: it.id === selected ? 'primary.main' : 'text.secondary',
+                background: it.id === selected
+                  ? (theme.palette.mode === 'dark' ? 'linear-gradient(135deg, rgba(34,211,238,0.15) 0%, rgba(8,145,178,0.08) 100%)' : 'linear-gradient(135deg, rgba(8,145,178,0.12) 0%, rgba(34,211,238,0.06) 100%)')
+                  : 'transparent',
+                border: '1px solid',
+                borderColor: it.id === selected ? alpha(theme.palette.primary.main, 0.35) : 'transparent',
+                boxShadow: it.id === selected
+                  ? (theme.palette.mode === 'dark' ? '0 2px 12px rgba(34,211,238,0.15)' : '0 2px 12px rgba(8,145,178,0.12)')
+                  : 'none',
+                transition: 'all 0.18s ease',
+                '&:hover': {
+                  color: 'primary.main',
+                  background: it.id === selected
+                    ? (theme.palette.mode === 'dark' ? 'linear-gradient(135deg, rgba(34,211,238,0.2) 0%, rgba(8,145,178,0.12) 100%)' : 'linear-gradient(135deg, rgba(8,145,178,0.16) 0%, rgba(34,211,238,0.08) 100%)')
+                    : alpha(theme.palette.primary.main, 0.06),
+                  borderColor: alpha(theme.palette.primary.main, 0.3),
+                  transform: 'translateX(2px)',
+                },
               }}
             >
               <Box sx={{ minWidth: 0, flex: 1, textAlign: 'left' }}>
-                <Typography variant="body1" noWrap sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{it.title}</Typography>
+                <Typography variant="body2" noWrap sx={{ overflow: 'hidden', textOverflow: 'ellipsis', fontWeight: 'inherit', color: 'inherit' }}>{it.title}</Typography>
               </Box>
             </Button>
           </ListItem>
@@ -155,32 +168,40 @@ export default function ListDetailView<T extends ListItem>({
   );
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, width: { xs: '100%', md: '90vw' }, mx: 'auto', height: { xs: 'calc(var(--vh, 1vh) * 100 - 80px)', md: 'calc(var(--vh, 1vh) * 100 - 115px)' }, minHeight: 0, boxSizing: 'border-box', py: { xs: 3, md: 2 }, justifyContent: { xs: 'flex-start', md: 'center' }, gap: { xs: 0, md: 3 } }}>
+    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, width: { xs: '100%', md: '90vw' }, mx: 'auto', height: { xs: 'calc(var(--vh, 1vh) * 100 - 80px)', md: 'calc(var(--vh, 1vh) * 100 - 76px)' }, minHeight: 0, boxSizing: 'border-box', pt: { xs: 1.5, md: 1.5 }, pb: { xs: 1.5, md: 1.5 }, justifyContent: { xs: 'flex-start', md: 'center' }, gap: { xs: 0, md: 2.5 } }}>
       {!isMobile && (
         <Box sx={{ flex: '0 0 auto', display: 'flex', justifyContent: 'center', position: 'relative' }}>
-          <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', width: { xs: '100%', md: 400 }, position: 'relative' }}>
-            <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2 }}>
-              {!isMobile && <Typography variant="h6">{title}</Typography>}
+          <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', width: { xs: '100%', md: 380 }, position: 'relative', borderRadius: 3 }}>
+            <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, py: 1.5 }}>
+              {!isMobile && (
+                <Typography variant="subtitle1" sx={{ fontWeight: 700, letterSpacing: '0.02em', color: 'text.primary', fontSize: '0.95rem' }}>{title}</Typography>
+              )}
             </CardContent>
-            <Divider />
+            <Divider sx={{ opacity: 0.5 }} />
             {!isMobile && menuContent}
             {menuLoading && !isMobile ? (
-              <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
-                <Typography variant="subtitle1" color="text.secondary">{`Loading ${title}...`}</Typography>
+              <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', bgcolor: 'transparent' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5 }}>
+                  <Box sx={{ position: 'relative', width: 36, height: 36 }}>
+                    <Box sx={{ width: 36, height: 36, borderRadius: '50%', border: `3px solid ${alpha(theme.palette.primary.main, 0.12)}`, borderTopColor: theme.palette.primary.main, animation: 'spinLoader 0.8s linear infinite', position: 'absolute' }} />
+                  </Box>
+                </Box>
               </Box>
             ) : null}
           </Card>
         </Box>
       )}
 
-      <Box sx={{ flex: '1 1 auto', minWidth: 0, width: { xs: '100%', md: 'min(900px, calc(100vw - 400px - 24px))' } }}>
-          <Card sx={{ height: '100%', position: 'relative', display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ flex: '1 1 auto', minWidth: 0, width: { xs: '100%', md: 'min(900px, calc(100vw - 380px - 20px))' } }}>
+        <Card sx={{ height: '100%', position: 'relative', display: 'flex', flexDirection: 'column', borderRadius: 3 }}>
           <CardContent sx={{
             flex: 1,
             overflow: 'auto',
-            '&::-webkit-scrollbar': { width: 12, height: 12 },
-            '&::-webkit-scrollbar-track': { background: theme.palette.background.paper },
-            '&::-webkit-scrollbar-thumb': { backgroundColor: theme.palette.primary.main, borderRadius: 10 },
+            p: 0,
+            '&:last-child': { pb: 0 },
+            '&::-webkit-scrollbar': { width: 6, height: 6 },
+            '&::-webkit-scrollbar-track': { background: 'transparent' },
+            '&::-webkit-scrollbar-thumb': { backgroundColor: alpha(theme.palette.primary.main, 0.4), borderRadius: 10, '&:hover': { backgroundColor: theme.palette.primary.main } },
           }}>
             {current ? (
               renderDetail ? (
@@ -200,19 +221,20 @@ export default function ListDetailView<T extends ListItem>({
                 </>
               )
             ) : (
-              <Typography color="text.secondary">Loading...</Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', minHeight: 200 }}>
+                <Box sx={{ width: 36, height: 36, borderRadius: '50%', border: `3px solid ${alpha(theme.palette.primary.main, 0.12)}`, borderTopColor: theme.palette.primary.main, animation: 'spinLoader 0.8s linear infinite' }} />
+              </Box>
             )}
           </CardContent>
         </Card>
       </Box>
 
       {isMobile && (
-        <Drawer anchor="left" open={mobileMenuOpen} onClose={() => { searchInputRef.current?.blur(); setMobileMenuOpen(false); }} ModalProps={{ keepMounted: true }} PaperProps={{ sx: { width: { xs: 'min(95vw, 420px)' }, boxSizing: 'border-box' } }}>
-          <Box sx={{ position: 'sticky', top: 0, zIndex: (theme) => theme.zIndex.appBar - 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, py: 1, backgroundColor: 'background.paper' }}>
-            <Typography variant="h6" sx={{ fontWeight: 400, color: 'common.black' }}>{title}</Typography>
-            <IconButton onClick={() => { searchInputRef.current?.blur(); setMobileMenuOpen(false); }} aria-label="close menu"><CloseIcon /></IconButton>
+        <Drawer anchor="left" open={mobileMenuOpen} onClose={() => { searchInputRef.current?.blur(); setMobileMenuOpen(false); }} ModalProps={{ keepMounted: true }} PaperProps={{ sx: { width: { xs: 'min(88vw, 380px)' }, boxSizing: 'border-box' } }}>
+          <Box sx={{ position: 'sticky', top: 0, zIndex: (theme) => theme.zIndex.appBar - 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, py: 1.25, bgcolor: 'background.paper', borderBottom: '1px solid', borderColor: 'divider' }}>
+            <Typography variant="subtitle1" sx={{ fontWeight: 700, color: 'text.primary' }}>{title}</Typography>
+            <IconButton onClick={() => { searchInputRef.current?.blur(); setMobileMenuOpen(false); }} aria-label="close menu" sx={{ color: 'text.secondary' }}><CloseIcon /></IconButton>
           </Box>
-          <Divider />
           {menuContent}
         </Drawer>
       )}

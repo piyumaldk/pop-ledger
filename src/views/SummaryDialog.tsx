@@ -104,105 +104,94 @@ export default function SummaryDialog({ open, onClose, onNavigate }: { open: boo
 
   return (
     <Dialog open={open} onClose={onClose} fullScreen={fullScreen} maxWidth="md" fullWidth>
-      <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Typography variant="h6">Your Summary</Typography>
-        <IconButton onClick={onClose} aria-label="close"><CloseIcon /></IconButton>
+      <DialogTitle sx={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        borderBottom: '1px solid', borderColor: 'divider', pb: 2,
+      }}>
+        <Typography sx={{
+          fontWeight: 700, fontSize: '1.1rem',
+          background: theme.palette.mode === 'dark'
+            ? 'linear-gradient(90deg, #22d3ee, #a78bfa)'
+            : 'linear-gradient(90deg, #0891b2, #7c3aed)',
+          WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
+        }}>Your Summary</Typography>
+        <IconButton onClick={onClose} aria-label="close" sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}><CloseIcon /></IconButton>
       </DialogTitle>
-      <DialogContent dividers>
+      <DialogContent sx={{ pt: '32px !important' }}>
         {loading ? (
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', py: 6, width: '100%', textAlign: 'center' }}>
-            <CircularProgress size={56} color="primary" />
-            <Typography sx={{ mt: 2 }} variant="subtitle1">Personalizing the summary just for you</Typography>
-            <Typography sx={{ mt: 1, color: 'text.secondary' }} variant="body2">This may take a few moments depending on your library size.</Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', py: 7, gap: 2 }}>
+            <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+              <CircularProgress size={52} thickness={3} color="primary" sx={{ filter: `drop-shadow(0 0 8px ${theme.palette.primary.main})` }} />
+              <CircularProgress variant="determinate" value={100} size={52} thickness={3} sx={{ color: 'rgba(34,211,238,0.08)', position: 'absolute', top: 0, left: 0 }} />
+            </Box>
+            <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>Personalizing the summary just for you</Typography>
+            <Typography sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>This may take a few moments depending on your library size.</Typography>
           </Box>
         ) : (
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3.5 }}>
+            {/* Series Section */}
             <Box>
-              <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>On Going Series</Typography>
-              <Divider sx={{ mb: 1 }} />
+              <SectionHeader label="On Going Series" />
               {ongoingSeries.length ? (
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   {ongoingSeries.map((it) => (
-                    <Chip
-                      key={it.id}
-                      label={`${it.title} | ${it.percent}%`}
-                      color="primary"
-                      clickable
-                      variant="outlined"
-                      sx={{ borderColor: 'primary.main' }}
+                    <Chip key={it.id} label={`${it.title}  ${it.percent}%`} color="primary" clickable variant="outlined"
+                      sx={{ borderColor: 'primary.main', fontWeight: 500, '&:hover': { bgcolor: 'rgba(34,211,238,0.08)' } }}
                       onClick={() => { onClose(); onNavigate('series', it.id); }}
                     />
                   ))}
                 </Box>
               ) : (
-                <Typography color="primary">No ongoing series found.</Typography>
+                <Typography sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>No ongoing series found.</Typography>
               )}
-
               <Box sx={{ mt: 3 }}>
-                <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>Completed Series</Typography>
-                <Divider sx={{ mb: 1 }} />
+                <SectionHeader label="Completed Series" completed />
                 {completedSeries.length ? (
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                     {completedSeries.map((it) => (
-                      <Chip
-                        key={it.id}
-                        label={it.title}
-                        clickable
-                        color="primary"
-                        icon={<CheckIcon color="primary" />}
-                        variant="outlined"
-                        sx={{ borderColor: 'primary.main', '& .MuiChip-label': { color: 'primary.main' } }}
+                      <Chip key={it.id} label={it.title} clickable color="primary" icon={<CheckIcon />} variant="outlined"
+                        sx={{ borderColor: 'primary.main', '& .MuiChip-label': { color: 'primary.main' }, fontWeight: 500, '&:hover': { bgcolor: 'rgba(34,211,238,0.08)' } }}
                         onClick={() => { onClose(); onNavigate('series', it.id); }}
                       />
                     ))}
                   </Box>
                 ) : (
-                  <Typography color="primary">No completed series found.</Typography>
+                  <Typography sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>No completed series found.</Typography>
                 )}
               </Box>
             </Box>
 
+            {/* Divider */}
+            <Divider sx={{ opacity: 0.4 }} />
+
+            {/* Games Section */}
             <Box>
-              <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>On Going Games</Typography>
-              <Divider sx={{ mb: 1 }} />
+              <SectionHeader label="On Going Games" />
               {ongoingGames.length ? (
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   {ongoingGames.map((it) => (
-                    <Chip
-                      key={it.id}
-                      label={`${it.title} | ${it.percent}%`}
-                      clickable
-                      color="primary"
-                      variant="outlined"
-                      sx={{ borderColor: 'primary.main' }}
+                    <Chip key={it.id} label={`${it.title}  ${it.percent}%`} clickable color="primary" variant="outlined"
+                      sx={{ borderColor: 'primary.main', fontWeight: 500, '&:hover': { bgcolor: 'rgba(34,211,238,0.08)' } }}
                       onClick={() => { onClose(); onNavigate('games', it.id); }}
                     />
                   ))}
                 </Box>
               ) : (
-                <Typography color="primary">No ongoing games found.</Typography>
+                <Typography sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>No ongoing games found.</Typography>
               )}
-
               <Box sx={{ mt: 3 }}>
-                <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>Completed Games</Typography>
-                <Divider sx={{ mb: 1 }} />
+                <SectionHeader label="Completed Games" completed />
                 {completedGames.length ? (
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                     {completedGames.map((it) => (
-                      <Chip
-                        key={it.id}
-                        label={it.title}
-                        clickable
-                        color="primary"
-                        icon={<CheckIcon color="primary" />}
-                        variant="outlined"
-                        sx={{ borderColor: 'primary.main', '& .MuiChip-label': { color: 'primary.main' } }}
+                      <Chip key={it.id} label={it.title} clickable color="primary" icon={<CheckIcon />} variant="outlined"
+                        sx={{ borderColor: 'primary.main', '& .MuiChip-label': { color: 'primary.main' }, fontWeight: 500, '&:hover': { bgcolor: 'rgba(34,211,238,0.08)' } }}
                         onClick={() => { onClose(); onNavigate('games', it.id); }}
                       />
                     ))}
                   </Box>
                 ) : (
-                  <Typography color="primary">No completed games found.</Typography>
+                  <Typography sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>No completed games found.</Typography>
                 )}
               </Box>
             </Box>
@@ -210,5 +199,18 @@ export default function SummaryDialog({ open, onClose, onNavigate }: { open: boo
         )}
       </DialogContent>
     </Dialog>
+  );
+}
+
+function SectionHeader({ label, completed }: { label: string; completed?: boolean }) {
+  return (
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
+      <Box sx={{
+        width: 8, height: 8, borderRadius: '50%',
+        bgcolor: completed ? '#22c55e' : 'primary.main',
+        boxShadow: completed ? '0 0 6px rgba(34,197,94,0.5)' : '0 0 6px rgba(34,211,238,0.5)',
+      }} />
+      <Typography sx={{ fontWeight: 700, fontSize: '0.875rem', letterSpacing: '0.04em', color: 'text.primary' }}>{label}</Typography>
+    </Box>
   );
 }

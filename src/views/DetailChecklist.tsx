@@ -4,7 +4,6 @@ import Typography from '@mui/material/Typography';
 import { useTheme, alpha } from '@mui/material/styles';
 import CircularProgress from '@mui/material/CircularProgress';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
-import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -66,60 +65,145 @@ export default function DetailChecklist({ file, checked, onToggle, loading }: Pr
     top: 0,
     left: 0,
     right: 0,
-    // Allow header to grow with content but provide a comfortable minimum height
-    minHeight: { xs: 72, md: 64 },
+    minHeight: { xs: 72, md: 68 },
     display: 'flex',
     alignItems: 'center',
     gap: 2,
     zIndex: (theme: any) => theme.zIndex.appBar - 1,
-    backgroundColor: 'background.paper',
-    px: 2,
-    boxShadow: scrolled ? `0 6px 14px ${alpha(theme.palette.primary.main, 0.12)}` : 'none',
+    background: scrolled
+      ? (theme.palette.mode === 'dark' ? 'rgba(15,23,42,0.96)' : 'rgba(255,255,255,0.96)')
+      : (theme.palette.mode === 'dark' ? 'rgba(15,23,42,0.7)' : 'rgba(255,255,255,0.8)'),
+    backdropFilter: scrolled ? 'blur(16px)' : 'blur(8px)',
+    WebkitBackdropFilter: scrolled ? 'blur(16px)' : 'blur(8px)',
+    px: 2.5,
+    transition: 'all 0.25s ease',
+    borderBottom: scrolled ? `1px solid ${alpha(theme.palette.primary.main, 0.15)}` : '1px solid transparent',
+    boxShadow: scrolled ? `0 4px 20px ${alpha(theme.palette.primary.main, 0.1)}` : 'none',
   } as const;
 
   return (
     <Box sx={{ position: 'relative', height: '100%' }}>
-      {/* Fixed header: use a fixed height so scroll area below can be calculated */}
+      {/* Fixed header */}
       <Box ref={headerRef} sx={headerSx}>
-        <Box sx={{ flex: 1 }}>
-          <Typography variant="h5" color="primary" sx={{ fontWeight: 700, mb: 0, wordBreak: 'break-word', whiteSpace: 'normal' }}>{file.title}</Typography>
+        <Box sx={{ flex: 1, minWidth: 0 }}>
+          <Typography variant="h5" sx={{
+            fontWeight: 700, mb: 0, wordBreak: 'break-word', whiteSpace: 'normal',
+            background: theme.palette.mode === 'dark'
+              ? 'linear-gradient(135deg, #67e8f9 0%, #22d3ee 60%, #a78bfa 100%)'
+              : 'linear-gradient(135deg, #0891b2 0%, #0284c7 60%, #7c3aed 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            fontSize: { xs: '1.15rem', md: '1.35rem' },
+          }}>{file.title}</Typography>
         </Box>
-        <Box sx={{ width: 48, height: 48, position: 'relative' }} aria-hidden>
+        <Box sx={{ position: 'relative', flexShrink: 0 }}>
           {loading ? (
-            <>
-              <CircularProgress size={48} color="primary" />
-              <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <HourglassTopIcon color="primary" sx={{ fontSize: 20 }} />
-              </Box>
-            </>
+            <Box sx={{ width: 52, height: 52, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Box sx={{
+                width: 52, height: 52, borderRadius: '50%',
+                border: `3px solid ${alpha(theme.palette.primary.main, 0.15)}`,
+                borderTopColor: theme.palette.primary.main,
+                animation: 'spinLoader 0.8s linear infinite',
+                position: 'absolute',
+              }} />
+              <HourglassTopIcon sx={{ color: 'primary.main', fontSize: 20, animation: 'subtlePulse 1.5s ease infinite' }} />
+            </Box>
           ) : (
-            <>
-              <CircularProgress variant="determinate" value={percent} size={48} color="primary" />
+            <Box sx={{ width: 52, height: 52, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <CircularProgress
+                variant="determinate"
+                value={percent}
+                size={52}
+                thickness={3.5}
+                sx={{
+                  color: percent >= 100 ? '#22c55e' : 'primary.main',
+                  filter: percent >= 100
+                    ? 'drop-shadow(0 0 6px rgba(34,197,94,0.5))'
+                    : `drop-shadow(0 0 6px ${alpha(theme.palette.primary.main, 0.5)})`,
+                }}
+              />
+              <CircularProgress
+                variant="determinate"
+                value={100}
+                size={52}
+                thickness={3.5}
+                sx={{ color: alpha(theme.palette.primary.main, 0.1), position: 'absolute', top: 0, left: 0 }}
+              />
               <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Typography variant="subtitle1" sx={{ fontWeight: 700, lineHeight: 1 }}>{percent}%</Typography>
+                <Typography sx={{ fontWeight: 700, lineHeight: 1, fontSize: '0.78rem', color: percent >= 100 ? '#22c55e' : 'primary.main' }}>{percent}%</Typography>
               </Box>
-            </>
+            </Box>
           )}
         </Box>
       </Box>
 
-      {/* Scrollable list area implemented as absolute box below the fixed header */}
-      <Box ref={scrollRef} sx={{ position: 'absolute', top: headerHeight, left: 0, right: 0, bottom: 0, overflowY: 'auto', px: 2, pt: 2, backgroundColor: (theme) => (theme.palette.mode === 'light' ? 'transparent' : 'transparent'), '&::-webkit-scrollbar': { width: 10 }, '&::-webkit-scrollbar-thumb': { backgroundColor: theme.palette.primary.main, borderRadius: 8 }, scrollbarColor: `${theme.palette.primary.main} transparent`, scrollbarWidth: 'thin' }}>
+      {/* Scrollable list area */}
+      <Box ref={scrollRef} sx={{
+        position: 'absolute', top: headerHeight, left: 0, right: 0, bottom: 0,
+        overflowY: 'auto', px: 2.5, pt: 2,
+        '&::-webkit-scrollbar': { width: 6 },
+        '&::-webkit-scrollbar-track': { background: 'transparent' },
+        '&::-webkit-scrollbar-thumb': { backgroundColor: alpha(theme.palette.primary.main, 0.35), borderRadius: 8, '&:hover': { backgroundColor: alpha(theme.palette.primary.main, 0.6) } },
+        scrollbarColor: `${alpha(theme.palette.primary.main, 0.35)} transparent`,
+        scrollbarWidth: 'thin',
+      }}>
         {file.sections.map((section, si) => (
-          <Box key={si} sx={{ mb: 2 }}>
+          <Box key={si} sx={{ mb: 3 }}>
             {section.header && (
-              <Typography variant="subtitle1" sx={{ fontWeight: 700, color: 'primary.main', mb: 1 }}>{section.header}</Typography>
+              <Box sx={{ mb: 1.5, pb: 0.75, borderBottom: `2px solid ${alpha(theme.palette.primary.main, 0.2)}`, display: 'inline-block', width: '100%' }}>
+                <Typography sx={{
+                  fontWeight: 700,
+                  fontSize: '0.85rem',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  background: theme.palette.mode === 'dark'
+                    ? 'linear-gradient(90deg, #22d3ee, #a78bfa)'
+                    : 'linear-gradient(90deg, #0891b2, #7c3aed)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}>{section.header}</Typography>
+              </Box>
             )}
-            <Divider />
-            <List dense>
+            <List dense disablePadding>
               {section.items.map((it, ii) => {
                 const key = `${si}-${ii}`;
+                const isChecked = !!checked[key];
                 return (
-                  <ListItem key={key} disablePadding sx={{ py: 0 }}>
-                    <ListItemIcon>
-                      <Checkbox size="small" edge="start" checked={!!checked[key]} onChange={() => onToggle(key)} />
+                  <ListItem key={key} disablePadding sx={{
+                    py: 0.125,
+                    borderRadius: 2,
+                    transition: 'background 0.15s ease',
+                    '&:hover': { background: alpha(theme.palette.primary.main, 0.06) },
+                  }}>
+                    <ListItemIcon sx={{ minWidth: 36 }}>
+                      <Checkbox
+                        size="small"
+                        edge="start"
+                        checked={isChecked}
+                        onChange={() => onToggle(key)}
+                        sx={{
+                          color: alpha(theme.palette.primary.main, 0.4),
+                          '&.Mui-checked': { color: 'primary.main' },
+                          padding: '4px',
+                          transition: 'transform 0.15s ease, color 0.15s ease',
+                          '&:hover': { transform: 'scale(1.15)' },
+                        }}
+                      />
                     </ListItemIcon>
-                    <ListItemText primary={it} primaryTypographyProps={{ sx: { color: 'primary.main' } }} />
+                    <ListItemText
+                      primary={it}
+                      primaryTypographyProps={{
+                        sx: {
+                          fontSize: '0.875rem',
+                          color: isChecked ? alpha(theme.palette.text.primary, 0.45) : 'text.primary',
+                          textDecoration: isChecked ? 'line-through' : 'none',
+                          transition: 'color 0.2s ease, text-decoration 0.2s ease',
+                          lineHeight: 1.5,
+                        },
+                      }}
+                    />
                   </ListItem>
                 );
               })}
