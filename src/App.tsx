@@ -232,31 +232,6 @@ export default function App() {
                 </Typography>
               </Box>
 
-              {/* Desktop nav tabs */}
-              {!isMobile && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mr: 'auto' }}>
-                  <Button
-                    onClick={() => { if (summaryOpen) closeSummary(); if (aboutOpen) closeAbout(); changePage('games'); }}
-                    startIcon={<SportsEsportsIcon sx={{ fontSize: 17 }} />}
-                    sx={{
-                      px: 2, py: 0.75, borderRadius: 3, fontSize: 14,
-                      color: page === 'games' ? 'primary.main' : 'text.secondary',
-                      bgcolor: page === 'games' ? 'rgba(34,211,238,0.12)' : 'transparent',
-                      border: '1px solid',
-                      borderColor: page === 'games' ? 'primary.main' : 'transparent',
-                      fontWeight: page === 'games' ? 600 : 500,
-                      '&:hover': {
-                        bgcolor: 'rgba(34,211,238,0.1)',
-                        borderColor: 'primary.main',
-                        color: 'primary.main',
-                      },
-                    }}
-                  >
-                    Games
-                  </Button>
-                </Box>
-              )}
-
               {/* Theme toggle + user */}
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
 
