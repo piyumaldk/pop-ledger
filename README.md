@@ -5,7 +5,7 @@
 ## Overview
 PoPLedger: https://pop-ledger.web.app
 
-PoPLedger is a TypeScript based application designed to track the progress of video games and TV series in a clean ledger style format.
+PoPLedger is a TypeScript based application designed to track the progress of video games in a clean ledger style format.
 
 ## Getting Started
 
@@ -50,7 +50,7 @@ Contributions are welcome via Pull Requests.
 You can contribute by adding a simple TXT file using the format below.
 
 ### File Rules
-- File name must be the game or series name
+- File name must be the game name
 - Use lowercase letters only
 - No spaces or symbols
 
@@ -58,14 +58,11 @@ You can contribute by adding a simple TXT file using the format below.
 - Title must start with `#` and a space followed by the name
 - Subtitles are plain text lines
 - Checklist items must start with `-` and a space
-- Location:
-   - resources/games for games
-   - resources/series for TV series
+- Location: resources/games
 
 ### Examples
 1. https://github.com/piyumaldk/pop-ledger/blob/main/resources/games/alanwake2.txt
 2. https://github.com/piyumaldk/pop-ledger/blob/main/resources/games/callofdutyblackops6.txt
-3. https://github.com/piyumaldk/pop-ledger/blob/main/resources/series/attackontitan.txt
 
 Once reviewed, the contribution will be merged and automatically deployed.
 

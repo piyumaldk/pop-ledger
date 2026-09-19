@@ -18,13 +18,11 @@ async function countFiles(dirPath) {
 async function main() {
   const root = path.resolve(process.cwd());
   const gamesDir = path.join(root, 'resources', 'games');
-  const seriesDir = path.join(root, 'resources', 'series');
   const outPath = path.join(root, 'public', 'resources-count.json');
 
   const games = await countFiles(gamesDir);
-  const series = await countFiles(seriesDir);
 
-  const payload = { games, series };
+  const payload = { games };
   await fs.mkdir(path.dirname(outPath), { recursive: true });
   await fs.writeFile(outPath, JSON.stringify(payload, null, 2) + '\n', 'utf8');
   console.log('Wrote', outPath, payload);

@@ -18,13 +18,11 @@ import CloseIcon from '@mui/icons-material/Close';
 
 type Item = { id: string; title: string; percent?: number };
 
-export default function SummaryDialog({ open, onClose, onNavigate }: { open: boolean; onClose: () => void; onNavigate: (page: 'games' | 'series', id?: string) => void }) {
+export default function SummaryDialog({ open, onClose, onNavigate }: { open: boolean; onClose: () => void; onNavigate: (page: 'games', id?: string) => void }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   const [loading, setLoading] = useState(false);
-  const [ongoingSeries, setOngoingSeries] = useState<Item[]>([]);
   const [ongoingGames, setOngoingGames] = useState<Item[]>([]);
-  const [completedSeries, setCompletedSeries] = useState<Item[]>([]);
   const [completedGames, setCompletedGames] = useState<Item[]>([]);
 
   // No determinate progress UI; fetching is parallelized for speed
@@ -36,9 +34,7 @@ export default function SummaryDialog({ open, onClose, onNavigate }: { open: boo
     (async () => {
       setLoading(true);
       setOngoingGames([]);
-      setOngoingSeries([]);
       setCompletedGames([]);
-      setCompletedSeries([]);
 
       try {
         const uid = auth?.currentUser?.uid ?? '';
@@ -48,10 +44,9 @@ export default function SummaryDialog({ open, onClose, onNavigate }: { open: boo
           return;
         }
 
-        const [gamesFiles, seriesFiles] = await Promise.all([loadResources('games'), loadResources('series')]);
+        const gamesFiles = await loadResources('games');
 
-
-        const processFiles = async (files: ParsedFile[], kind: 'games' | 'series') => {
+        const processFiles = async (files: ParsedFile[]) => {
           const ongoing: Item[] = [];
           const completed: Item[] = [];
 
@@ -65,7 +60,7 @@ export default function SummaryDialog({ open, onClose, onNavigate }: { open: boo
             const total = f.sections.reduce((sacc, s) => sacc + s.items.length, 0);
             let data: any = null;
             try {
-              data = kind === 'games' ? await firestoreApi.getGame(uid, f.id) : await firestoreApi.getSeries(uid, f.id);
+              data = await firestoreApi.getGame(uid, f.id);
             } catch (err) {
               console.error('Failed to load user progress for', f.id, err);
             }
@@ -85,13 +80,11 @@ export default function SummaryDialog({ open, onClose, onNavigate }: { open: boo
           return { ongoing, completed };
         };
 
-        const [gamesRes, seriesRes] = await Promise.all([processFiles(gamesFiles, 'games'), processFiles(seriesFiles, 'series')]);
+        const gamesRes = await processFiles(gamesFiles);
 
         if (!mounted) return;
         setOngoingGames(gamesRes.ongoing.sort((a, b) => (b.percent ?? 0) - (a.percent ?? 0)));
-        setOngoingSeries(seriesRes.ongoing.sort((a, b) => (b.percent ?? 0) - (a.percent ?? 0)));
         setCompletedGames(gamesRes.completed.sort((a, b) => a.title.localeCompare(b.title)));
-        setCompletedSeries(seriesRes.completed.sort((a, b) => a.title.localeCompare(b.title)));
       } catch (err) {
         console.error('Failed to build summary', err);
       } finally {
@@ -129,41 +122,6 @@ export default function SummaryDialog({ open, onClose, onNavigate }: { open: boo
           </Box>
         ) : (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3.5 }}>
-            {/* Series Section */}
-            <Box>
-              <SectionHeader label="On Going Series" />
-              {ongoingSeries.length ? (
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                  {ongoingSeries.map((it) => (
-                    <Chip key={it.id} label={`${it.title}  ${it.percent}%`} color="primary" clickable variant="outlined"
-                      sx={{ borderColor: 'primary.main', fontWeight: 500, '&:hover': { bgcolor: 'rgba(34,211,238,0.08)' } }}
-                      onClick={() => { onClose(); onNavigate('series', it.id); }}
-                    />
-                  ))}
-                </Box>
-              ) : (
-                <Typography sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>No ongoing series found.</Typography>
-              )}
-              <Box sx={{ mt: 3 }}>
-                <SectionHeader label="Completed Series" completed />
-                {completedSeries.length ? (
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                    {completedSeries.map((it) => (
-                      <Chip key={it.id} label={it.title} clickable color="primary" icon={<CheckIcon />} variant="outlined"
-                        sx={{ borderColor: 'primary.main', '& .MuiChip-label': { color: 'primary.main' }, fontWeight: 500, '&:hover': { bgcolor: 'rgba(34,211,238,0.08)' } }}
-                        onClick={() => { onClose(); onNavigate('series', it.id); }}
-                      />
-                    ))}
-                  </Box>
-                ) : (
-                  <Typography sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>No completed series found.</Typography>
-                )}
-              </Box>
-            </Box>
-
-            {/* Divider */}
-            <Divider sx={{ opacity: 0.4 }} />
-
             {/* Games Section */}
             <Box>
               <SectionHeader label="On Going Games" />
