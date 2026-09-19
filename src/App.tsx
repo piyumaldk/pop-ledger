@@ -233,7 +233,7 @@ export default function App() {
               </Box>
 
               {/* Theme toggle + user */}
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, ml: 'auto' }}>
 
                 <ButtonBase
                   onClick={handleMenuOpen}
