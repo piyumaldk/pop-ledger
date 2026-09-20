@@ -1,32 +1,69 @@
 # The Blood of Dawnwalker
 
-- Withering Away
-- Sacred Covenant
-- Bad Blood
-- Smoke and Ashes
-- The Firebrand
-- Echoes of Silenced Bells
-- Shadows in the Woods
+Prologue
+- Withering Away [auto]
+- Sacred Covenant [auto]
+- Bad Blood [auto]
+- Smoke and Ashes [auto — opens world]
+
+Ambrus
+- Ambrus Court Activities [Court menu]
+- The Gilded Gauntlet [auto, after Anger maxed]
+- The Bittersweet Toast [auto]
+
+Firebrand / Crake
+- The Firebrand [location — Laslea Glen]
+- Under Watchful Eyes / Taking Back What's Mine [optional branch]
+- Shadows in the Woods [auto]
 - Where Loyalty Lies
-- The Gilded Gauntlet
-- A Friend Like This
-- Home Sweet Home
-- Song of the Mountain
-- Hive and Seek
-- Between the Words
-- A Monk and a Saint
-- Where Old Devils Lie
-- The Lunar Game
-- A Lone Wolf's Hunt
-- Things Will Be Different Now
 - What Hunts the Night
-- A Deal with the Devil
-- The Heart Wants What It Wants
-- Forge It Anew
-- Our Rotten Roots
-- Stronger Than Achilles
 - What Moves the Dead
 - Who Pulls the Strings
-- Rise at Dawn
-- Midnight Reckoning
-- The Cycle of Love
+- Distant Shadows / A Closer Look [optional]
+- Rise at Dawn [auto]
+
+Lacra / Uriash
+- A Friend Like This [location — Svartrau City, NE alley]
+- Song of the Mountain [auto]
+- Hive and Seek [auto]
+- Our Rotten Roots
+- The Night of Horrors [optional]
+
+Anca
+- Echoes of Silenced Bells [conditional — depends on earlier choice]
+- Between the Words
+- A Monk and a Saint / A Dubious Gift [branch]
+- Most Precious Thing
+- Where Old Devils Lie
+- Stronger Than Achilles
+- A Bulwark Against Darkness
+
+Bakir
+- Bakir Court Activities [Court menu]
+- The Lunar Game [auto, after Anger maxed]
+- The Ring [auto]
+
+Vicho
+- A Study in Crimson [timed]
+- The Good Samaritan [auto]
+- Unquenchable Thirst [linked to Xanthe activity]
+
+Ocha
+- The Heart Wants What It Wants [location — Altenmarkt inn]
+
+Forge It Anew
+- Forge It Anew: Do Not Disturb [location — Maragir Wealds]
+- Forge It Anew: Executive Order [location — Rockfalls]
+- Forge It Anew: Hostile Takeover [location — Xanthe area]
+- Forge It Anew [auto, after 3 shards]
+
+Xanthe
+- Xanthe Court Activities [Court menu]
+- Home Sweet Home [Court activity]
+- The Cycle of Love [auto, after Anger maxed]
+
+Finale — Save Manually Before This Section
+- A Deal with the Devil / A Lone Wolf's Hunt [always available]
+- Fall Before Dusk [requires Crake arc]
+- Midnight Reckoning [requires Lacra arc]
+- Things Will Be Different Now [epilogue, auto]
