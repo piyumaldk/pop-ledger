@@ -170,11 +170,21 @@ export default function DetailChecklist({ file, checked, onToggle, loading }: Pr
               {section.items.map((it, ii) => {
                 const key = `${si}-${ii}`;
                 const isChecked = !!checked[key];
+                const itemIndex = file.sections
+                  .slice(0, si)
+                  .reduce((count, currentSection) => count + currentSection.items.length, 0) + ii;
                 return (
                   <ListItem key={key} disablePadding sx={{
                     py: 0.125,
                     borderRadius: 2,
                     transition: 'background 0.15s ease',
+                    ...(loading ? {
+                      opacity: 0,
+                    } : {
+                      opacity: 0,
+                      animation: 'checklistReveal 420ms cubic-bezier(0.22, 1, 0.36, 1) both',
+                      animationDelay: `${Math.min(itemIndex * 28, 700)}ms`,
+                    }),
                     '&:hover': { background: alpha(theme.palette.primary.main, 0.06) },
                   }}>
                     <ListItemIcon sx={{ minWidth: 36 }}>

@@ -341,7 +341,7 @@ export function GamesView({ initialSelectedIdOverride, clearInitialSelection }: 
       listAnimating={listAnimating}
       renderDetail={(it) => {
         const file = files.find((f) => f.id === it.id);
-        return file && uid ? <GameDetailView file={file} uid={uid} gameId={it.id} onLoadingChange={setDetailLoading} parentLoading={loading || detailLoading} /> : <Typography color="text.secondary">No details available.</Typography>;
+        return file && uid ? <GameDetailView key={it.id} file={file} uid={uid} gameId={it.id} onLoadingChange={setDetailLoading} parentLoading={loading || detailLoading} /> : <Typography color="text.secondary">No details available.</Typography>;
       }}
     />
   );
@@ -416,7 +416,7 @@ export function SeriesView({ initialSelectedIdOverride, clearInitialSelection }:
       listAnimating={listAnimating}
       renderDetail={(it) => {
         const file = files.find((f) => f.id === it.id);
-        return file && uid ? <SeriesDetailView file={file} uid={uid} seriesId={it.id} onLoadingChange={setDetailLoading} parentLoading={loading || detailLoading} /> : <Typography color="text.secondary">No details available.</Typography>;
+        return file && uid ? <SeriesDetailView key={it.id} file={file} uid={uid} seriesId={it.id} onLoadingChange={setDetailLoading} parentLoading={loading || detailLoading} /> : <Typography color="text.secondary">No details available.</Typography>;
       }}
     />
   );
