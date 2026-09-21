@@ -10,7 +10,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-export default function AboutDialog({ open, onClose, onNavigate, onOpenSummary }: { open: boolean; onClose: () => void; onNavigate: (page: 'games') => void; onOpenSummary: () => void }) {
+export default function AboutDialog({ open, onClose, onNavigate, onOpenSummary }: { open: boolean; onClose: () => void; onNavigate: (page: 'games' | 'series') => void; onOpenSummary: () => void }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   const mode = theme.palette.mode;
@@ -64,7 +64,7 @@ export default function AboutDialog({ open, onClose, onNavigate, onOpenSummary }
           </Typography>
 
           <Typography sx={{ maxWidth: 520, color: 'text.secondary', lineHeight: 1.7 }}>
-            PoPLedger is an open-source project to help you track video game progress — beautifully.
+            PoPLedger is an open-source project to help you track TV series and video games progress — beautifully.
           </Typography>
 
           <Typography sx={{ maxWidth: 520, color: 'text.secondary', lineHeight: 1.7 }}>

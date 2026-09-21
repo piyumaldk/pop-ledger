@@ -23,6 +23,7 @@ import { signInWithGoogle, auth, signOutUser } from "./firebase";
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import AppsIcon from '@mui/icons-material/Apps';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import MovieIcon from '@mui/icons-material/Movie';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import SummarizeIcon from '@mui/icons-material/Summarize';
@@ -32,7 +33,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
-import { GamesView } from './views/SharedViews';
+import { GamesView, SeriesView } from './views/SharedViews';
 import SummaryDialog from './views/SummaryDialog';
 import AboutDialog from './views/AboutDialog';
 import firestoreApi from './services/firestoreService';
@@ -57,10 +58,10 @@ function HeaderMenuToggler() {
 }
 
 export default function App() {
-  const [page, setPage] = useState<'home' | 'games'>(() => {
+  const [page, setPage] = useState<'home' | 'games' | 'series'>(() => {
     try {
       const v = localStorage.getItem('pop-ledger.view');
-      return (v as 'home' | 'games') ?? 'games';
+      return (v as 'home' | 'games' | 'series') ?? 'games';
     } catch (e) {
       return 'games';
     }
@@ -74,7 +75,7 @@ export default function App() {
   const [errorMessage, setErrorMessage] = useState("");
   const [firebaseOk, setFirebaseOk] = useState(true);
   const [fabOpen, setFabOpen] = useState(false);
-  const [resourceCounts, setResourceCounts] = useState<{games?: number | string}>({});
+  const [resourceCounts, setResourceCounts] = useState<{games?: number | string, series?: number | string}>({});
 
   useEffect(() => {
     // If Firebase isn't initialized, onAuthStateChanged may be undefined. Guard against that.
@@ -112,7 +113,7 @@ export default function App() {
     setAnchorEl(event.currentTarget);
   };
 
-  const changePage = (p: 'home' | 'games') => {
+  const changePage = (p: 'home' | 'games' | 'series') => {
     try {
       localStorage.setItem('pop-ledger.view', p);
     } catch (e) {
@@ -126,7 +127,7 @@ export default function App() {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [confirmEmail, setConfirmEmail] = useState('');
-  const [navigateSelection, setNavigateSelection] = useState<{ page: 'games'; id?: string } | null>(null);
+  const [navigateSelection, setNavigateSelection] = useState<{ page: 'games' | 'series'; id?: string } | null>(null);
   const handleFabOpen = () => setFabOpen(true);
 
   const handleFabClose = () => setFabOpen(false);
@@ -154,9 +155,9 @@ export default function App() {
         const res = await fetch('/resources-count.json', { cache: 'no-cache' });
         if (!res.ok) throw new Error('no counts');
         const j = await res.json();
-        setResourceCounts({ games: j.games ?? 0 });
+        setResourceCounts({ games: j.games ?? 0, series: j.series ?? 0 });
       } catch (err) {
-        setResourceCounts({ games: 'N/A' });
+        setResourceCounts({ games: 'N/A', series: 'N/A' });
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -232,6 +233,50 @@ export default function App() {
                 </Typography>
               </Box>
 
+              {/* Desktop nav tabs */}
+              {!isMobile && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mr: 'auto' }}>
+                  <Button
+                    onClick={() => { if (summaryOpen) closeSummary(); if (aboutOpen) closeAbout(); changePage('games'); }}
+                    startIcon={<SportsEsportsIcon sx={{ fontSize: 17 }} />}
+                    sx={{
+                      px: 2, py: 0.75, borderRadius: 3, fontSize: 14,
+                      color: page === 'games' ? 'primary.main' : 'text.secondary',
+                      bgcolor: page === 'games' ? 'rgba(34,211,238,0.12)' : 'transparent',
+                      border: '1px solid',
+                      borderColor: page === 'games' ? 'primary.main' : 'transparent',
+                      fontWeight: page === 'games' ? 600 : 500,
+                      '&:hover': {
+                        bgcolor: 'rgba(34,211,238,0.1)',
+                        borderColor: 'primary.main',
+                        color: 'primary.main',
+                      },
+                    }}
+                  >
+                    Games
+                  </Button>
+                  <Button
+                    onClick={() => { if (summaryOpen) closeSummary(); if (aboutOpen) closeAbout(); changePage('series'); }}
+                    startIcon={<MovieIcon sx={{ fontSize: 17 }} />}
+                    sx={{
+                      px: 2, py: 0.75, borderRadius: 3, fontSize: 14,
+                      color: page === 'series' ? 'primary.main' : 'text.secondary',
+                      bgcolor: page === 'series' ? 'rgba(34,211,238,0.12)' : 'transparent',
+                      border: '1px solid',
+                      borderColor: page === 'series' ? 'primary.main' : 'transparent',
+                      fontWeight: page === 'series' ? 600 : 500,
+                      '&:hover': {
+                        bgcolor: 'rgba(34,211,238,0.1)',
+                        borderColor: 'primary.main',
+                        color: 'primary.main',
+                      },
+                    }}
+                  >
+                    Series
+                  </Button>
+                </Box>
+              )}
+
               {/* Theme toggle + user */}
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
 
@@ -303,9 +348,15 @@ export default function App() {
                   clearInitialSelection={() => setNavigateSelection(null)}
                 />
               )}
+              {page === 'series' && (
+                <SeriesView
+                  initialSelectedIdOverride={navigateSelection?.page === 'series' ? navigateSelection.id : undefined}
+                  clearInitialSelection={() => setNavigateSelection(null)}
+                />
+              )}
             </Box>
           </Container>
-          {/* Mobile-only SpeedDial to switch between game views */}
+          {/* Mobile-only SpeedDial to switch between Games/Series */}
           <SpeedDial
             ariaLabel="Switch view"
             sx={{
@@ -330,6 +381,12 @@ export default function App() {
               icon={<SportsEsportsIcon />}
               tooltipTitle="Games"
               onClick={() => { if (summaryOpen) closeSummary(); if (aboutOpen) closeAbout(); changePage('games'); handleFabClose(); }}
+            />
+            <SpeedDialAction
+              key="series"
+              icon={<MovieIcon />}
+              tooltipTitle="Series"
+              onClick={() => { if (summaryOpen) closeSummary(); if (aboutOpen) closeAbout(); changePage('series'); handleFabClose(); }}
             />
             <SpeedDialAction
               key="summary"
@@ -365,7 +422,7 @@ export default function App() {
             </DialogTitle>
             <DialogContent sx={{ pt: 2.5 }}>
               <Typography variant="body2" color="text.secondary" sx={{ mb: 2.5, lineHeight: 1.7 }}>
-                This will permanently remove all your data and the user account and cannot be recovered. To confirm, type your email address below.
+                This will permanently remove all your data (games, series and the user account) and cannot be recovered. To confirm, type your email address below.
               </Typography>
               <TextField
                 label="Type your email to confirm"
@@ -509,8 +566,10 @@ export default function App() {
                 fontSize: { xs: '1rem', md: '1.1rem' },
                 maxWidth: 480, lineHeight: 1.7, mx: 'auto',
               }}>
-                Track your progress across video games with a beautiful checklist. Explore{' '}
+                Track your progress across TV series and video games with a beautiful checklist. Explore{' '}
                 <Box component="span" sx={{ color: 'primary.main', fontWeight: 600 }}>{resourceCounts.games ?? '—'} games</Box>
+                {' '}and{' '}
+                <Box component="span" sx={{ color: 'primary.main', fontWeight: 600 }}>{resourceCounts.series ?? '—'} series</Box>
                 {' '}— curated just for you.
               </Typography>
             </Box>
@@ -519,6 +578,7 @@ export default function App() {
             <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
               {[
                 { icon: <SportsEsportsIcon sx={{ fontSize: 18 }} />, label: 'Games', value: resourceCounts.games ?? '—' },
+                { icon: <MovieIcon sx={{ fontSize: 18 }} />, label: 'Series', value: resourceCounts.series ?? '—' },
               ].map((stat) => (
                 <Box key={stat.label} sx={{
                   display: 'flex', alignItems: 'center', gap: 1.5, px: 2.5, py: 1.25, borderRadius: 3,
