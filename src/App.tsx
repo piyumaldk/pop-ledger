@@ -361,7 +361,7 @@ export default function App() {
                 <MenuItem sx={{ color: 'secondary.main' }} onClick={() => { setDeleteOpen(true); handleMenuClose(); }}>Delete my data</MenuItem>
                 <MenuItem sx={{ color: 'secondary.main' }} onClick={handleRefreshApp} disabled={refreshingApp}>
                   <RefreshIcon sx={{ mr: 1, fontSize: 20 }} />
-                  Refresh
+                  PWA Refresh
                 </MenuItem>
                 <MenuItem sx={{ color: 'secondary.main' }} onClick={handleSignOut}>Log out</MenuItem>
               </Menu>
