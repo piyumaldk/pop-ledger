@@ -70,4 +70,8 @@ You can contribute by adding a simple TXT file using the format below.
 Once reviewed, the contribution will be merged and automatically deployed.
 
 ## License
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the [Apache License 2.0](LICENSE).
+
+The Apache License 2.0 permits commercial and non-commercial use, copying,
+modification, and distribution, subject to its terms. See [NOTICE](NOTICE) for
+attribution and third-party content information.

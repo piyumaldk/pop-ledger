@@ -10,7 +10,7 @@
     "deploy": "bash -lc \"git push && npm run build && firebase deploy\""
   },
   "author": "Piyumal Kularathna",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "dependencies": {
     "@emotion/react": "11.11.1",
     "@emotion/styled": "11.11.0",
