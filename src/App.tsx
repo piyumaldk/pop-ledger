@@ -38,6 +38,7 @@ import SummaryDialog from './views/SummaryDialog';
 import AboutDialog from './views/AboutDialog';
 import firestoreApi from './services/firestoreService';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import { onAuthStateChanged, User } from "firebase/auth";
 import LogoSVG from './assets/LogoSVG';
 
@@ -75,6 +76,7 @@ export default function App() {
   const [errorMessage, setErrorMessage] = useState("");
   const [firebaseOk, setFirebaseOk] = useState(true);
   const [fabOpen, setFabOpen] = useState(false);
+  const [refreshingApp, setRefreshingApp] = useState(false);
   const [resourceCounts, setResourceCounts] = useState<{games?: number | string, series?: number | string}>({});
 
   useEffect(() => {
@@ -146,6 +148,28 @@ export default function App() {
       console.error("Sign out failed", err);
     } finally {
       handleMenuClose();
+    }
+  };
+
+  const handleRefreshApp = async () => {
+    if (refreshingApp) return;
+    setRefreshingApp(true);
+    handleMenuClose();
+
+    try {
+      const registration = await navigator.serviceWorker?.ready;
+      await registration?.update();
+
+      if ('caches' in window) {
+        const cacheNames = await caches.keys();
+        const appCacheNames = cacheNames.filter((cacheName) => cacheName.startsWith('workbox-'));
+        await Promise.all(appCacheNames.map((cacheName) => caches.delete(cacheName)));
+      }
+    } catch (err) {
+      // A normal reload still gives the browser a chance to fetch the latest app.
+      console.warn('Could not fully refresh the app cache.', err);
+    } finally {
+      window.location.reload();
     }
   };
 
@@ -335,6 +359,10 @@ export default function App() {
                 <MenuItem sx={{ color: 'secondary.main' }} onClick={() => { setAboutOpen(true); handleMenuClose(); }}>About Us</MenuItem>
                 <MenuItem sx={{ color: 'secondary.main' }} onClick={() => { window.open('https://github.com/piyumaldk/pop-ledger', '_blank', 'noopener,noreferrer'); handleMenuClose(); }}>Source Code</MenuItem>
                 <MenuItem sx={{ color: 'secondary.main' }} onClick={() => { setDeleteOpen(true); handleMenuClose(); }}>Delete my data</MenuItem>
+                <MenuItem sx={{ color: 'secondary.main' }} onClick={handleRefreshApp} disabled={refreshingApp}>
+                  <RefreshIcon sx={{ mr: 1, fontSize: 20 }} />
+                  Refresh
+                </MenuItem>
                 <MenuItem sx={{ color: 'secondary.main' }} onClick={handleSignOut}>Log out</MenuItem>
               </Menu>
             </Toolbar>
