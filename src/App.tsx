@@ -39,6 +39,10 @@ import AboutDialog from './views/AboutDialog';
 import firestoreApi from './services/firestoreService';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import CodeIcon from '@mui/icons-material/Code';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { onAuthStateChanged, User } from "firebase/auth";
 import LogoSVG from './assets/LogoSVG';
 
@@ -55,6 +59,25 @@ function HeaderMenuToggler() {
     >
       <MenuIcon />
     </IconButton>
+  );
+}
+
+function AccountMenuItem({
+  icon,
+  children,
+  onClick,
+  disabled = false,
+}: {
+  icon: React.ReactNode;
+  children: React.ReactNode;
+  onClick: () => void;
+  disabled?: boolean;
+}) {
+  return (
+    <MenuItem sx={{ color: 'secondary.main' }} onClick={onClick} disabled={disabled}>
+      <Box sx={{ display: 'flex', alignItems: 'center', mr: 1.25 }}>{icon}</Box>
+      {children}
+    </MenuItem>
   );
 }
 
@@ -356,14 +379,21 @@ export default function App() {
                     <Typography sx={{ fontWeight: 600, color: 'secondary.main' }}>{user.displayName ?? user.email}</Typography>
                   </MenuItem>
                 )}
-                <MenuItem sx={{ color: 'secondary.main' }} onClick={() => { setAboutOpen(true); handleMenuClose(); }}>About Us</MenuItem>
-                <MenuItem sx={{ color: 'secondary.main' }} onClick={() => { window.open('https://github.com/piyumaldk/pop-ledger', '_blank', 'noopener,noreferrer'); handleMenuClose(); }}>Source Code</MenuItem>
-                <MenuItem sx={{ color: 'secondary.main' }} onClick={() => { setDeleteOpen(true); handleMenuClose(); }}>Delete my data</MenuItem>
-                <MenuItem sx={{ color: 'secondary.main' }} onClick={handleRefreshApp} disabled={refreshingApp}>
-                  <RefreshIcon sx={{ mr: 1, fontSize: 20 }} />
-                  PWA Refresh
-                </MenuItem>
-                <MenuItem sx={{ color: 'secondary.main' }} onClick={handleSignOut}>Log out</MenuItem>
+                <AccountMenuItem icon={<InfoOutlinedIcon fontSize="small" />} onClick={() => { setAboutOpen(true); handleMenuClose(); }}>
+                  About us
+                </AccountMenuItem>
+                <AccountMenuItem icon={<CodeIcon fontSize="small" />} onClick={() => { window.open('https://github.com/piyumaldk/pop-ledger', '_blank', 'noopener,noreferrer'); handleMenuClose(); }}>
+                  Source code
+                </AccountMenuItem>
+                <AccountMenuItem icon={<DeleteOutlineIcon fontSize="small" />} onClick={() => { setDeleteOpen(true); handleMenuClose(); }}>
+                  Delete my data
+                </AccountMenuItem>
+                <AccountMenuItem icon={<RefreshIcon fontSize="small" />} onClick={handleRefreshApp} disabled={refreshingApp}>
+                  PWA refresh
+                </AccountMenuItem>
+                <AccountMenuItem icon={<LogoutIcon fontSize="small" />} onClick={handleSignOut}>
+                  Log out
+                </AccountMenuItem>
               </Menu>
             </Toolbar>
           </AppBar>
