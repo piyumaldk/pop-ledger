@@ -1,69 +1,78 @@
 # The Blood of Dawnwalker
 
 Prologue
-- Withering Away [auto]
-- Sacred Covenant [auto]
-- Bad Blood [auto]
-- Smoke and Ashes [auto — opens world]
+- Withering Away
+- Sacred Covenant
+- Bad Blood 
+- Smoke and Ashes 
 
-Ambrus
+Ambrus (Court)
 - Ambrus Court Activities [Court menu]
-- The Gilded Gauntlet [auto, after Anger maxed]
-- The Bittersweet Toast [auto]
+- The Gilded Gauntlet [Anger maxed]
+- The Bittersweet Toast
 
-Firebrand / Crake
+Crake (Arc)
 - The Firebrand [location — Laslea Glen]
 - Under Watchful Eyes / Taking Back What's Mine [optional branch]
-- Shadows in the Woods [auto]
+- Shadows in the Woods 
 - Where Loyalty Lies
 - What Hunts the Night
 - What Moves the Dead
 - Who Pulls the Strings
-- Distant Shadows / A Closer Look [optional]
-- Rise at Dawn [auto]
+- Distant Shadows / A Closer Look [Optional]
+- Rise at Dawn 
 
-Lacra / Uriash
+Lacra (Arc)
 - A Friend Like This [location — Svartrau City, NE alley]
-- Song of the Mountain [auto]
-- Hive and Seek [auto]
+- Song of the Mountain
+- Hive and Seek 
 - Our Rotten Roots
-- The Night of Horrors [optional]
+- The Night of Horrors [Optional]
 
-Anca
-- Echoes of Silenced Bells [conditional — depends on earlier choice]
+Anca (Arc)
+- Echoes of Silenced Bells [Conditional — depends on earlier choice]
 - Between the Words
-- A Monk and a Saint / A Dubious Gift [branch]
+- A Monk and a Saint / A Dubious Gift (Optional branch)
 - Most Precious Thing
 - Where Old Devils Lie
 - Stronger Than Achilles
 - A Bulwark Against Darkness
 
-Bakir
+Father Florin (Arc)
+- In the Name of the Father [Conditional — depends on earlier choice]
+
+Bakir (Court)
 - Bakir Court Activities [Court menu]
-- The Lunar Game [auto, after Anger maxed]
-- The Ring [auto]
+- The Lunar Game [Anger maxed]
+- The Ring
 
-Vicho
-- A Study in Crimson [timed]
-- The Good Samaritan [auto]
-- Unquenchable Thirst [linked to Xanthe activity]
+Vicho (Arc)
+- A Study in Crimson
+- The Good Samaritan
+- The Unquenchable Thirst
 
-Ocha
-- The Heart Wants What It Wants [location — Altenmarkt inn]
+Ocha (Arc)
+- The Heart Wants What It Wants [Location — Altenmarkt inn]
 
-Forge It Anew
-- Forge It Anew: Do Not Disturb [location — Maragir Wealds]
-- Forge It Anew: Executive Order [location — Rockfalls]
-- Forge It Anew: Hostile Takeover [location — Xanthe area]
-- Forge It Anew [auto, after 3 shards]
+Sanzhani (Arc)
+- Good Home
+- Burrow Sorrows
+- Pearly and Precious
+- Tiny Dancer
+- Come Hither
+- Letters to Lunka
 
-Xanthe
+Forge It Anew (Arc)
+- Forge It Anew: Do Not Disturb [Location — Maragir Wealds]
+- Forge It Anew: Executive Order [Location — Rockfalls]
+- Forge It Anew: Hostile Takeover [Location — Xanthe area]
+- Forge It Anew
+
+Xanthe (Court)
 - Xanthe Court Activities [Court menu]
 - Home Sweet Home [Court activity]
-- The Cycle of Love [auto, after Anger maxed]
+- The Cycle of Love [Anger maxed]
 
-Finale — Save Manually Before This Section
-- A Deal with the Devil / A Lone Wolf's Hunt [always available]
-- Fall Before Dusk [requires Crake arc]
-- Midnight Reckoning [requires Lacra arc]
-- Things Will Be Different Now [epilogue, auto]
+Finale
+- A Deal with the Devil / A Lone Wolf's Hunt / Fall Before Dusk [Crake arc] / A Hero's End [Florin arc] / Midnight Reckoning [Lacra arc] / The Turncoat
+- Things Will Be Different Now [Epilogue]
