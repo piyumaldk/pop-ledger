@@ -19,7 +19,7 @@ Crake (Arc)
 - What Hunts the Night
 - What Moves the Dead
 - Who Pulls the Strings
-- Distant Shadows / A Closer Look [Optional]
+- Distant Shadows / A Closer Look [Conditional — depends on earlier choice]
 
 Lacra (Arc)
 - A Friend Like This [location — Svartrau City, NE alley]
