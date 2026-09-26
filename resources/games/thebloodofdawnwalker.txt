@@ -39,6 +39,7 @@ Anca (Arc)
 
 Florin (Arc)
 - In the Name of the Father [Conditional — depends on earlier choice]
+- A Hero's End
 
 Bakir (Court)
 - Bakir Court Activities [Court menu]
@@ -73,5 +74,5 @@ Xanthe (Court)
 - The Cycle of Love [Anger maxed]
 
 Finale
-- A Deal with the Devil / A Lone Wolf's Hunt / Rise at Dawn > Fall Before Dusk [Crake arc] / A Hero's End [Florin arc] / Midnight Reckoning [Lacra arc]
+- A Deal with the Devil / A Lone Wolf's Hunt / Rise at Dawn > Fall Before Dusk [Crake arc] / Midnight Reckoning [Lacra arc]
 - Things Will Be Different Now [Epilogue]
