@@ -20,7 +20,6 @@ Crake (Arc)
 - What Moves the Dead
 - Who Pulls the Strings
 - Distant Shadows / A Closer Look [Optional]
-- Rise at Dawn 
 
 Lacra (Arc)
 - A Friend Like This [location — Svartrau City, NE alley]
@@ -74,5 +73,5 @@ Xanthe (Court)
 - The Cycle of Love [Anger maxed]
 
 Finale
-- A Deal with the Devil / A Lone Wolf's Hunt / Fall Before Dusk [Crake arc] / A Hero's End [Florin arc] / Midnight Reckoning [Lacra arc]
+- A Deal with the Devil / A Lone Wolf's Hunt / Rise at Dawn > Fall Before Dusk [Crake arc] / A Hero's End [Florin arc] / Midnight Reckoning [Lacra arc]
 - Things Will Be Different Now [Epilogue]
