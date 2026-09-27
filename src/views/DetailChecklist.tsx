@@ -244,7 +244,11 @@ export default function DetailChecklist({ file, checked, onToggle, loading }: Pr
       >
         <DialogContent>
           <Typography color="text.secondary" sx={{ lineHeight: 1.6 }}>
-            Unchecking {pendingUncheck?.title} will clear it & items after it
+            Unchecking{' '}
+            <Box component="span" sx={{ color: 'primary.main', fontWeight: 700 }}>
+              {pendingUncheck?.title}
+            </Box>{' '}
+            will clear it & items after it
           </Typography>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2.5 }}>
