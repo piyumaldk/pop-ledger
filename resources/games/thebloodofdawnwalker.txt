@@ -49,7 +49,7 @@ Bakir (Court)
 Vicho (Arc)
 - A Study in Crimson
 - The Good Samaritan
-- The Unquenchable Thirst
+- The Unquenchable Thirst [Conditional — depends on earlier choice]
 
 Ocha (Arc)
 - The Heart Wants What It Wants [Location — Altenmarkt inn]
