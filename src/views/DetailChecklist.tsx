@@ -9,6 +9,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Checkbox from '@mui/material/Checkbox';
 import ListItemText from '@mui/material/ListItemText';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import type { ParsedFile } from '../utils/contentLoader';
 
 interface Props {
@@ -28,7 +34,16 @@ export default function DetailChecklist({ file, checked, onToggle, loading }: Pr
 
   const theme = useTheme();
   const [scrolled, setScrolled] = useState(false);
+  const [pendingUncheck, setPendingUncheck] = useState<{ key: string; title: string } | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
+
+  const handleToggleRequest = (key: string, title: string, isChecked: boolean) => {
+    if (isChecked) {
+      setPendingUncheck({ key, title });
+      return;
+    }
+    onToggle(key);
+  };
 
   // Track header size so the scrollable area can be positioned below it dynamically
   const headerRef = useRef<HTMLDivElement | null>(null);
@@ -192,7 +207,7 @@ export default function DetailChecklist({ file, checked, onToggle, loading }: Pr
                         size="small"
                         edge="start"
                         checked={isChecked}
-                        onChange={() => onToggle(key)}
+                        onChange={() => handleToggleRequest(key, it, isChecked)}
                         sx={{
                           color: alpha(theme.palette.primary.main, 0.4),
                           '&.Mui-checked': { color: 'primary.main' },
@@ -221,6 +236,37 @@ export default function DetailChecklist({ file, checked, onToggle, loading }: Pr
           </Box>
         ))}
       </Box>
+      <Dialog
+        open={pendingUncheck !== null}
+        onClose={() => setPendingUncheck(null)}
+        maxWidth="xs"
+        fullWidth
+      >
+        <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1, fontWeight: 700 }}>
+          <WarningAmberIcon color="warning" />
+          Are you sure?
+        </DialogTitle>
+        <DialogContent>
+          <Typography color="text.secondary" sx={{ lineHeight: 1.6 }}>
+            Unchecking "{pendingUncheck?.title}" will also clear it and every item after it.
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 2.5 }}>
+          <Button onClick={() => setPendingUncheck(null)} variant="outlined">
+            Cancel
+          </Button>
+          <Button
+            onClick={() => {
+              if (pendingUncheck) onToggle(pendingUncheck.key);
+              setPendingUncheck(null);
+            }}
+            color="warning"
+            variant="contained"
+          >
+            Uncheck
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
