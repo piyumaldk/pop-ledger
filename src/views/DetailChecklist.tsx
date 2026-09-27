@@ -242,13 +242,9 @@ export default function DetailChecklist({ file, checked, onToggle, loading }: Pr
         maxWidth="xs"
         fullWidth
       >
-        <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1, fontWeight: 700 }}>
-          <WarningAmberIcon color="warning" />
-          Are you sure?
-        </DialogTitle>
         <DialogContent>
           <Typography color="text.secondary" sx={{ lineHeight: 1.6 }}>
-            Unchecking "{pendingUncheck?.title}" will also clear it and every item after it.
+            Unchecking {pendingUncheck?.title} will clear it & items after it
           </Typography>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2.5 }}>
@@ -260,10 +256,9 @@ export default function DetailChecklist({ file, checked, onToggle, loading }: Pr
               if (pendingUncheck) onToggle(pendingUncheck.key);
               setPendingUncheck(null);
             }}
-            color="warning"
             variant="contained"
           >
-            Uncheck
+            Confirm
           </Button>
         </DialogActions>
       </Dialog>
