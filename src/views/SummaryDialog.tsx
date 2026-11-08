@@ -125,7 +125,7 @@ export default function SummaryDialog({ open, onClose, onNavigate }: { open: boo
               <CircularProgress variant="determinate" value={100} size={52} thickness={3} sx={{ color: 'rgba(34,211,238,0.08)', position: 'absolute', top: 0, left: 0 }} />
             </Box>
             <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>Personalizing the summary just for you</Typography>
-            <Typography sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>This may take a few moments depending on your library size.</Typography>
+            <Typography sx={{ color: 'text.secondary', fontSize: '0.875rem', textAlign: 'center' }}>This may take a few moments depending on your library size.</Typography>
           </Box>
         ) : (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3.5 }}>
